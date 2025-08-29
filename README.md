@@ -62,14 +62,4 @@ Hệ thống cung cấp các chức năng quản lý sinh viên, phòng ở, tà
 ## 📖 Kịch bản hệ thống (Use-case)
 1. Sinh viên đăng nhập  
 2. Ban quản lý thêm mới sinh viên  
-3. Sinh viên thanh toán tiền phòng  
-
----
-
-## 🛠️ Cách cài đặt & chạy dự án
-
-```bash
-# Clone project
-git clone https://github.com/<your-username>/<your-repo>.git
-
-# Mở bằng IDE (IntelliJ, Eclipse, VS Code) và chạy project Spring Boot
+3. Sinh viên thanh toán tiền phòng 
