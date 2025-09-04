@@ -1,52 +1,44 @@
 
 public class User {
-    
+    // Biến mô tả User
     private String studentId;
     private String fullName;
     private String email;
 
-    // Hàm khởi tạo (Constructor) để gán giá trị ban đầu cho đối tượng
+    // Hàm khởi tạo
     public User(String studentId, String fullName, String email) {
-        // 'this' được dùng để phân biệt biến của lớp và tham số đầu vào
         this.studentId = studentId;
         this.fullName = fullName;
         this.email = email;
     }
 
-
+    // Phương thức Set và Get
     public String getStudentId() {
-        return this.studentId;
+        return studentId;
     }
 
-    // Setter cho studentId
     public void setStudentId(String studentId) {
         this.studentId = studentId;
     }
 
-    // Getter cho fullName
     public String getFullName() {
-        return this.fullName;
+        return fullName;
     }
 
-    // Setter cho fullName
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    // Getter cho email
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
-    // Setter cho email
     public void setEmail(String email) {
         this.email = email;
     }
-
-    // Một phương thức để hiển thị thông tin người dùng
+    
+    // Phương thức để hiển thị thông tin
     public void displayInfo() {
-        System.out.println("Student ID: " + this.studentId);
-        System.out.println("Full Name: " + this.fullName);
-        System.out.println("Email: " + this.email);
+        System.out.println("ID: " + this.studentId + ", Name: " + this.fullName + ", Email: " + this.email);
     }
 }

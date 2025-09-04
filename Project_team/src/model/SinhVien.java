@@ -1,5 +1,4 @@
 
-package model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,15 +9,15 @@ public class SinhVien implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // --- Các thuộc tính của Sinh Viên ---
-    private String mssv;      [cite_start]// Mã số sinh viên [cite: 22, 93]
-    private String ten;       [cite_start]// Họ và tên sinh viên [cite: 93]
-    private String queQuan;   [cite_start]// Quê quán [cite: 26, 94]
-    private Date ngaySinh;    [cite_start]// Ngày sinh [cite: 94]
-    private String gioiTinh;  [cite_start]// Giới tính [cite: 23, 94]
-    private String sdt;       [cite_start]// Số điện thoại [cite: 25, 95]
-    private String cccd;      [cite_start]// Căn cước công dân [cite: 24, 95]
-    private String lop;       [cite_start]// Lớp học [cite: 28, 95]
-    private String nganhHoc;  [cite_start]// Ngành học [cite: 27, 96]
+    private String mssv;      
+    private String ten;       //them
+    private String queQuan;   
+    private Date ngaySinh;    //them
+    private String gioiTinh;  
+    private String sdt;      
+    private String cccd;      
+    private String lop;       
+    private String nganhHoc;  
 
     // --- Hàm khởi tạo (Constructors) ---
 
@@ -32,9 +31,9 @@ public class SinhVien implements Serializable {
      * Hàm khởi tạo đầy đủ tham số để tạo một đối tượng SinhVien mới.
      *
      * @param mssv      Mã số sinh viên
-     * @param ten       Họ và tên
+     * @param ten       Họ và tên   //add
      * @param queQuan   Quê quán
-     * @param ngaySinh  Ngày sinh
+     * @param ngaySinh  Ngày sinh   //add
      * @param gioiTinh  Giới tính
      * @param sdt       Số điện thoại
      * @param cccd      Số CCCD
