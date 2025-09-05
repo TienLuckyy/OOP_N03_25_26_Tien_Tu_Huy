@@ -1,6 +1,7 @@
-
+package model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SinhVien implements Serializable {
@@ -138,11 +139,12 @@ public class SinhVien implements Serializable {
      */
     @Override
     public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return "SinhVien{" +
                 "mssv='" + mssv + '\'' +
                 ", ten='" + ten + '\'' +
                 ", queQuan='" + queQuan + '\'' +
-                ", ngaySinh=" + ngaySinh +
+                ", ngaySinh=" + (ngaySinh != null ? sdf.format(ngaySinh) : "null") +
                 ", gioiTinh='" + gioiTinh + '\'' +
                 ", sdt='" + sdt + '\'' +
                 ", cccd='" + cccd + '\'' +

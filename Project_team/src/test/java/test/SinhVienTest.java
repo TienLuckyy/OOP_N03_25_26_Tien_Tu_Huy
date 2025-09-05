@@ -1,3 +1,6 @@
+package test;
+
+import model.SinhVien;   // Thêm dòng này để gọi được class SinhVien
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

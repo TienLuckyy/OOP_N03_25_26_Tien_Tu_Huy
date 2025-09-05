@@ -1,3 +1,5 @@
+package model;
+
 
 public class User {
     // Biến mô tả User

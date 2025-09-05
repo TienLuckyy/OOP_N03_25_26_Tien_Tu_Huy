@@ -1,4 +1,4 @@
-
+package model;
 public class Phong {
     // Biến thành viên private (đóng gói)
     private String soPhong;
