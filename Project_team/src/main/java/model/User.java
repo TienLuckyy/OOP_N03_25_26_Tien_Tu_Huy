@@ -1,46 +1,38 @@
 package model;
 
-
 public class User {
-    // Biến mô tả User
-    private String studentId;
-    private String fullName;
-    private String email;
+    private String userName;
+    private String userAddress;
 
-    // Hàm khởi tạo
-    public User(String studentId, String fullName, String email) {
-        this.studentId = studentId;
-        this.fullName = fullName;
-        this.email = email;
+    // Constructor mặc định
+    public User() {}
+
+    // Constructor có tham số
+    public User(String name, String address) {
+        this.userName = name;
+        this.userAddress = address;
     }
 
-    // Phương thức Set và Get
-    public String getStudentId() {
-        return studentId;
+    // Getter và Setter
+    public String getUserName() {
+        return userName;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getUserAddress() {
+        return userAddress;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    // Phương thức để hiển thị thông tin
-    public void displayInfo() {
-        System.out.println("ID: " + this.studentId + ", Name: " + this.fullName + ", Email: " + this.email);
+    // Phương thức toString để dễ dàng in thông tin người dùng
+    @Override
+    public String toString() {
+        return "User Name: " + userName + ", Address: " + userAddress;
     }
 }
