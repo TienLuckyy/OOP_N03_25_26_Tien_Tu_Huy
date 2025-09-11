@@ -89,7 +89,7 @@ public class HopDongService {
         
         // Lưu lại danh sách hợp đồng
         luuFile();
-        System.out.println("Tạo hợp đồng thành công cho sinh viên " + sv.getTen() + " tại phòng " + phong.getSoPhong());
+        System.out.println("Tạo hợp đồng thành công cho sinh viên " + sv.getHoTen() + " tại phòng " + phong.getSoPhong());
         return true;
     }
 
