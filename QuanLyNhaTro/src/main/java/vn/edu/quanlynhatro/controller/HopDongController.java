@@ -1,7 +1,7 @@
 package vn.edu.quanlynhatro.controller;
 
-import service.HopDongService;
-import vn.edu.model.HopDong;
+import vn.edu.quanlynhatro.service.HopDongService;
+import vn.edu.quanlynhatro.model.HopDong;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

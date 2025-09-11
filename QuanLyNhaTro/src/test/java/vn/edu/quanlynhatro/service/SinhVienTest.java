@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import vn.edu.model.SinhVien;
+import vn.edu.quanlynhatro.model.SinhVien;
 
 public class SinhVienTest {
     public static void main(String[] args) {

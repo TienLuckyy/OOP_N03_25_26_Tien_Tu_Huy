@@ -1,8 +1,8 @@
-package service;
+package vn.edu.quanlynhatro.service;
 
-import util.FileUtil;
-import util.PasswordEncoder; // Giả định bạn đã có lớp này để mã hóa mật khẩu
-import vn.edu.model.TaiKhoan;
+import vn.edu.quanlynhatro.util.FileUtil;
+import vn.edu.quanlynhatro.util.PasswordEncoder; // Giả định bạn đã có lớp này để mã hóa mật khẩu
+import vn.edu.quanlynhatro.model.TaiKhoan;
 
 import java.util.ArrayList;
 import java.util.List;

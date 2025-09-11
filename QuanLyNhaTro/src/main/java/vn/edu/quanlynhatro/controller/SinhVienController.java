@@ -1,7 +1,7 @@
 package vn.edu.quanlynhatro.controller;
 
-import service.SinhVienService;
-import vn.edu.model.SinhVien;
+import vn.edu.quanlynhatro.service.SinhVienService;
+import vn.edu.quanlynhatro.model.SinhVien;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

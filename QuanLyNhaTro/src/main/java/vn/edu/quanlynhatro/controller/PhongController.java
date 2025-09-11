@@ -1,7 +1,7 @@
 package vn.edu.quanlynhatro.controller;
 
-import service.PhongService;
-import vn.edu.model.Phong;
+import vn.edu.quanlynhatro.service.PhongService;
+import vn.edu.quanlynhatro.model.Phong;
 
 import java.util.List;
 import java.util.Scanner;

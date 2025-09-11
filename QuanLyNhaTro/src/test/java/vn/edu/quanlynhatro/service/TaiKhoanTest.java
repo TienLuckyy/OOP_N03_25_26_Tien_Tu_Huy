@@ -1,6 +1,6 @@
 package vn.edu.quanlynhatro.service;
 
-import vn.edu.model.TaiKhoan;
+import vn.edu.quanlynhatro.model.TaiKhoan;
 
 public class TaiKhoanTest {
     public static void main(String[] args) {

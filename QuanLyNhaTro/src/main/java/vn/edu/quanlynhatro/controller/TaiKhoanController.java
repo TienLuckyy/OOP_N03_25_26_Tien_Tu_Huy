@@ -1,7 +1,7 @@
 package vn.edu.quanlynhatro.controller;
 
-import service.TaiKhoanService;
-import vn.edu.model.TaiKhoan;
+import vn.edu.quanlynhatro.service.TaiKhoanService;
+import vn.edu.quanlynhatro.model.TaiKhoan;
 
 import java.util.Scanner;
 

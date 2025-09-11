@@ -11,12 +11,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import service.HopDongService;
-import service.PhongService;
-import service.SinhVienService;
-import vn.edu.model.HopDong;
-import vn.edu.model.Phong;
-import vn.edu.model.SinhVien;
+import vn.edu.quanlynhatro.service.HopDongService;
+import vn.edu.quanlynhatro.service.PhongService;
+import vn.edu.quanlynhatro.service.SinhVienService;
+import vn.edu.quanlynhatro.model.HopDong;
+import vn.edu.quanlynhatro.model.Phong;
+import vn.edu.quanlynhatro.model.SinhVien;
 
 /**
  * Lớp này dùng để kiểm thử (test) các logic nghiệp vụ của HopDongService.

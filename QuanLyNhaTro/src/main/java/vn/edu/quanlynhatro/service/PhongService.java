@@ -1,7 +1,7 @@
-package service;
+package vn.edu.quanlynhatro.service;
 
-import util.FileUtil;
-import vn.edu.model.Phong;
+import vn.edu.quanlynhatro.util.FileUtil;
+import vn.edu.quanlynhatro.model.Phong;
 
 import java.util.ArrayList;
 import java.util.List;

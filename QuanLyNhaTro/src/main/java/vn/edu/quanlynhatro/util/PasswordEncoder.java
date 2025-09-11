@@ -1,4 +1,4 @@
-package util;
+package vn.edu.quanlynhatro.util;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

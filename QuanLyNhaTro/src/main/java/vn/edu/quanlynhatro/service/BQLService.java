@@ -1,7 +1,7 @@
-package service;
+package vn.edu.quanlynhatro.service;
 
-import util.FileUtil;
-import vn.edu.model.BanQuanLy;
+import vn.edu.quanlynhatro.util.FileUtil;
+import vn.edu.quanlynhatro.model.BanQuanLy;
 
 import java.util.ArrayList;
 import java.util.List;

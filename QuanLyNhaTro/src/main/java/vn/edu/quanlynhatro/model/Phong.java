@@ -1,4 +1,4 @@
-package vn.edu.model;
+package vn.edu.quanlynhatro.model;
 import java.io.Serializable; // Thêm dòng này
 
 public class Phong implements Serializable { // Thêm "implements Serializable"

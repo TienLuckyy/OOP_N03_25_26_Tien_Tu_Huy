@@ -1,7 +1,7 @@
 package vn.edu.quanlynhatro.controller;
 
-import model.BanQuanLy;
-import service.BQLService;
+import vn.edu.quanlynhatro.model.BanQuanLy;
+import vn.edu.quanlynhatro.service.BQLService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
