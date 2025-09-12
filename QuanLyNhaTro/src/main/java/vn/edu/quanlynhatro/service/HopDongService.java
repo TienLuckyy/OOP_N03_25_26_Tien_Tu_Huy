@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
  * Đây là lớp trung tâm, tương tác với cả SinhVienService và PhongService.
  */
 public class HopDongService {
-
+    private SinhVienService sinhVienService = new SinhVienService();
     private List<HopDong> danhSachHopDong;
     private static final String FILE_NAME = "data/hopdong.dat";
 
     // Các service phụ thuộc để đảm bảo tính toàn vẹn dữ liệu
     private final PhongService phongService;
-    private final SinhVienService sinhVienService;
+    private final SinhVienService SinhVienService;
 
     /**
      * Hàm khởi tạo cho HopDongService.
@@ -62,7 +62,7 @@ public class HopDongService {
         }
 
         // 2. Kiểm tra sinh viên có tồn tại không
-        SinhVien sv = sinhVienService.timKiemTheoMssv(hopDong.getMaSV());
+        SinhVien sv = SinhVienService.timKiemTheoMssv(hopDong.getMaSV());
         if (sv == null) {
             System.out.println("Lỗi: Không tìm thấy sinh viên với MSSV '" + hopDong.getMaSV() + "'.");
             return false;
@@ -82,11 +82,11 @@ public class HopDongService {
         // --- Nếu tất cả kiểm tra đều hợp lệ ---
         // Thêm hợp đồng vào danh sách
         danhSachHopDong.add(hopDong);
-        
+
         // Cập nhật trạng thái phòng thành "Đang sử dụng"
         phong.setTrangThai(true);
         phongService.suaPhong(phong); // Gọi service của phòng để cập nhật và lưu
-        
+
         // Lưu lại danh sách hợp đồng
         luuFile();
         System.out.println("Tạo hợp đồng thành công cho sinh viên " + sv.getHoTen() + " tại phòng " + phong.getSoPhong());
@@ -115,7 +115,7 @@ public class HopDongService {
             phong.setTrangThai(false); // false = trống
             phongService.suaPhong(phong);
         }
-        
+
         luuFile();
         System.out.println("Hủy hợp đồng '" + maHopDong + "' thành công.");
         return true;
@@ -132,7 +132,7 @@ public class HopDongService {
                 .findFirst()
                 .orElse(null);
     }
-    
+
     /**
      * Tìm tất cả hợp đồng của một sinh viên.
      * @param maSV MSSV của sinh viên.
