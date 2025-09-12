@@ -1,4 +1,4 @@
-package model;
+package vn.edu.quanlynhatro.model;
 
 public enum Role {
     ADMIN,
