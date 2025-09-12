@@ -37,7 +37,7 @@ public class SinhVienService {
         return false;
     }
 
-    // Cập nhật sinh viên
+    // Cập nhật thông tin sinh viên
     public boolean capNhatSinhVien(String mssv, SinhVien svMoi) {
         SinhVien svCu = timSinhVien(mssv);
         if (svCu != null) {

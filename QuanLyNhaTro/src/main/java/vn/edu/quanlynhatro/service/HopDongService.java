@@ -16,13 +16,12 @@ import java.util.stream.Collectors;
  * Đây là lớp trung tâm, tương tác với cả SinhVienService và PhongService.
  */
 public class HopDongService {
-    private SinhVienService sinhVienService = new SinhVienService();
+    private SinhVienService sinhVienService = new SinhVienService();  // Initialize here
     private List<HopDong> danhSachHopDong;
     private static final String FILE_NAME = "data/hopdong.dat";
 
     // Các service phụ thuộc để đảm bảo tính toàn vẹn dữ liệu
     private final PhongService phongService;
-    private final SinhVienService SinhVienService;
 
     /**
      * Hàm khởi tạo cho HopDongService.
@@ -32,7 +31,6 @@ public class HopDongService {
     public HopDongService() {
         // Khởi tạo các service phụ thuộc
         this.phongService = new PhongService();
-        this.sinhVienService = new SinhVienService();
 
         // Tải danh sách hợp đồng từ file
         this.danhSachHopDong = (List<HopDong>) FileUtil.docFile(FILE_NAME);
@@ -62,7 +60,7 @@ public class HopDongService {
         }
 
         // 2. Kiểm tra sinh viên có tồn tại không
-        SinhVien sv = SinhVienService.timKiemTheoMssv(hopDong.getMaSV());
+        SinhVien sv = sinhVienService.timSinhVien(hopDong.getMaSV());  // Sửa tại đây
         if (sv == null) {
             System.out.println("Lỗi: Không tìm thấy sinh viên với MSSV '" + hopDong.getMaSV() + "'.");
             return false;
@@ -79,7 +77,7 @@ public class HopDongService {
             return false;
         }
 
-        // --- Nếu tất cả kiểm tra đều hợp lệ ---
+        // --- Nếu tất cả kiểm tra đều hợp lệ --- 
         // Thêm hợp đồng vào danh sách
         danhSachHopDong.add(hopDong);
 
