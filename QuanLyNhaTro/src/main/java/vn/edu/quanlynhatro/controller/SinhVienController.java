@@ -62,22 +62,24 @@ public class SinhVienController {
         System.out.print("Nhập MSSV: ");
         String mssv = scanner.nextLine();
         System.out.print("Nhập họ tên: ");
-        String ten = scanner.nextLine();
-        System.out.print("Nhập quê quán: ");
-        String queQuan = scanner.nextLine();
-        Date ngaySinh = nhapNgay("Nhập ngày sinh (dd/MM/yyyy): ");
+        String hoTen = scanner.nextLine();
         System.out.print("Nhập giới tính: ");
         String gioiTinh = scanner.nextLine();
-        System.out.print("Nhập số điện thoại: ");
-        String sdt = scanner.nextLine();
         System.out.print("Nhập CCCD: ");
         String cccd = scanner.nextLine();
+        System.out.print("Nhập số điện thoại: ");
+        String soDienThoai = scanner.nextLine();
+        Date ngaySinh = nhapNgay("Nhập ngày sinh (dd/MM/yyyy): ");
+        System.out.print("Nhập địa chỉ: ");
+        String diaChi = scanner.nextLine();
         System.out.print("Nhập lớp: ");
         String lop = scanner.nextLine();
         System.out.print("Nhập ngành học: ");
         String nganhHoc = scanner.nextLine();
+        System.out.print("Nhập quê quán: ");
+        String queQuan = scanner.nextLine();
 
-        SinhVien svMoi = new SinhVien(mssv, ten, queQuan, ngaySinh, gioiTinh, sdt, cccd, lop, nganhHoc);
+        SinhVien svMoi = new SinhVien(mssv, hoTen, gioiTinh, cccd, soDienThoai, ngaySinh, diaChi, lop, nganhHoc, queQuan);
         sinhVienService.themSinhVien(svMoi);
     }
 
@@ -93,22 +95,26 @@ public class SinhVienController {
         }
 
         System.out.println("Nhập thông tin mới (để trống nếu không muốn thay đổi):");
-        
-        System.out.print("Họ tên mới (" + svCanSua.getTen() + "): ");
-        String tenMoi = scanner.nextLine();
-        if (!tenMoi.trim().isEmpty()) svCanSua.setTen(tenMoi);
+
+        System.out.print("Họ tên mới (" + svCanSua.getHoTen() + "): ");
+        String hoTenMoi = scanner.nextLine();
+        if (!hoTenMoi.trim().isEmpty()) svCanSua.setHoTen(hoTenMoi);
 
         System.out.print("Quê quán mới (" + svCanSua.getQueQuan() + "): ");
         String queQuanMoi = scanner.nextLine();
         if (!queQuanMoi.trim().isEmpty()) svCanSua.setQueQuan(queQuanMoi);
 
-        System.out.print("SĐT mới (" + svCanSua.getSdt() + "): ");
+        System.out.print("SĐT mới (" + svCanSua.getSoDienThoai() + "): ");
         String sdtMoi = scanner.nextLine();
-        if (!sdtMoi.trim().isEmpty()) svCanSua.setSdt(sdtMoi);
+        if (!sdtMoi.trim().isEmpty()) svCanSua.setSoDienThoai(sdtMoi);
 
         System.out.print("Lớp mới (" + svCanSua.getLop() + "): ");
         String lopMoi = scanner.nextLine();
         if (!lopMoi.trim().isEmpty()) svCanSua.setLop(lopMoi);
+
+        System.out.print("Ngành học mới (" + svCanSua.getNganhHoc() + "): ");
+        String nganhMoi = scanner.nextLine();
+        if (!nganhMoi.trim().isEmpty()) svCanSua.setNganhHoc(nganhMoi);
 
         sinhVienService.suaSinhVien(svCanSua);
     }
