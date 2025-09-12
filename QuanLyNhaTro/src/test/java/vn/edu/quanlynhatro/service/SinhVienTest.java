@@ -1,48 +1,47 @@
-// package vn.edu.quanlynhatro.service;
+package vn.edu.quanlynhatro.service;
 
-// import java.text.ParseException;
-// import java.text.SimpleDateFormat;
-// import java.util.Date;
+import vn.edu.quanlynhatro.model.SinhVien;
 
-// import vn.edu.quanlynhatro.model.SinhVien;
+import java.util.Date;
+import java.util.List;
 
-// public class SinhVienTest {
-//     public static void main(String[] args) {
-//         try {
-//             // Định nghĩa định dạng ngày
-//             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+public class SinhVienTest {
+    public static void main(String[] args) {
+        SinhVienService service = new SinhVienService();
 
-//             // Tạo đối tượng Date cho ngày sinh
-//             Date birthDate = sdf.parse("30/04/2004");
+        SinhVien sv1 = new SinhVien(
+                "SV001", "Nguyen Van A", "Nam", "012345678",
+                "0987654321", new Date(), "Hà Nội", "CNTT1", "Cong Nghe Thong Tin", "Nam Đinh"
+        );
 
-//             // 1. Tạo sinh viên bằng constructor đầy đủ tham số
-//             SinhVien sv1 = new SinhVien("SV001", "Nguyen Van A", "Hà Nội",
-//                                         birthDate, "Nam", "0123456789",
-//                                         "123456789", "CNTT1", "Công nghệ thông tin");
+        SinhVien sv2 = new SinhVien(
+                "SV002", "Tran Thi B", "Nu", "987654321",
+                "0912345678", new Date(), "Ha Noi", "CNTT2", "Khoa học máy tính", "Hai Duong"
+        );
 
-//             System.out.println("Thông tin sinh viên sv1:");
-//             System.out.println(sv1);
+        service.themSinhVien(sv1);
+        service.themSinhVien(sv2);
 
-//             // 2. Tạo sinh viên bằng constructor mặc định + setter
-//             SinhVien sv2 = new SinhVien();
-//             sv2.setMssv("SV002");
-//             sv2.setTen("Tran Thi B");
-//             sv2.setQueQuan("TP.HCM");
-//             sv2.setNgaySinh(sdf.parse("15/08/2003"));
-//             sv2.setGioiTinh("Nữ");
-//             sv2.setSdt("0987654321");
-//             sv2.setCccd("987654321");
-//             sv2.setLop("CNTT2");
-//             sv2.setNganhHoc("Khoa học máy tính");
+        SinhVien sv2Updated = new SinhVien(
+                "SV002", "Tran Thi C", "Nam", "987654321",
+                "0912345678", new Date(), "Ha Noi", "CNTT2", "Khoa hoc du lieu", "Hai Duong"
+        );
+        service.suaSinhVien(sv2Updated);
 
-//             System.out.println("\nThông tin sinh viên sv2:");
-//             System.out.println(sv2);
+        SinhVien found = service.timKiemTheoMssv("SV002");
+        if (found != null) {
+            System.out.println("Tim thay sinh vien: " + found.getThongTin());
+        }
 
-//             // 3. Kiểm tra getter
-//             System.out.println("\nNgày sinh sv2 (định dạng dd/MM/yyyy): " + sdf.format(sv2.getNgaySinh()));
+        List<SinhVien> ketQuaTimTen = service.timKiemTheoTen("Bao");
+        System.out.println("Ket qua tim kiem theo ten:");
+        ketQuaTimTen.forEach(sv -> System.out.println(sv.getThongTin()));
 
-//         } catch (ParseException e) {
-//             e.printStackTrace();
-//         }
-//     }
-// }
+        service.xoaSinhVien("SV001");
+
+        service.getAllSinhVien().forEach(sv -> {
+    System.out.println(sv.getThongTin());
+    });
+
+    }
+}
