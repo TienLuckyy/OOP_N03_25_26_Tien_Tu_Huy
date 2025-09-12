@@ -25,7 +25,7 @@ public class SinhVienService {
     }
 
     public void themSinhVien(SinhVien sv) {
-        if (sv == null || sv.getmssv() == null || sv.getMssv().isEmpty()) {
+        if (sv == null || sv.getMssv() == null || sv.getMssv().isEmpty()) {
             System.out.println("Lỗi: MSSV không hợp lệ!");
             return;
         }
@@ -83,7 +83,7 @@ public class SinhVienService {
 
     public List<SinhVien> timKiemTheoTen(String ten) {
         return danhSachSinhVien.stream()
-                .filter(sv -> sv.getTen() != null && sv.getTen().toLowerCase().contains(ten.toLowerCase()))
+                .filter(sv -> sv.getHoTen() != null && sv.getHoTen().toLowerCase().contains(ten.toLowerCase()))
                 .toList();
     }
 
