@@ -1,5 +1,12 @@
-package model;
-public class Phong {
+package vn.edu.quanlynhatro.model;
+import java.io.Serializable; // Thêm dòng này
+
+public class Phong implements Serializable { // Thêm "implements Serializable"
+    // Thêm dòng này để kiểm soát phiên bản, là một thói quen tốt
+    private static final long serialVersionUID = 1L;
+
+    // ... các thuộc tính còn lại giữ nguyên
+
     // Biến thành viên private (đóng gói)
     private String soPhong;
     private boolean trangThai; // true = đang sử dụng, false = trống
