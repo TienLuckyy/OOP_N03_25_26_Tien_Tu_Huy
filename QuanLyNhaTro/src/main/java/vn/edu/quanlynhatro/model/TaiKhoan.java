@@ -1,71 +1,52 @@
 package vn.edu.quanlynhatro.model;
 
 import java.io.Serializable;
+import jakarta.persistence.*;
 
-/**
- * Lớp TaiKhoan đại diện cho tài khoản đăng nhập của hệ thống
- */
+@Entity
+@Table(name = "tai_khoan")
 public class TaiKhoan implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String username;  // Tên đăng nhập
-    private String password;  // Mật khẩu
-    private String role;      // Vai trò (SinhVien, QuanLy, Admin...)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    // --- Constructors ---
-    public TaiKhoan() {
-    }
+    @Column(unique = true, nullable = false)
+    private String username;  // email/login
+
+    @Column(nullable = false)
+    private String password;  // mật khẩu đã mã hóa
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;        // ADMIN, MANAGER, STUDENT
+
+    public TaiKhoan() {}
 
     public TaiKhoan(String username, String password) {
         this.username = username;
         this.password = password;
-        this.role = "SinhVien"; // mặc định nếu không truyền vào
+        this.role = Role.STUDENT;
     }
 
-    public TaiKhoan(String username, String password, String role) {
+    public TaiKhoan(String username, String password, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    // --- Getters & Setters ---
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    // --- Methods ---
-    /**
-     * Kiểm tra đăng nhập
-     */
-    public boolean checkLogin(String user, String pass) {
-        return this.username.equals(user) && this.password.equals(pass);
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 
     @Override
     public String toString() {
-        return "TaiKhoan{ " +
-                "username='" + username + '\'' +
-                ", role='" + role + '\'' +
-                " }";
+        return "TaiKhoan{ username='" + username + "', role=" + role + " }";
     }
 }
