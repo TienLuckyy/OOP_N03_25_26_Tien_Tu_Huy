@@ -18,18 +18,18 @@
 ## Activity Diagram
 
 ### Create
-<img width="329" height="335" alt="image" src="https://github.com/user-attachments/assets/38b7f90f-43c4-475e-b81d-d83c9f92ac8a" />
+<img width="333" height="297" alt="image" src="https://github.com/user-attachments/assets/348b1a09-19a6-465d-b0d2-528af00a2f76" />
 
 
 ### Read
-<img width="626" height="371" alt="image" src="https://github.com/user-attachments/assets/de415a3a-f4e5-4c0e-b63c-d8e471cad69a" />
+<img width="905" height="455" alt="image" src="https://github.com/user-attachments/assets/78bba150-6019-4dd6-891f-9824cc9bca95" />
 
 
 ### Update
-<img width="324" height="321" alt="image" src="https://github.com/user-attachments/assets/b30b9420-eaa2-4d98-82d1-be4403474625" />
+<img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/9a11e03a-dacd-4e05-9753-03369c737e1e" />
 
 ### Delete
-<img width="321" height="253" alt="image" src="https://github.com/user-attachments/assets/a21bfb76-5c0d-4cf7-9120-2c6f509b4fa5" />
+![Uploading image.png…]()
 
 
 ## Ví dụ minh họa CRUD
@@ -37,5 +37,6 @@
 - **Read**: Tìm P101 → Trả về thông tin phòng P101.  
 - **Update**: Cập nhật tiền điện nước của P101 = 500.000 → Thay đổi thành công.  
 - **Delete**: Xóa P101 → Danh sách không còn phòng P101.  
+
 
 
