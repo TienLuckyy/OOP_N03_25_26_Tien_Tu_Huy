@@ -1,7 +1,8 @@
-# Đối tượng Phòng
+# Đối tượng Sinh Viên
 
 ## Sơ đồ Class Diagram
-<img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/8fe2b891-0bb0-430d-9c46-ff0c68ccf414" />
+<img width="334" height="700" alt="image" src="https://github.com/user-attachments/assets/cbedc905-7e75-4fe1-8cf5-746cb856e6c1" />
+
 
 ## Thuộc tính
 - mssv: String
@@ -33,10 +34,11 @@
 <img width="300" height="300" alt="image" src="https://github.com/user-attachments/assets/18cc43a6-ebe4-4ee3-9b74-475b88b34e73" />
 
 ## Ví dụ minh họa CRUD
-- **Create**: Input → Số phòng = P101 → Output → Danh sách có P101 (trạng thái trống).  
-- **Read**: Tìm P101 → Trả về thông tin phòng P101.  
-- **Update**: Cập nhật tiền điện nước của P101 = 500.000 → Thay đổi thành công.  
-- **Delete**: Xóa P101 → Danh sách không còn phòng P101.  
+- **Create**: Input → MSSV = "SV001", Tên = "Nguyễn Văn A" → Output → Danh sách chứa sinh viên SV001. 
+- **Read**: Tìm "SV001" → Trả về thông tin của sinh viên Nguyễn Văn A.
+- **Update**: Cập nhật SĐT của SV001 = "090xxxxxxx" → Thay đổi thành công.
+- **Delete**: Xóa "SV001" → Danh sách không còn sinh viên SV001.
+
 
 
 
