@@ -29,7 +29,7 @@
 <img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/9a11e03a-dacd-4e05-9753-03369c737e1e" />
 
 ### Delete
-![Uploading image.png…]()
+<img width="563" height="415" alt="image" src="https://github.com/user-attachments/assets/d28f328f-ed32-40ba-a9c2-a7194fbfa3c7" />
 
 
 ## Ví dụ minh họa CRUD
@@ -37,6 +37,7 @@
 - **Read**: Tìm P101 → Trả về thông tin phòng P101.  
 - **Update**: Cập nhật tiền điện nước của P101 = 500.000 → Thay đổi thành công.  
 - **Delete**: Xóa P101 → Danh sách không còn phòng P101.  
+
 
 
 
