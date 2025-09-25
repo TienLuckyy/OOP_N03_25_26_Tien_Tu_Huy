@@ -1,0 +1,5 @@
+# Bỏ thư mục build
+QuanLyNhaTro/target/
+
+# Bỏ cấu hình IDE
+.vscode/
