@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập hệ thống</title>
+    <title>Đăng nhập/Đăng ký hệ thống</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -32,6 +32,8 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            /* Thêm transition cho chiều cao để chuyển đổi mượt hơn */
+            transition: height 0.4s ease-in-out; 
         }
 
         .login-container::before {
@@ -143,7 +145,7 @@
             color: #555;
         }
 
-        .btn-login {
+        .btn-action {
             width: 100%;
             padding: 14px;
             background: linear-gradient(to right, #4a90e2, #5fa3ff);
@@ -157,7 +159,7 @@
             margin-top: 10px;
         }
 
-        .btn-login:hover {
+        .btn-action:hover {
             background: linear-gradient(to right, #357abd, #4a90e2);
             box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
         }
@@ -182,21 +184,30 @@
             border: 1px solid #c8e6c9;
         }
 
-        .forgot-password {
+        .form-footer {
             text-align: center;
             margin-top: 20px;
         }
 
-        .forgot-password a {
+        .form-footer a {
             color: #4a90e2;
             text-decoration: none;
             font-size: 14px;
             transition: color 0.3s ease;
         }
 
-        .forgot-password a:hover {
+        .form-footer a:hover {
             color: #357abd;
             text-decoration: underline;
+        }
+        
+        /* Ẩn/Hiện form */
+        #login-form-content, #register-form-content {
+            transition: opacity 0.3s ease;
+        }
+
+        .hidden-form {
+            display: none;
         }
 
         @media (max-width: 480px) {
@@ -211,85 +222,216 @@
     </style>
 </head>
 <body>
-<div class="login-container">
+<div class="login-container" id="auth-container">
     <div class="login-header">
-        <h2>Đăng nhập hệ thống</h2>
-        <p>Vui lòng chọn vai trò và đăng nhập</p>
+        <h2 id="form-title">Đăng nhập hệ thống</h2>
+        <p id="form-subtitle">Vui lòng chọn vai trò và đăng nhập</p>
     </div>
     
-    <form th:action="@{/login}" method="post">
-        <!-- Phần chọn vai trò -->
-        <div class="form-group">
-            <label>Vai trò đăng nhập</label>
-            <div class="role-options">
-                <div class="role-option selected" data-role="ADMIN">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Quản trị viên</span>
+    <form th:action="@{/login}" method="post" id="login-form">
+        <div id="login-form-content">
+            <div class="form-group">
+                <label>Vai trò đăng nhập</label>
+                <div class="role-options">
+                    <div class="role-option selected" data-role="ADMIN">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Quản trị viên</span>
+                    </div>
+                    <div class="role-option" data-role="MANAGER">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Quản lý</span>
+                    </div>
+                    <div class="role-option" data-role="STUDENT">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>Sinh viên</span>
+                    </div>
                 </div>
-                <div class="role-option" data-role="MANAGER">
-                    <i class="fas fa-user-tie"></i>
-                    <span>Quản lý</span>
-                </div>
-                <div class="role-option" data-role="STUDENT">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Sinh viên</span>
+                <input type="hidden" id="role-login" name="role" value="ADMIN">
+            </div>
+    
+            <div class="form-group">
+                <label for="username-login">Tên đăng nhập</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username-login" name="username" placeholder="Nhập tên đăng nhập" required>
                 </div>
             </div>
-            <input type="hidden" id="role" name="role" value="ADMIN">
-        </div>
-
-        <!-- Phần nhập thông tin đăng nhập -->
-        <div class="form-group">
-            <label for="username">Tên đăng nhập</label>
-            <div class="input-with-icon">
-                <i class="fas fa-user"></i>
-                <input type="text" id="username" name="username" placeholder="Nhập tên đăng nhập" required>
+    
+            <div class="form-group">
+                <label for="password-login">Mật khẩu</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password-login" name="password" placeholder="Nhập mật khẩu" required>
+                </div>
+            </div>
+    
+            <button type="submit" class="btn-action">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+            </button>
+    
+            <div th:if="${param.error}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> Sai tài khoản hoặc mật khẩu!
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success">
+                <i class="fas fa-check-circle"></i> Bạn đã đăng xuất thành công!
+            </div>
+    
+            <div class="form-footer">
+                <a href="#" id="forgot-password-link">Quên mật khẩu?</a>
+                <p style="margin-top: 10px;">Chưa có tài khoản? <a href="#" id="show-register">Đăng ký ngay</a></p>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="password">Mật khẩu</label>
-            <div class="input-with-icon">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+    </form>
+    
+    <form action="/register" method="post" id="register-form" class="hidden-form">
+        <div id="register-form-content">
+            
+            <div class="form-group">
+                <label for="full-name-reg">Họ và Tên</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-signature"></i>
+                    <input type="text" id="full-name-reg" name="fullName" placeholder="Nhập họ và tên" required>
+                </div>
             </div>
-        </div>
 
-        <button type="submit" class="btn-login">
-            <i class="fas fa-sign-in-alt"></i> Đăng nhập
-        </button>
+            <div class="form-group">
+                <label for="email-reg">Email/Tên đăng nhập</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email-reg" name="email" placeholder="Nhập email" required>
+                </div>
+            </div>
 
-        <!-- Thông báo lỗi -->
-        <div th:if="${param.error}" class="alert alert-error">
-            <i class="fas fa-exclamation-circle"></i> Sai tài khoản hoặc mật khẩu!
-        </div>
-        <div th:if="${param.logout}" class="alert alert-success">
-            <i class="fas fa-check-circle"></i> Bạn đã đăng xuất thành công!
-        </div>
+            <div class="form-group">
+                <label for="password-reg">Mật khẩu</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password-reg" name="password" placeholder="Tạo mật khẩu" required>
+                </div>
+            </div>
 
-        <div class="forgot-password">
-            <a href="#">Quên mật khẩu?</a>
+            <div class="form-group">
+                <label for="confirm-password-reg">Xác nhận mật khẩu</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-check-lock"></i>
+                    <input type="password" id="confirm-password-reg" name="confirmPassword" placeholder="Xác nhận mật khẩu" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Đăng ký với vai trò</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user-tag"></i>
+                    <select id="role-register" name="role">
+                        <option value="STUDENT">Sinh viên</option>
+                        <option value="MANAGER">Quản lý</option>
+                        </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-action">
+                <i class="fas fa-user-plus"></i> Đăng ký
+            </button>
+
+            <div class="form-footer">
+                Đã có tài khoản? <a href="#" id="show-login">Đăng nhập</a>
+            </div>
         </div>
     </form>
 </div>
 
 <script>
-    // Xử lý chọn vai trò
     document.addEventListener('DOMContentLoaded', function() {
         const roleOptions = document.querySelectorAll('.role-option');
-        const roleInput = document.getElementById('role');
+        const roleLoginInput = document.getElementById('role-login');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const showRegisterLink = document.getElementById('show-register');
+        const showLoginLink = document.getElementById('show-login');
+        const formTitle = document.getElementById('form-title');
+        const formSubtitle = document.getElementById('form-subtitle');
+        const authContainer = document.getElementById('auth-container');
         
+        // --- Xử lý chọn vai trò (Login) ---
         roleOptions.forEach(option => {
             option.addEventListener('click', function() {
-                // Xóa lớp selected khỏi tất cả các option
                 roleOptions.forEach(opt => opt.classList.remove('selected'));
-                
-                // Thêm lớp selected vào option được chọn
                 this.classList.add('selected');
-                
-                // Cập nhật giá trị của input ẩn
-                roleInput.value = this.getAttribute('data-role');
+                roleLoginInput.value = this.getAttribute('data-role');
             });
+        });
+
+        // --- Xử lý chuyển đổi form ---
+        
+        // Hàm chuyển sang form Đăng ký
+        function showRegisterForm() {
+            // Cập nhật tiêu đề
+            formTitle.textContent = 'Tạo tài khoản mới';
+            formSubtitle.textContent = 'Vui lòng điền thông tin để đăng ký';
+
+            // Ẩn form Đăng nhập
+            loginForm.classList.add('hidden-form');
+            // Hiện form Đăng ký
+            registerForm.classList.remove('hidden-form');
+
+            // Xóa required cho form đang ẩn (tùy chọn, để tránh lỗi trình duyệt)
+            document.getElementById('username-login').removeAttribute('required');
+            document.getElementById('password-login').removeAttribute('required');
+
+            // Thêm required cho form đang hiện
+            document.getElementById('full-name-reg').setAttribute('required', 'required');
+            document.getElementById('email-reg').setAttribute('required', 'required');
+            document.getElementById('password-reg').setAttribute('required', 'required');
+            document.getElementById('confirm-password-reg').setAttribute('required', 'required');
+        }
+
+        // Hàm chuyển sang form Đăng nhập
+        function showLoginForm() {
+            // Cập nhật tiêu đề
+            formTitle.textContent = 'Đăng nhập hệ thống';
+            formSubtitle.textContent = 'Vui lòng chọn vai trò và đăng nhập';
+            
+            // Ẩn form Đăng ký
+            registerForm.classList.add('hidden-form');
+            // Hiện form Đăng nhập
+            loginForm.classList.remove('hidden-form');
+
+            // Xóa required cho form đang ẩn
+            document.getElementById('full-name-reg').removeAttribute('required');
+            document.getElementById('email-reg').removeAttribute('required');
+            document.getElementById('password-reg').removeAttribute('required');
+            document.getElementById('confirm-password-reg').removeAttribute('required');
+
+            // Thêm required cho form đang hiện
+            document.getElementById('username-login').setAttribute('required', 'required');
+            document.getElementById('password-login').setAttribute('required', 'required');
+        }
+
+        // Lắng nghe sự kiện click
+        showRegisterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showRegisterForm();
+        });
+
+        showLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showLoginForm();
+        });
+        
+        // --- Logic ban đầu cho thông báo Thymeleaf ---
+        // Nếu có thông báo lỗi/logout từ Thymeleaf (chỉ xuất hiện ở form login), form login sẽ được hiển thị mặc định
+        const errorAlert = document.querySelector('.alert-error');
+        if (errorAlert && loginForm.contains(errorAlert)) {
+            showLoginForm(); 
+        } else {
+            // Mặc định ban đầu là form Đăng nhập
+             showLoginForm(); 
+        }
+
+        // Ẩn liên kết quên mật khẩu khi ở form đăng ký
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+        loginForm.addEventListener('transitionend', () => {
+             forgotPasswordLink.style.display = loginForm.classList.contains('hidden-form') ? 'none' : 'block';
         });
     });
 </script>
