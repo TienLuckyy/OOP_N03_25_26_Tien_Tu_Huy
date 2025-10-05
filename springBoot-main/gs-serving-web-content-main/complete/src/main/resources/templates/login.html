@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập/Đăng ký hệ thống</title>
+    <title>Đăng nhập/Đăng ký/Quên mật khẩu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -96,6 +96,10 @@
             font-size: 15px;
             transition: all 0.3s ease;
         }
+        /* Điều chỉnh padding cho select không cần icon */
+        .form-group select {
+            padding: 12px 15px; 
+        }
 
         .form-group input:focus, .form-group select:focus {
             border-color: #4a90e2;
@@ -183,16 +187,24 @@
             color: #388e3c;
             border: 1px solid #c8e6c9;
         }
+        
+        /* Message quên mật khẩu */
+        .forgot-message {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
 
         .form-footer {
             text-align: center;
             margin-top: 20px;
+            font-size: 14px;
         }
 
         .form-footer a {
             color: #4a90e2;
             text-decoration: none;
-            font-size: 14px;
             transition: color 0.3s ease;
         }
 
@@ -201,11 +213,7 @@
             text-decoration: underline;
         }
         
-        /* Ẩn/Hiện form */
-        #login-form-content, #register-form-content {
-            transition: opacity 0.3s ease;
-        }
-
+        /* Ẩn form */
         .hidden-form {
             display: none;
         }
@@ -277,7 +285,7 @@
             </div>
     
             <div class="form-footer">
-                <a href="#" id="forgot-password-link">Quên mật khẩu?</a>
+                <a href="#" id="show-forgot">Quên mật khẩu?</a>
                 <p style="margin-top: 10px;">Chưa có tài khoản? <a href="#" id="show-register">Đăng ký ngay</a></p>
             </div>
         </div>
@@ -290,7 +298,7 @@
                 <label for="full-name-reg">Họ và Tên</label>
                 <div class="input-with-icon">
                     <i class="fas fa-signature"></i>
-                    <input type="text" id="full-name-reg" name="fullName" placeholder="Nhập họ và tên" required>
+                    <input type="text" id="full-name-reg" name="fullName" placeholder="Nhập họ và tên" >
                 </div>
             </div>
 
@@ -298,7 +306,7 @@
                 <label for="email-reg">Email/Tên đăng nhập</label>
                 <div class="input-with-icon">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="email-reg" name="email" placeholder="Nhập email" required>
+                    <input type="email" id="email-reg" name="email" placeholder="Nhập email" >
                 </div>
             </div>
 
@@ -306,7 +314,7 @@
                 <label for="password-reg">Mật khẩu</label>
                 <div class="input-with-icon">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="password-reg" name="password" placeholder="Tạo mật khẩu" required>
+                    <input type="password" id="password-reg" name="password" placeholder="Tạo mật khẩu" >
                 </div>
             </div>
 
@@ -314,7 +322,7 @@
                 <label for="confirm-password-reg">Xác nhận mật khẩu</label>
                 <div class="input-with-icon">
                     <i class="fas fa-check-lock"></i>
-                    <input type="password" id="confirm-password-reg" name="confirmPassword" placeholder="Xác nhận mật khẩu" required>
+                    <input type="password" id="confirm-password-reg" name="confirmPassword" placeholder="Xác nhận mật khẩu" >
                 </div>
             </div>
             
@@ -322,10 +330,10 @@
                 <label>Đăng ký với vai trò</label>
                 <div class="input-with-icon">
                     <i class="fas fa-user-tag"></i>
-                    <select id="role-register" name="role">
+                    <select id="role-register" name="role" style="padding-left: 15px;">
                         <option value="STUDENT">Sinh viên</option>
                         <option value="MANAGER">Quản lý</option>
-                        </select>
+                    </select>
                 </div>
             </div>
 
@@ -334,7 +342,31 @@
             </button>
 
             <div class="form-footer">
-                Đã có tài khoản? <a href="#" id="show-login">Đăng nhập</a>
+                Đã có tài khoản? <a href="#" id="show-login-from-reg">Đăng nhập</a>
+            </div>
+        </div>
+    </form>
+
+    <form action="/forgot-password" method="post" id="forgot-form" class="hidden-form">
+        <div id="forgot-form-content">
+            <div class="forgot-message">
+                Vui lòng nhập **Email** hoặc **Tên đăng nhập** của bạn. Chúng tôi sẽ gửi hướng dẫn khôi phục mật khẩu.
+            </div>
+
+            <div class="form-group">
+                <label for="recovery-email">Email/Tên đăng nhập</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" id="recovery-email" name="recoveryEmail" placeholder="Nhập email hoặc tên đăng nhập" >
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-action">
+                <i class="fas fa-paper-plane"></i> Gửi yêu cầu khôi phục
+            </button>
+
+            <div class="form-footer">
+                <a href="#" id="show-login-from-forgot">Quay lại Đăng nhập</a>
             </div>
         </div>
     </form>
@@ -344,13 +376,19 @@
     document.addEventListener('DOMContentLoaded', function() {
         const roleOptions = document.querySelectorAll('.role-option');
         const roleLoginInput = document.getElementById('role-login');
+        
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
+        const forgotForm = document.getElementById('forgot-form'); // Form quên mật khẩu
+
+        // Các liên kết chuyển đổi
         const showRegisterLink = document.getElementById('show-register');
-        const showLoginLink = document.getElementById('show-login');
+        const showLoginFromRegLink = document.getElementById('show-login-from-reg');
+        const showForgotLink = document.getElementById('show-forgot'); // Liên kết quên mật khẩu
+        const showLoginFromForgotLink = document.getElementById('show-login-from-forgot');
+
         const formTitle = document.getElementById('form-title');
         const formSubtitle = document.getElementById('form-subtitle');
-        const authContainer = document.getElementById('auth-container');
         
         // --- Xử lý chọn vai trò (Login) ---
         roleOptions.forEach(option => {
@@ -361,78 +399,90 @@
             });
         });
 
-        // --- Xử lý chuyển đổi form ---
-        
-        // Hàm chuyển sang form Đăng ký
-        function showRegisterForm() {
-            // Cập nhật tiêu đề
-            formTitle.textContent = 'Tạo tài khoản mới';
-            formSubtitle.textContent = 'Vui lòng điền thông tin để đăng ký';
+        // --- Hàm quản lý hiển thị form và required attributes ---
+        function switchForm(formToShow, title, subtitle) {
+            // Danh sách tất cả các form và inputs liên quan
+            const forms = [
+                { form: loginForm, inputs: ['username-login', 'password-login'] },
+                { form: registerForm, inputs: ['full-name-reg', 'email-reg', 'password-reg', 'confirm-password-reg'] },
+                { form: forgotForm, inputs: ['recovery-email'] }
+            ];
 
-            // Ẩn form Đăng nhập
-            loginForm.classList.add('hidden-form');
-            // Hiện form Đăng ký
-            registerForm.classList.remove('hidden-form');
+            // Cập nhật tiêu đề và phụ đề
+            formTitle.textContent = title;
+            formSubtitle.textContent = subtitle;
 
-            // Xóa required cho form đang ẩn (tùy chọn, để tránh lỗi trình duyệt)
-            document.getElementById('username-login').removeAttribute('required');
-            document.getElementById('password-login').removeAttribute('required');
+            forms.forEach(({ form, inputs }) => {
+                const isTarget = form === formToShow;
+                
+                // Ẩn/Hiện form
+                form.classList.toggle('hidden-form', !isTarget);
 
-            // Thêm required cho form đang hiện
-            document.getElementById('full-name-reg').setAttribute('required', 'required');
-            document.getElementById('email-reg').setAttribute('required', 'required');
-            document.getElementById('password-reg').setAttribute('required', 'required');
-            document.getElementById('confirm-password-reg').setAttribute('required', 'required');
-        }
-
-        // Hàm chuyển sang form Đăng nhập
-        function showLoginForm() {
-            // Cập nhật tiêu đề
-            formTitle.textContent = 'Đăng nhập hệ thống';
-            formSubtitle.textContent = 'Vui lòng chọn vai trò và đăng nhập';
+                // Quản lý thuộc tính required
+                inputs.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        if (isTarget) {
+                            input.setAttribute('required', 'required');
+                        } else {
+                            input.removeAttribute('required');
+                        }
+                    }
+                });
+            });
             
-            // Ẩn form Đăng ký
-            registerForm.classList.add('hidden-form');
-            // Hiện form Đăng nhập
-            loginForm.classList.remove('hidden-form');
-
-            // Xóa required cho form đang ẩn
-            document.getElementById('full-name-reg').removeAttribute('required');
-            document.getElementById('email-reg').removeAttribute('required');
-            document.getElementById('password-reg').removeAttribute('required');
-            document.getElementById('confirm-password-reg').removeAttribute('required');
-
-            // Thêm required cho form đang hiện
-            document.getElementById('username-login').setAttribute('required', 'required');
-            document.getElementById('password-login').setAttribute('required', 'required');
+            // Xử lý riêng cho nút Quên mật khẩu trong form Đăng nhập
+            if (showForgotLink) {
+                const forgotLinkParent = showForgotLink.parentNode;
+                if (forgotLinkParent) {
+                    forgotLinkParent.style.display = formToShow === loginForm ? 'block' : 'none';
+                }
+            }
+        }
+        
+        // --- Các hàm chuyển đổi cụ thể ---
+        function showLoginForm() {
+            switchForm(loginForm, 'Đăng nhập hệ thống', 'Vui lòng chọn vai trò và đăng nhập');
         }
 
-        // Lắng nghe sự kiện click
+        function showRegisterForm() {
+            switchForm(registerForm, 'Tạo tài khoản mới', 'Vui lòng điền thông tin để đăng ký');
+        }
+
+        function showForgotForm() {
+            switchForm(forgotForm, 'Quên mật khẩu', 'Khôi phục quyền truy cập vào tài khoản của bạn');
+        }
+
+        // --- Lắng nghe sự kiện click ---
         showRegisterLink.addEventListener('click', function(e) {
             e.preventDefault();
             showRegisterForm();
         });
 
-        showLoginLink.addEventListener('click', function(e) {
+        showLoginFromRegLink.addEventListener('click', function(e) {
             e.preventDefault();
             showLoginForm();
         });
-        
-        // --- Logic ban đầu cho thông báo Thymeleaf ---
+
+        showForgotLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showForgotForm();
+        });
+
+        showLoginFromForgotLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showLoginForm();
+        });
+
+        // --- Logic ban đầu ---
         // Nếu có thông báo lỗi/logout từ Thymeleaf (chỉ xuất hiện ở form login), form login sẽ được hiển thị mặc định
         const errorAlert = document.querySelector('.alert-error');
         if (errorAlert && loginForm.contains(errorAlert)) {
             showLoginForm(); 
         } else {
-            // Mặc định ban đầu là form Đăng nhập
+             // Mặc định ban đầu là form Đăng nhập
              showLoginForm(); 
         }
-
-        // Ẩn liên kết quên mật khẩu khi ở form đăng ký
-        const forgotPasswordLink = document.getElementById('forgot-password-link');
-        loginForm.addEventListener('transitionend', () => {
-             forgotPasswordLink.style.display = loginForm.classList.contains('hidden-form') ? 'none' : 'block';
-        });
     });
 </script>
 </body>
