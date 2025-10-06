@@ -32,7 +32,6 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            /* Thêm transition cho chiều cao để chuyển đổi mượt hơn */
             transition: height 0.4s ease-in-out; 
         }
 
@@ -100,6 +99,11 @@
         .form-group select {
             padding: 12px 15px; 
         }
+        /* Điều chỉnh padding cho input không cần icon, ví dụ: select, input Mã sinh viên */
+        .form-group .input-no-icon {
+            padding: 12px 15px;
+        }
+
 
         .form-group input:focus, .form-group select:focus {
             border-color: #4a90e2;
@@ -241,30 +245,26 @@
             <div class="form-group">
                 <label>Vai trò đăng nhập</label>
                 <div class="role-options">
-                    <div class="role-option selected" data-role="ADMIN">
-                        <i class="fas fa-user-shield"></i>
-                        <span>Quản trị viên</span>
-                    </div>
-                    <div class="role-option" data-role="MANAGER">
-                        <i class="fas fa-user-tie"></i>
-                        <span>Quản lý</span>
-                    </div>
-                    <div class="role-option" data-role="STUDENT">
+                    <div class="role-option selected" data-role="STUDENT">
                         <i class="fas fa-user-graduate"></i>
                         <span>Sinh viên</span>
                     </div>
+                    <div class="role-option" data-role="MANAGER">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Quản lý/Admin</span>
+                    </div>
                 </div>
-                <input type="hidden" id="role-login" name="role" value="ADMIN">
+                <input type="hidden" id="role-login" name="role" value="STUDENT">
             </div>
-    
-            <div class="form-group">
-                <label for="username-login">Tên đăng nhập</label>
+
+            <div class="form-group" id="username-container">
+                <label for="username-login">Mã sinh viên/Tên đăng nhập</label>
                 <div class="input-with-icon">
                     <i class="fas fa-user"></i>
-                    <input type="text" id="username-login" name="username" placeholder="Nhập tên đăng nhập" required>
+                    <input type="text" id="username-login" name="username" placeholder="Nhập Mã sinh viên hoặc Tên đăng nhập" required>
                 </div>
             </div>
-    
+
             <div class="form-group">
                 <label for="password-login">Mật khẩu</label>
                 <div class="input-with-icon">
@@ -286,7 +286,7 @@
     
             <div class="form-footer">
                 <a href="#" id="show-forgot">Quên mật khẩu?</a>
-                <p style="margin-top: 10px;">Chưa có tài khoản? <a href="#" id="show-register">Đăng ký ngay</a></p>
+                <p style="margin-top: 10px;">Chưa có tài khoản? <a href="#" id="show-register">Đăng ký (Chỉ Sinh viên)</a></p>
             </div>
         </div>
     </form>
@@ -295,50 +295,65 @@
         <div id="register-form-content">
             
             <div class="form-group">
-                <label for="full-name-reg">Họ và Tên</label>
+                <label for="student-id-reg">Mã sinh viên (Bắt buộc)</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-id-card"></i>
+                    <input type="text" id="student-id-reg" name="studentId" placeholder="Nhập mã sinh viên" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="full-name-reg">Họ và Tên (Bắt buộc)</label>
                 <div class="input-with-icon">
                     <i class="fas fa-signature"></i>
-                    <input type="text" id="full-name-reg" name="fullName" placeholder="Nhập họ và tên" >
+                    <input type="text" id="full-name-reg" name="fullName" placeholder="Nhập họ và tên" required>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="email-reg">Email/Tên đăng nhập</label>
+                <label for="email-reg">Email (Dùng làm Tên đăng nhập, Bắt buộc)</label>
                 <div class="input-with-icon">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="email-reg" name="email" placeholder="Nhập email" >
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="password-reg">Mật khẩu</label>
-                <div class="input-with-icon">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="password-reg" name="password" placeholder="Tạo mật khẩu" >
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="confirm-password-reg">Xác nhận mật khẩu</label>
-                <div class="input-with-icon">
-                    <i class="fas fa-check-lock"></i>
-                    <input type="password" id="confirm-password-reg" name="confirmPassword" placeholder="Xác nhận mật khẩu" >
+                    <input type="email" id="email-reg" name="email" placeholder="Nhập email" required>
                 </div>
             </div>
             
             <div class="form-group">
-                <label>Đăng ký với vai trò</label>
+                <label for="phone-reg">Số điện thoại (Bắt buộc)</label>
                 <div class="input-with-icon">
-                    <i class="fas fa-user-tag"></i>
-                    <select id="role-register" name="role" style="padding-left: 15px;">
-                        <option value="STUDENT">Sinh viên</option>
-                        <option value="MANAGER">Quản lý</option>
-                    </select>
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="phone-reg" name="phoneNumber" placeholder="Nhập số điện thoại" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="address-reg">Quê quán</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="address-reg" name="address" placeholder="Nhập quê quán (Tỉnh/Thành phố)" >
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="password-reg">Mật khẩu (Bắt buộc)</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password-reg" name="password" placeholder="Tạo mật khẩu" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password-reg">Xác nhận mật khẩu (Bắt buộc)</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-check-lock"></i>
+                    <input type="password" id="confirm-password-reg" name="confirmPassword" placeholder="Xác nhận mật khẩu" required>
+                </div>
+            </div>
+            
+            <input type="hidden" name="role" value="STUDENT">
+
             <button type="submit" class="btn-action">
-                <i class="fas fa-user-plus"></i> Đăng ký
+                <i class="fas fa-user-plus"></i> Đăng ký Sinh viên
             </button>
 
             <div class="form-footer">
@@ -350,14 +365,14 @@
     <form action="/forgot-password" method="post" id="forgot-form" class="hidden-form">
         <div id="forgot-form-content">
             <div class="forgot-message">
-                Vui lòng nhập **Email** hoặc **Tên đăng nhập** của bạn. Chúng tôi sẽ gửi hướng dẫn khôi phục mật khẩu.
+                Vui lòng nhập **Email** hoặc **Mã sinh viên/Tên đăng nhập** của bạn. Chúng tôi sẽ gửi hướng dẫn khôi phục mật khẩu.
             </div>
 
             <div class="form-group">
-                <label for="recovery-email">Email/Tên đăng nhập</label>
+                <label for="recovery-email">Email/Mã sinh viên/Tên đăng nhập</label>
                 <div class="input-with-icon">
                     <i class="fas fa-envelope"></i>
-                    <input type="text" id="recovery-email" name="recoveryEmail" placeholder="Nhập email hoặc tên đăng nhập" >
+                    <input type="text" id="recovery-email" name="recoveryId" placeholder="Nhập email hoặc Mã sinh viên/Tên đăng nhập" required>
                 </div>
             </div>
             
@@ -376,6 +391,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         const roleOptions = document.querySelectorAll('.role-option');
         const roleLoginInput = document.getElementById('role-login');
+        const usernameContainer = document.getElementById('username-container');
+        const usernameInput = document.getElementById('username-login');
         
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
@@ -395,7 +412,17 @@
             option.addEventListener('click', function() {
                 roleOptions.forEach(opt => opt.classList.remove('selected'));
                 this.classList.add('selected');
-                roleLoginInput.value = this.getAttribute('data-role');
+                
+                const selectedRole = this.getAttribute('data-role');
+                roleLoginInput.value = selectedRole;
+
+                // Cập nhật nhãn và placeholder cho trường đăng nhập
+                const isStudent = selectedRole === 'STUDENT';
+                const labelText = isStudent ? 'Mã sinh viên/Tên đăng nhập' : 'Tên đăng nhập';
+                const placeholderText = isStudent ? 'Nhập Mã sinh viên hoặc Tên đăng nhập' : 'Nhập Tên đăng nhập';
+
+                usernameContainer.querySelector('label').textContent = labelText;
+                usernameInput.placeholder = placeholderText;
             });
         });
 
@@ -404,7 +431,7 @@
             // Danh sách tất cả các form và inputs liên quan
             const forms = [
                 { form: loginForm, inputs: ['username-login', 'password-login'] },
-                { form: registerForm, inputs: ['full-name-reg', 'email-reg', 'password-reg', 'confirm-password-reg'] },
+                { form: registerForm, inputs: ['student-id-reg', 'full-name-reg', 'email-reg', 'phone-reg', 'password-reg', 'confirm-password-reg'] }, // Thêm inputs mới
                 { form: forgotForm, inputs: ['recovery-email'] }
             ];
 
@@ -422,10 +449,15 @@
                 inputs.forEach(id => {
                     const input = document.getElementById(id);
                     if (input) {
+                        // Thêm/Xóa required cho form đang hiển thị
                         if (isTarget) {
-                            input.setAttribute('required', 'required');
+                            // Chỉ thêm required cho các trường không phải là "Quê quán" (address-reg)
+                            if (id !== 'address-reg') {
+                                input.setAttribute('required', 'required');
+                            }
                         } else {
                             input.removeAttribute('required');
+                            input.value = ''; // Xóa nội dung khi ẩn form
                         }
                     }
                 });
@@ -433,9 +465,9 @@
             
             // Xử lý riêng cho nút Quên mật khẩu trong form Đăng nhập
             if (showForgotLink) {
-                const forgotLinkParent = showForgotLink.parentNode;
-                if (forgotLinkParent) {
-                    forgotLinkParent.style.display = formToShow === loginForm ? 'block' : 'none';
+                const formFooter = loginForm.querySelector('.form-footer');
+                if (formFooter) {
+                    formFooter.style.display = formToShow === loginForm ? 'block' : 'none';
                 }
             }
         }
@@ -443,10 +475,14 @@
         // --- Các hàm chuyển đổi cụ thể ---
         function showLoginForm() {
             switchForm(loginForm, 'Đăng nhập hệ thống', 'Vui lòng chọn vai trò và đăng nhập');
+            // Đảm bảo trạng thái mặc định cho login là Sinh viên
+            if (roleLoginInput.value !== 'STUDENT') {
+                document.querySelector('.role-option[data-role="STUDENT"]').click();
+            }
         }
 
         function showRegisterForm() {
-            switchForm(registerForm, 'Tạo tài khoản mới', 'Vui lòng điền thông tin để đăng ký');
+            switchForm(registerForm, 'Đăng ký tài khoản Sinh viên', 'Chỉ Sinh viên được phép đăng ký tài khoản');
         }
 
         function showForgotForm() {
