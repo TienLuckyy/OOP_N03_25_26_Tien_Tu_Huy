@@ -95,13 +95,10 @@
             font-size: 15px;
             transition: all 0.3s ease;
         }
-        /* Điều chỉnh padding cho select không cần icon */
-        .form-group select {
-            padding: 12px 15px; 
-        }
-        /* Điều chỉnh padding cho input không cần icon, ví dụ: select, input Mã sinh viên */
+        /* Điều chỉnh padding cho select và input không cần icon */
+        .form-group select,
         .form-group .input-no-icon {
-            padding: 12px 15px;
+            padding: 12px 15px; 
         }
 
 
@@ -401,7 +398,7 @@
         // Các liên kết chuyển đổi
         const showRegisterLink = document.getElementById('show-register');
         const showLoginFromRegLink = document.getElementById('show-login-from-reg');
-        const showForgotLink = document.getElementById('show-forgot'); // Liên kết quên mật khẩu
+        const showForgotLink = document.getElementById('show-forgot'); 
         const showLoginFromForgotLink = document.getElementById('show-login-from-forgot');
 
         const formTitle = document.getElementById('form-title');
@@ -431,7 +428,7 @@
             // Danh sách tất cả các form và inputs liên quan
             const forms = [
                 { form: loginForm, inputs: ['username-login', 'password-login'] },
-                { form: registerForm, inputs: ['student-id-reg', 'full-name-reg', 'email-reg', 'phone-reg', 'password-reg', 'confirm-password-reg'] }, // Thêm inputs mới
+                { form: registerForm, inputs: ['student-id-reg', 'full-name-reg', 'email-reg', 'phone-reg', 'password-reg', 'confirm-password-reg', 'address-reg'] }, 
                 { form: forgotForm, inputs: ['recovery-email'] }
             ];
 
@@ -449,13 +446,13 @@
                 inputs.forEach(id => {
                     const input = document.getElementById(id);
                     if (input) {
-                        // Thêm/Xóa required cho form đang hiển thị
                         if (isTarget) {
-                            // Chỉ thêm required cho các trường không phải là "Quê quán" (address-reg)
-                            if (id !== 'address-reg') {
+                            // Chỉ thêm required cho các trường bắt buộc (không phải 'address-reg')
+                            if (input.hasAttribute('required') || id !== 'address-reg') {
                                 input.setAttribute('required', 'required');
                             }
                         } else {
+                            // Xóa required cho form không hiển thị, trừ các trường có sẵn required
                             input.removeAttribute('required');
                             input.value = ''; // Xóa nội dung khi ẩn form
                         }
