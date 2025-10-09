@@ -10,4 +10,6 @@ public class QuanLyNhaTroApplication {
         System.out.println("=== ỨNG DỤNG ĐÃ KHỞI ĐỘNG ===");
         System.out.println("Truy cập: http://localhost:8081");
     }
+
+
 }

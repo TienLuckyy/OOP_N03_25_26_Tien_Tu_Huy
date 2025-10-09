@@ -1,1 +1,4 @@
-com\example\servingwebcontent\ServingWebContentApplicationTest.class
+vn\edu\quanlynhatro\service\PhongTest.class
+vn\edu\quanlynhatro\service\BanQuanLyTest.class
+vn\edu\quanlynhatro\service\HopDongTest.class
+vn\edu\quanlynhatro\service\SinhVienTest.class
