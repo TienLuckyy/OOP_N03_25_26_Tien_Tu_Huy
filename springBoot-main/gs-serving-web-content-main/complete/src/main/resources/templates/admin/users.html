@@ -1,407 +1,302 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Hệ thống Quản lý Trọ Sinh viên Phenikaa</title>
-    
-    <!-- Thêm CSRF tokens -->
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>Quản lý tài khoản</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="/sidebar.css">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        * { font-family: 'Inter', sans-serif; }
-
-        .main-content {
-            transition: margin-left 0.3s ease;
+        body { 
+            margin: 0;
+            padding: 0;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
         }
-        .main-content.sidebar-open { margin-left: 16rem; }
-        .main-content.sidebar-closed { margin-left: 0; }
-
+        
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            flex: 1;
+        }
+        
         .card {
-            background: linear-gradient(145deg, #1f2937, #111827);
-            border: 1px solid #374151;
+            background: rgba(30,41,59,0.8);
+            border: 1px solid rgba(71,85,105,0.5);
             border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(71,85,105,0.5);
+        }
+        
+        th {
+            background: rgba(15,23,42,0.8);
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
-        .card:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.4); border-color: #4f46e5; }
-
-        .btn { transition: all 0.2s ease; font-weight: 500; border-radius: 8px; display:inline-flex; align-items:center; gap:0.5rem; }
-        .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-        .btn-primary { background: linear-gradient(135deg,#4f46e5,#7c3aed); border:none; }
-        .btn-primary:hover { background: linear-gradient(135deg,#4338ca,#6d28d9); }
-        .btn-warning { background: linear-gradient(135deg,#f59e0b,#d97706); border:none; }
-        .btn-warning:hover { background: linear-gradient(135deg,#d97706,#b45309); }
-        .btn-danger { background: linear-gradient(135deg,#ef4444,#dc2626); border:none; }
-        .btn-danger:hover { background: linear-gradient(135deg,#dc2626,#b91c1c); }
-
-        .form-control, .form-select {
-            background:#1f2937; border:2px solid #374151; border-radius:8px;
-            transition:all 0.2s ease; color:#f9fafb;
+        
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
         }
-        .form-control:focus, .form-select:focus {
-            border-color:#4f46e5; box-shadow:0 0 0 3px rgba(79,70,229,0.1); outline:none;
+        
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
         }
-
-        .role-badge { padding:0.25rem 0.75rem; border-radius:9999px; font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em; }
-        .role-admin { background:linear-gradient(135deg,#ef4444,#dc2626); color:white; }
-        .role-manager { background:linear-gradient(135deg,#f59e0b,#d97706); color:white; }
-        .role-student { background:linear-gradient(135deg,#10b981,#059669); color:white; }
-
-        .table th { background:#111827; color:#9ca3af; font-weight:600; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.05em; padding:1rem; border-bottom:2px solid #374151; }
-        .table td { padding:1rem; border-bottom:1px solid #374151; vertical-align:middle; }
-        .table tbody tr:hover { background:rgba(79,70,229,0.05); }
-
-        .toast { position:fixed; top:1rem; right:1rem; z-index:1000; padding:1rem 1.5rem; border-radius:8px; color:white; font-weight:500; transform:translateX(100%); transition:transform 0.3s ease; }
-        .toast.show { transform:translateX(0); }
-        .toast.success { background:linear-gradient(135deg,#10b981,#059669); }
-        .toast.error { background:linear-gradient(135deg,#ef4444,#dc2626); }
-
-        @media (max-width:768px) {
-            .main-content { margin-left:0!important; }
-            .table-container { font-size:0.875rem; }
-            .btn { padding:0.5rem 0.75rem; font-size:0.875rem; }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .success {
+            background: #10b981;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+        
+        .error {
+            background: #ef4444;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(71,85,105,0.5);
+            border-radius: 6px;
+            color: white;
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white min-h-screen">
+<body>
+    <!-- Sidebar - Copy trực tiếp từ file sidebar.html -->
+    <div class="sidebar">
+        <h2>Phenikaa Admin</h2>
+        <nav>
+            <a href="/admin/dashboard">
+                <i class="fas fa-chart-line"></i><span>Dashboard</span>
+            </a>
+            <a href="/admin/dashboard/users" class="active">
+                <i class="fas fa-users"></i><span>Quản lý tài khoản</span>
+            </a>
+            <a href="/admin/dashboard/sinhvien">
+                <i class="fas fa-user-graduate"></i><span>Quản lý sinh viên</span>
+            </a>
+            <a href="/admin/dashboard/phong">
+                <i class="fas fa-door-open"></i><span>Quản lý phòng</span>
+            </a>
+            <a href="/admin/dashboard/hopdong">
+                <i class="fas fa-file-contract"></i><span>Quản lý hợp đồng</span>
+            </a>
+            <a href="/admin/dashboard/report">
+                <i class="fas fa-chart-bar"></i><span>Thống kê & Báo cáo</span>
+            </a>
+        </nav>
 
-    <button id="mobile-menu-btn" class="fixed top-4 left-4 z-50 md:hidden bg-gray-800 p-2 rounded-lg border border-gray-600">
-        <i class="fas fa-bars text-white"></i>
-    </button>
-
-    <div id="sidebar" class="fixed left-0 top-0 h-full w-64 bg-gradient-to-b from-gray-900 to-gray-800 border-r border-gray-700 transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40"></div>
-
-    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden"></div>
-
-    <div class="main-content flex-1 p-6 md:ml-64 transition-all duration-300">
-        <div class="mb-8">
-            <div class="flex items-center gap-3 mb-2">
-                <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-users text-white"></i>
-                </div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                    Quản lý tài khoản
-                </h1>
+        <div class="user-profile">
+            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                <i class="fas fa-user text-black"></i>
             </div>
-            <p class="text-gray-400 text-lg">Quản lý tài khoản người dùng trong hệ thống trọ sinh viên Phenikaa</p>
+            <div class="flex-1">
+                <p class="text-sm font-medium">Admin</p>
+                <p class="text-xs text-gray-400">admin@phenikaa.edu.vn</p>
+            </div>
+            <a href="/logout" class="text-gray-400 hover:text-white">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-white mb-2">Quản lý tài khoản</h1>
+            <p class="text-gray-400">Quản lý tài khoản người dùng trong hệ thống trọ sinh viên Phenikaa</p>
+        </div>
+        
+        <!-- Hiển thị thông báo -->
+        <div th:if="${param.success}" class="success">
+            <i class="fas fa-check-circle mr-2"></i> Thao tác thành công!
+        </div>
+        <div th:if="${param.error}" class="error">
+            <i class="fas fa-exclamation-circle mr-2"></i> Lỗi: <span th:text="${param.error}"></span>
         </div>
 
-        <!-- Hiển thị form sửa nếu có editUser -->
-        <div th:if="${editUser}" class="card p-6 mb-6">
-            <h2 class="text-xl font-semibold flex items-center gap-2 mb-6">
-                <i class="fas fa-user-edit text-yellow-400"></i> 
-                Chỉnh sửa tài khoản
+        <!-- Form sửa tài khoản -->
+        <div th:if="${editUser}" class="card">
+            <h2 class="text-xl font-semibold mb-4">
+                <i class="fas fa-user-edit text-yellow-400 mr-2"></i> 
+                Chỉnh sửa tài khoản: <span th:text="${editUser.username}"></span>
             </h2>
             
-            <form th:action="@{/admin/dashboard/users/edit/{username}(username=${editUser.username})}" method="post" class="space-y-6">
-                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                
-                <div class="grid md:grid-cols-2 gap-6">
+            <form th:action="@{'/admin/dashboard/users/edit/' + ${editUser.username}}" method="post">
+                <div class="grid grid-cols-2 gap-4 mb-4">
                     <div class="form-group">
-                        <label for="edit-username" class="block text-sm font-medium text-gray-300 mb-2">
-                            <i class="fas fa-user mr-2 text-indigo-400"></i>Tên đăng nhập
-                        </label>
-                        <input type="text" 
-                               id="edit-username" 
-                               name="username" 
-                               class="form-control w-full px-4 py-3 bg-gray-600" 
-                               th:value="${editUser.username}"
-                               readonly
-                               required
-                               minlength="3"
-                               maxlength="50"/>
-                        <div class="text-xs text-gray-500 mt-1">Không thể thay đổi tên đăng nhập</div>
+                        <label>Tên đăng nhập</label>
+                        <input type="text" th:value="${editUser.username}" class="form-control" readonly>
                     </div>
                     
                     <div class="form-group">
-                        <label for="edit-password" class="block text-sm font-medium text-gray-300 mb-2">
-                            <i class="fas fa-lock mr-2 text-indigo-400"></i>Mật khẩu mới (để trống nếu không đổi)
-                        </label>
-                        <div class="relative">
-                            <input type="password" 
-                                   id="edit-password" 
-                                   name="password" 
-                                   class="form-control w-full px-4 py-3 pr-12" 
-                                   placeholder="Nhập mật khẩu mới" 
-                                   minlength="6"/>
-                            <button type="button" 
-                                    id="toggle-edit-password" 
-                                    class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="text-xs text-gray-500 mt-1">Để trống nếu không muốn thay đổi mật khẩu</div>
+                        <label>Mật khẩu mới (để trống nếu không đổi)</label>
+                        <input type="password" name="password" class="form-control" minlength="6">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="edit-role" class="block text-sm font-medium text-gray-300 mb-2">
-                        <i class="fas fa-shield-alt mr-2 text-indigo-400"></i>Vai trò
-                    </label>
-                    <select id="edit-role" name="role" class="form-select w-full px-4 py-3" required>
-                        <option value="">Chọn vai trò</option>
-                        <option value="SinhVien" th:selected="${editUser.role == 'SinhVien'}">Sinh viên</option>
-                        <option value="QuanLy" th:selected="${editUser.role == 'QuanLy'}">Quản lý</option>
-                        <option value="Admin" th:selected="${editUser.role == 'Admin'}">Admin</option>
+                    <label>Vai trò</label>
+                    <select name="role" class="form-control" required>
+                        <option th:selected="${editUser.role == 'SinhVien'}" value="SinhVien">Sinh viên</option>
+                        <option th:selected="${editUser.role == 'QuanLy'}" value="QuanLy">Quản lý</option>
+                        <option th:selected="${editUser.role == 'Admin'}" value="Admin">Admin</option>
                     </select>
                 </div>
                 
-                <div class="flex items-center justify-between pt-4">
-                    <a th:href="@{/admin/dashboard/users}" class="btn bg-gray-700 hover:bg-gray-600 text-white px-6 py-3">
-                        <i class="fas fa-times mr-2"></i>Hủy
-                    </a>
-                    <button type="submit" class="btn btn-warning px-8 py-3">
+                <div class="flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-warning">
                         <i class="fas fa-save mr-2"></i>Cập nhật
                     </button>
+                    <a href="/admin/dashboard/users" class="btn" style="background: #6b7280; color: white;">
+                        <i class="fas fa-times mr-2"></i>Hủy
+                    </a>
                 </div>
             </form>
         </div>
 
-        <div class="grid gap-8">
-            <div class="card p-6">
-                <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-semibold flex items-center gap-2">
-                        <i class="fas fa-list text-indigo-400"></i> 
-                        Danh sách tài khoản
-                    </h2>
-                    <div class="text-sm text-gray-400">
-                        <i class="fas fa-info-circle mr-1"></i>
-                        Tổng: <span id="total-users" class="font-semibold text-white" th:text="${#lists.size(users)}">0</span> tài khoản
-                    </div>
-                </div>
-                
-                <div class="table-container overflow-x-auto rounded-lg border border-gray-700">
-                    <table class="table w-full">
-                        <thead>
-                            <tr>
-                                <th class="text-left">
-                                    <i class="fas fa-user mr-2"></i>Tên đăng nhập
-                                </th>
-                                <th class="text-center">
-                                    <i class="fas fa-shield-alt mr-2"></i>Vai trò
-                                </th>
-                                <th class="text-center">
-                                    <i class="fas fa-cogs mr-2"></i>Hành động
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-table-body">
-                            <tr th:each="user : ${users}">
-                                <td>
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-sm font-semibold">
-                                            <span th:text="${#strings.substring(user.username, 0, 1).toUpperCase()}"></span>
-                                        </div>
-                                        <span class="font-medium" th:text="${user.username}"></span>
-                                    </div>
-                                </td>
-                                <td class="text-center">
-                                    <span th:class="${'role-badge ' + (user.role == 'Admin' ? 'role-admin' : user.role == 'QuanLy' ? 'role-manager' : 'role-student')}" 
-                                          th:text="${user.role}"></span>
-                                </td>
-                                <td class="text-center">
-                                    <div class="flex items-center justify-center gap-2">
-                                        <a th:href="@{/admin/dashboard/users/edit(username=${user.username})}" 
-                                           class="btn btn-warning px-3 py-2 text-sm">
-                                            <i class="fas fa-edit"></i>
-                                            <span class="hidden sm:inline">Sửa</span>
-                                        </a>
-                                        
-                                        <!-- Form xóa đơn giản - không cần JavaScript -->
-                                        <form th:action="@{/admin/dashboard/users/delete/{username}(username=${user.username})}" 
-                                              method="POST" 
-                                              class="inline"
-                                              th:onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản ' + '[[${user.username}]]' + '?')"
-                                              th:if="${user.username != 'admin'}">
-                                            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                                            <button type="submit" class="btn btn-danger px-3 py-2 text-sm">
-                                                <i class="fas fa-trash"></i>
-                                                <span class="hidden sm:inline">Xóa</span>
-                                            </button>
-                                        </form>
-                                        
-                                        <span th:if="${user.username == 'admin'}" class="text-gray-400 text-sm">Không thể xóa</span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="card p-6">
-                <h2 class="text-xl font-semibold flex items-center gap-2 mb-6">
-                    <i class="fas fa-user-plus text-green-400"></i> 
-                    Thêm tài khoản mới
+        <!-- Danh sách tài khoản -->
+        <div class="card">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">
+                    <i class="fas fa-list text-blue-400 mr-2"></i> 
+                    Danh sách tài khoản
                 </h2>
-                
-                <form id="add-user-form" th:action="@{/admin/dashboard/users/add}" method="post" class="space-y-6">
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                    
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="form-group">
-                            <label for="username" class="block text-sm font-medium text-gray-300 mb-2">
-                                <i class="fas fa-user mr-2 text-indigo-400"></i>Tên đăng nhập
-                            </label>
-                            <input type="text" 
-                                   id="username" 
-                                   name="username" 
-                                   class="form-control w-full px-4 py-3" 
-                                   placeholder="Nhập tên đăng nhập" 
-                                   required
-                                   minlength="3"
-                                   maxlength="50"/>
-                            <div class="text-xs text-gray-500 mt-1">Tối thiểu 3 ký tự, tối đa 50 ký tự</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="password" class="block text-sm font-medium text-gray-300 mb-2">
-                                <i class="fas fa-lock mr-2 text-indigo-400"></i>Mật khẩu
-                            </label>
-                            <div class="relative">
-                                <input type="password" 
-                                       id="password" 
-                                       name="password" 
-                                       class="form-control w-full px-4 py-3 pr-12" 
-                                       placeholder="Nhập mật khẩu" 
-                                       required
-                                       minlength="6"/>
-                                <button type="button" 
-                                        id="toggle-password" 
-                                        class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
-                                    <i class="fas fa-eye"></i>
-                                </button>
+                <span class="text-gray-400">
+                    Tổng: <span class="font-semibold text-white" th:text="${#lists.size(users)}">0</span> tài khoản
+                </span>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên đăng nhập</th>
+                        <th>Vai trò</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.role}"></td>
+                        <td>
+                            <div class="flex gap-2">
+                                <a th:href="@{'/admin/dashboard/users/edit?username=' + ${user.username}}" 
+                                   class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> Sửa
+                                </a>
+                                
+                                <form th:action="@{'/admin/dashboard/users/delete/' + ${user.username}}" 
+                                      method="post" 
+                                      style="display: inline;"
+                                      th:if="${user.username != 'admin'}">
+                                    <button type="submit" class="btn btn-danger" 
+                                            onclick="return confirm('Xóa tài khoản ' + '[[${user.username}]]' + '?')">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </form>
+                                
+                                <span th:if="${user.username == 'admin'}" class="text-gray-400 text-sm flex items-center">
+                                    Không thể xóa
+                                </span>
                             </div>
-                            <div class="text-xs text-gray-500 mt-1">Tối thiểu 6 ký tự</div>
-                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Form thêm tài khoản -->
+        <div class="card">
+            <h2 class="text-xl font-semibold mb-4">
+                <i class="fas fa-user-plus text-green-400 mr-2"></i> 
+                Thêm tài khoản mới
+            </h2>
+            
+            <form th:action="@{/admin/dashboard/users/add}" method="post">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="form-group">
+                        <label>Tên đăng nhập</label>
+                        <input type="text" name="username" class="form-control" required minlength="3" maxlength="50">
                     </div>
                     
                     <div class="form-group">
-                        <label for="role" class="block text-sm font-medium text-gray-300 mb-2">
-                            <i class="fas fa-shield-alt mr-2 text-indigo-400"></i>Vai trò
-                        </label>
-                        <select id="role" name="role" class="form-select w-full px-4 py-3" required>
-                            <option value="">Chọn vai trò</option>
-                            <option value="SinhVien">Sinh viên</option>
-                            <option value="QuanLy">Quản lý</option>
-                            <option value="Admin">Admin</option>
-                        </select>
+                        <label>Mật khẩu</label>
+                        <input type="password" name="password" class="form-control" required minlength="6">
                     </div>
-                    
-                    <div class="flex items-center justify-between pt-4">
-                        <button type="reset" class="btn bg-gray-700 hover:bg-gray-600 text-white px-6 py-3">
-                            <i class="fas fa-undo mr-2"></i>Đặt lại
-                        </button>
-                        <button type="submit" class="btn btn-primary px-8 py-3" id="submit-btn">
-                            <i class="fas fa-plus mr-2"></i>Thêm tài khoản
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Vai trò</label>
+                    <select name="role" class="form-control" required>
+                        <option value="">Chọn vai trò</option>
+                        <option value="SinhVien">Sinh viên</option>
+                        <option value="QuanLy">Quản lý</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary mt-4">
+                    <i class="fas fa-plus mr-2"></i>Thêm tài khoản
+                </button>
+            </form>
         </div>
     </div>
-
-    <div id="toast" class="toast">
-        <div class="flex items-center gap-2">
-            <i id="toast-icon" class="fas"></i>
-            <span id="toast-message"></span>
-        </div>
-    </div>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-            overlay.classList.toggle('hidden');
-        });
-        
-        overlay.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-            overlay.classList.add('hidden');
-        });
-
-        // Password toggle
-        const togglePassword = document.getElementById('toggle-password');
-        const passwordInput = document.getElementById('password');
-        
-        if (togglePassword && passwordInput) {
-            togglePassword.addEventListener('click', () => {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                togglePassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-            });
-        }
-
-        // Edit password toggle
-        const toggleEditPassword = document.getElementById('toggle-edit-password');
-        const editPasswordInput = document.getElementById('edit-password');
-        
-        if (toggleEditPassword && editPasswordInput) {
-            toggleEditPassword.addEventListener('click', () => {
-                const type = editPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                editPasswordInput.setAttribute('type', type);
-                toggleEditPassword.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-            });
-        }
-
-        // Form validation and submission
-        const addUserForm = document.getElementById('add-user-form');
-        const submitBtn = document.getElementById('submit-btn');
-
-        if (addUserForm) {
-            addUserForm.addEventListener('submit', (e) => {
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang thêm...';
-                submitBtn.disabled = true;
-            });
-        }
-
-        // Toast notification
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastIcon = document.getElementById('toast-icon');
-            const toastMessage = document.getElementById('toast-message');
-            
-            toastIcon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-            toastMessage.textContent = message;
-            toast.className = `toast ${type} show`;
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Update user count
-        function updateUserCount() {
-            const userRows = document.querySelectorAll('#users-table-body tr');
-            document.getElementById('total-users').textContent = userRows.length;
-        }
-
-        // Load sidebar
-        fetch('/admin/sidebar.html')
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById('sidebar').innerHTML = html;
-            })
-            .catch(err => {
-                console.error('Error loading sidebar:', err);
-            });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUserCount();
-        });
-    </script>
 </body>
 </html>

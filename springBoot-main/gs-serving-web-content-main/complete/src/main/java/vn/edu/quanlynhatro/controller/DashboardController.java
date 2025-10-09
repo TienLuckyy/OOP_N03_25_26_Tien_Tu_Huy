@@ -13,15 +13,11 @@ public class DashboardController {
     public String adminDashboard(HttpSession session, Model model) {
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
-        
-        if (username == null) {
-            return "redirect:/login";
-        }
-        
-        if (!"Admin".equals(role) && !"QuanLy".equals(role)) {
+
+        if (username == null) return "redirect:/login";
+        if (!"Admin".equalsIgnoreCase(role) && !"QuanLy".equalsIgnoreCase(role))
             return "redirect:/access-denied";
-        }
-        
+
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         return "admin/dashboard";
@@ -31,15 +27,11 @@ public class DashboardController {
     public String managerDashboard(HttpSession session, Model model) {
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
-        
-        if (username == null) {
-            return "redirect:/login";
-        }
-        
-        if (!"QuanLy".equals(role)) {
+
+        if (username == null) return "redirect:/login";
+        if (!"QuanLy".equalsIgnoreCase(role))
             return "redirect:/access-denied";
-        }
-        
+
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         return "manager/dashboard";
@@ -49,15 +41,11 @@ public class DashboardController {
     public String studentDashboard(HttpSession session, Model model) {
         String username = (String) session.getAttribute("username");
         String role = (String) session.getAttribute("role");
-        
-        if (username == null) {
-            return "redirect:/login";
-        }
-        
-        if (!"SinhVien".equals(role)) {
+
+        if (username == null) return "redirect:/login";
+        if (!"SinhVien".equalsIgnoreCase(role))
             return "redirect:/access-denied";
-        }
-        
+
         model.addAttribute("username", username);
         model.addAttribute("role", role);
         return "student/dashboard";
