@@ -2,7 +2,9 @@ package vn.edu.quanlynhatro.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import jakarta.persistence.MappedSuperclass;
 
+@MappedSuperclass
 public abstract class Nguoi implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -13,6 +15,9 @@ public abstract class Nguoi implements Serializable {
     protected Date ngaySinh;
     protected String diaChi;
 
+    public Nguoi() {
+    }
+
     public Nguoi(String hoTen, String gioiTinh, String cccd, String soDienThoai, Date ngaySinh, String diaChi) {
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
@@ -22,7 +27,6 @@ public abstract class Nguoi implements Serializable {
         this.diaChi = diaChi;
     }
 
-    // Getter & Setter
     public String getHoTen() { return hoTen; }
     public void setHoTen(String hoTen) { this.hoTen = hoTen; }
 
@@ -41,6 +45,5 @@ public abstract class Nguoi implements Serializable {
     public String getDiaChi() { return diaChi; }
     public void setDiaChi(String diaChi) { this.diaChi = diaChi; }
 
-    // Phương thức trừu tượng để các class con override
     public abstract String getThongTin();
 }
