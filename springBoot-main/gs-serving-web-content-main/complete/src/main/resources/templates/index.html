@@ -5,94 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Chủ - Quản Lý Nhà Trọ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <style>
         body { background-color: #212529; color: #f8f9fa; }
         .navbar-dark { background-color: #343a40 !important; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        /* Cập nhật Navbar Links với Transition */
         .navbar-nav .nav-link { 
             color: rgba(255, 255, 255, 0.75);
             transition: color 0.3s ease, transform 0.2s ease;
         }
-        .navbar-nav .nav-link:hover { 
-            color: white; 
-            transform: scale(1.1); /* Phóng to nhẹ chữ */
-        }
-        
-        /* Cập nhật Nút Search với Transition (giữ lại style phòng trường hợp cần nút khác) */
+        .navbar-nav .nav-link:hover { color: white; transform: scale(1.1); }
         .btn-success-custom { 
             background-color: #198754; 
             border-color: #198754; 
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            font-weight: 600; text-transform: uppercase; 
+        }
+        .navbar-brand {
+            font-size: 1.75rem !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            transition: color 0.3s ease, transform 0.2s ease;
         }
         .btn-success-custom:hover { 
-            background-color: #157347; /* Màu tối hơn */
-            transform: translateY(-2px); /* Nhấc nhẹ nút lên */
+            background-color: #1eb96f;
+            border-color: #1eb96f;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(25, 135, 84, 0.5);
         }
-
         .carousel-item-custom { background-color: #6c757d; min-height: 500px; }
         .carousel-caption-custom { text-align: left !important; padding-bottom: 8rem; left: 10%; right: auto; max-width: 600px; }
-        
-        /* Cập nhật Feature Box với Transition */
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translate3d(0, 20px, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+        .carousel-item.active .carousel-caption-custom h1,
+        .carousel-item.active .carousel-caption-custom p,
+        .carousel-item.active .text-center {
+            animation-name: fadeInUp;
+            animation-duration: 0.8s;
+            animation-delay: 0.3s;
+            animation-fill-mode: both;
+        }
+        .carousel-caption-custom h1,
+        .carousel-caption-custom p,
+        .carousel-item-custom .display-3,
+        .carousel-item-custom .text-center {
+            opacity: 0;
+        }
+
         .feature-box { 
-            padding: 2rem 1rem; 
-            text-align: center;
-            transition: transform 0.4s ease, box-shadow 0.4s ease; /* Thêm chuyển đổi */
+            padding: 2rem 1rem; text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             border-radius: 10px;
         }
         .feature-box:hover {
-            transform: translateY(-10px); /* Kéo hộp lên trên */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Thêm bóng đổ nổi bật */
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
         }
-
-        /* Cập nhật Biểu Tượng Tròn với Transition */
         .feature-box .rounded-circle { 
-            width: 140px; 
-            height: 140px; 
-            background-color: #adb5bd; 
-            margin: 0 auto 1rem; 
+            width: 140px; height: 140px; margin: 0 auto 1rem; 
             transition: transform 0.4s ease;
+            border-radius: 50%; overflow: hidden; 
         }
-        .feature-box:hover .rounded-circle {
-            transform: rotate(5deg) scale(1.1); /* Xoay và phóng to nhẹ */
-        }
-
+        .feature-box:hover .rounded-circle { transform: rotate(5deg) scale(1.1); }
+        lottie-player { width: 100%; height: 100%; display: block; }
         .feature-box h2 { font-size: 1.75rem; color: white; margin-bottom: 0.5rem; }
         .feature-box p { color: rgba(255, 255, 255, 0.75); }
-        
-        /* Cập nhật Nút View Details với Transition */
         .btn-secondary-custom { 
-            color: white; 
-            background-color: #495057; 
-            border-color: #495057; 
-            cursor: pointer;
-            padding: 8px 15px; 
-            border-radius: 5px;
-            display: inline-block;
-            text-decoration: none;
-            margin-top: 10px; 
+            color: white; background-color: #495057; border-color: #495057;
+            cursor: pointer; padding: 8px 15px; border-radius: 5px;
+            display: inline-block; text-decoration: none; margin-top: 10px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        .btn-secondary-custom:hover { 
-            background-color: #5a6268; 
-            transform: scale(1.05); /* Phóng to nhẹ */
+        .btn-secondary-custom:hover { background-color: #5a6268; transform: scale(1.05); }
+
+        /* === FOOTER === */
+        footer {
+            background-color: #343a40;
+            color: rgba(255,255,255,0.8);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        footer a {
+            color: #1eb96f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #00ff99;
+            text-decoration: underline;
+        }
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.9rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 1.5rem;
         }
     </style>
 </head>
 <body class="bg-dark">
 
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">Quản Lý Nhà Trọ</a>
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" th:href="@{/login}">Đăng nhập</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/register}">Đăng ký</a></li>
-            </ul>
-        </div>
-        </div>
+        <a class="btn btn-sm btn-success-custom ms-auto" th:href="@{/login}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" style="margin-top: -1px; margin-right: 5px;">
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            </svg>
+            Đăng nhập
+        </a>
+    </div>
 </nav>
 
+<!-- CAROUSEL -->
 <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></button>
@@ -130,24 +160,29 @@
     </button>
 </div>
 
+<!-- FEATURES -->
 <div class="container marketing mt-5">
     <div class="row">
         <div class="col-lg-4 feature-box">
-            <div class="rounded-circle"></div>
+            <div class="rounded-circle">
+                <lottie-player src="/Student.json" background="transparent" speed="1" loop autoplay></lottie-player>
+            </div>
             <h2>Sinh Viên</h2>
             <p>Xem hợp đồng thuê, theo dõi hóa đơn và yêu cầu bảo trì trực tuyến.</p>
             <p><a class="btn btn-secondary-custom" th:href="@{/login}">View details &raquo;</a></p>
         </div>
-
         <div class="col-lg-4 feature-box">
-            <div class="rounded-circle"></div>
+            <div class="rounded-circle">
+                <lottie-player src="/Sign up.json" background="transparent" speed="1" loop autoplay></lottie-player>
+            </div>
             <h2>Quản Trị Viên</h2>
             <p>Phân quyền, quản lý hệ thống, báo cáo tài chính tổng quan và tình trạng chung.</p>
             <p><a class="btn btn-secondary-custom" th:href="@{/login}">View details &raquo;</a></p>
         </div>
-        
         <div class="col-lg-4 feature-box">
-            <div class="rounded-circle"></div>
+            <div class="rounded-circle">
+                <lottie-player src="/hotels.json" background="transparent" speed="1" loop autoplay></lottie-player>
+            </div>
             <h2>Quản Lý Phòng</h2>
             <p>Thêm, Sửa, Xóa và xem danh sách các phòng trọ, cập nhật tình trạng phòng.</p>
             <p><a class="btn btn-secondary-custom" th:href="@{/login}">View details &raquo;</a></p>
@@ -155,7 +190,33 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="row text-center text-md-start">
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold text-white">Về Chúng Tôi</h5>
+                <p>Hệ thống Quản lý Nhà Trọ đảm bảo mái ấm cho sinh viên Phenikaa với giá cả, dịch vụ ưu đãi.</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold text-white">Liên Hệ</h5>
+                <p>Email: <a href="mailto:support@nhatro.com">support@nhatro.com</a></p>
+                <p>Hotline: <a href="tel:+84901234567">+84 901 234 567</a></p>
+                <p>Địa chỉ: Hà Đông, Hà Nội</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold text-white">Theo Dõi</h5>
+                <a href="https://www.facebook.com/">Facebook</a><br>
+                <a href="https://www.youtube.com/">YouTube</a><br>
+                <a href="https://github.com/TienLuckyy/OOP_N03_25_26_Tien_Tu_Huy">Github</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2025 Quản Lý Nhà Trọ. Tiến - Tú - Huy.
+        </div>
+    </div>
+</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
