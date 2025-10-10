@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -9,15 +8,59 @@
     <style>
         body { background-color: #212529; color: #f8f9fa; }
         .navbar-dark { background-color: #343a40 !important; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        .navbar-nav .nav-link { color: rgba(255, 255, 255, 0.75); }
-        .navbar-nav .nav-link:hover { color: white; }
-        .btn-success-custom { background-color: #198754; border-color: #198754; }
+        
+        /* Cập nhật Navbar Links với Transition */
+        .navbar-nav .nav-link { 
+            color: rgba(255, 255, 255, 0.75);
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+        .navbar-nav .nav-link:hover { 
+            color: white; 
+            transform: scale(1.1); /* Phóng to nhẹ chữ */
+        }
+        
+        /* Cập nhật Nút Search với Transition (giữ lại style phòng trường hợp cần nút khác) */
+        .btn-success-custom { 
+            background-color: #198754; 
+            border-color: #198754; 
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-success-custom:hover { 
+            background-color: #157347; /* Màu tối hơn */
+            transform: translateY(-2px); /* Nhấc nhẹ nút lên */
+        }
+
         .carousel-item-custom { background-color: #6c757d; min-height: 500px; }
         .carousel-caption-custom { text-align: left !important; padding-bottom: 8rem; left: 10%; right: auto; max-width: 600px; }
-        .feature-box { padding: 2rem 1rem; text-align: center; }
-        .feature-box .rounded-circle { width: 140px; height: 140px; background-color: #adb5bd; margin: 0 auto 1rem; }
+        
+        /* Cập nhật Feature Box với Transition */
+        .feature-box { 
+            padding: 2rem 1rem; 
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease; /* Thêm chuyển đổi */
+            border-radius: 10px;
+        }
+        .feature-box:hover {
+            transform: translateY(-10px); /* Kéo hộp lên trên */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Thêm bóng đổ nổi bật */
+        }
+
+        /* Cập nhật Biểu Tượng Tròn với Transition */
+        .feature-box .rounded-circle { 
+            width: 140px; 
+            height: 140px; 
+            background-color: #adb5bd; 
+            margin: 0 auto 1rem; 
+            transition: transform 0.4s ease;
+        }
+        .feature-box:hover .rounded-circle {
+            transform: rotate(5deg) scale(1.1); /* Xoay và phóng to nhẹ */
+        }
+
         .feature-box h2 { font-size: 1.75rem; color: white; margin-bottom: 0.5rem; }
         .feature-box p { color: rgba(255, 255, 255, 0.75); }
+        
+        /* Cập nhật Nút View Details với Transition */
         .btn-secondary-custom { 
             color: white; 
             background-color: #495057; 
@@ -28,8 +71,12 @@
             display: inline-block;
             text-decoration: none;
             margin-top: 10px; 
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
-        .btn-secondary-custom:hover { background-color: #5a6268; }
+        .btn-secondary-custom:hover { 
+            background-color: #5a6268; 
+            transform: scale(1.05); /* Phóng to nhẹ */
+        }
     </style>
 </head>
 <body class="bg-dark">
@@ -39,19 +86,11 @@
         <a class="navbar-brand" th:href="@{/}">Quản Lý Nhà Trọ</a>
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" th:href="@{/}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/phong/list}">Phòng</a></li>
+                <li class="nav-item"><a class="nav-link active" th:href="@{/login}">Đăng nhập</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/register}">Đăng ký</a></li>
             </ul>
         </div>
-
-
-    <form class="d-flex" role="search">
-        <input class="form-control form-control-sm me-2 bg-dark text-white border-secondary" type="search" placeholder="Search">
-        <button class="btn btn-sm btn-success-custom" type="submit">Search</button>
-    </form>
-</div>
-
-
+        </div>
 </nav>
 
 <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -61,31 +100,34 @@
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2"></button>
     </div>
 
-
-<div class="carousel-inner">
-    <div class="carousel-item active carousel-item-custom">
-        <div class="container">
-            <div class="carousel-caption text-start carousel-caption-custom">
-                <h1 class="display-3 fw-bold">Chào mừng đến với hệ thống Quản lý Nhà Trọ</h1>
-                <p>Hệ thống hỗ trợ quản lý phòng trọ, sinh viên và các dịch vụ đi kèm.</p>
-                <p><a class="btn btn-lg btn-primary" th:href="@{/phong/list}">Xem danh sách phòng</a></p>
+    <div class="carousel-inner">
+        <div class="carousel-item active carousel-item-custom">
+            <div class="container">
+                <div class="carousel-caption text-start carousel-caption-custom">
+                    <h1 class="display-3 fw-bold">Chào mừng đến với hệ thống Quản lý Nhà Trọ</h1>
+                    <p>Hệ thống hỗ trợ quản lý phòng trọ, người thuê và các dịch vụ đi kèm.</p>
+                    <p><a class="btn btn-lg btn-primary" th:href="@{/login}">Bắt đầu ngay</a></p>
+                </div>
             </div>
         </div>
+        <div class="carousel-item carousel-item-custom">
+            <h1 class="display-3 fw-bold text-center pt-5">Quản lý dễ dàng, hiệu quả</h1>
+            <p class="text-center">Tất cả trong một nền tảng duy nhất.</p>
+        </div>
+        <div class="carousel-item carousel-item-custom">
+            <h1 class="display-3 fw-bold text-center pt-5">Phù hợp cho mọi quy mô</h1>
+            <p class="text-center">Từ nhà trọ nhỏ đến khu ký túc xá lớn.</p>
+        </div>
     </div>
-    <div class="carousel-item carousel-item-custom"></div>
-    <div class="carousel-item carousel-item-custom"></div>
-</div>
 
-<button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-    <span class="visually-hidden">Previous</span>
-</button>
-<button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-    <span class="visually-hidden">Next</span>
-</button>
-
-
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
 
 <div class="container marketing mt-5">
@@ -93,27 +135,24 @@
         <div class="col-lg-4 feature-box">
             <div class="rounded-circle"></div>
             <h2>Sinh Viên</h2>
-            <p>Quản lý thông tin chi tiết sinh viên, hợp đồng và tình trạng phòng ở.</p>
+            <p>Xem hợp đồng thuê, theo dõi hóa đơn và yêu cầu bảo trì trực tuyến.</p>
             <p><a class="btn btn-secondary-custom" th:href="@{/login}">View details &raquo;</a></p>
         </div>
 
-
-    <div class="col-lg-4 feature-box">
-        <div class="rounded-circle"></div>
-        <h2>Quản Lý</h2>
-        <p>Phân quyền và quản lý tài khoản, báo cáo tài chính và tình trạng chung.</p>
-        <p><a class="btn btn-secondary-custom" th:href="@{/login}">View details &raquo;</a></p>
+        <div class="col-lg-4 feature-box">
+            <div class="rounded-circle"></div>
+            <h2>Quản Trị Viên</h2>
+            <p>Phân quyền, quản lý hệ thống, báo cáo tài chính tổng quan và tình trạng chung.</p>
+            <p><a class="btn btn-secondary-custom" th:href="@{/login}">View details &raquo;</a></p>
+        </div>
+        
+        <div class="col-lg-4 feature-box">
+            <div class="rounded-circle"></div>
+            <h2>Quản Lý Phòng</h2>
+            <p>Thêm, Sửa, Xóa và xem danh sách các phòng trọ, cập nhật tình trạng phòng.</p>
+            <p><a class="btn btn-secondary-custom" th:href="@{/login}">View details &raquo;</a></p>
+        </div>
     </div>
-    
-    <div class="col-lg-4 feature-box">
-        <div class="rounded-circle"></div>
-        <h2>Phòng</h2>
-        <p>Thêm, Sửa, Xóa và xem danh sách các phòng trọ hiện có.</p>
-        <p><a class="btn btn-secondary-custom" th:href="@{/phong/list}">View details &raquo;</a></p>
-    </div>
-</div>
-
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
