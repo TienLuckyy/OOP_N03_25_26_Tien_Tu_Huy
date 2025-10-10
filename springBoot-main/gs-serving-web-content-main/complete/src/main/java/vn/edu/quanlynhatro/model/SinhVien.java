@@ -16,7 +16,9 @@ public class SinhVien extends Nguoi {
         this.nganhHoc = nganhHoc;
         this.queQuan = queQuan;
     }
-
+    public SinhVien() {
+        super();
+    }
     // Getter & Setter
     public String getMssv() {
         return mssv;

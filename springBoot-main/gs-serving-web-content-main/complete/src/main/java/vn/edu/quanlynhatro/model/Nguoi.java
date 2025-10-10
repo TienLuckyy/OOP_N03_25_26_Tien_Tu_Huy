@@ -13,6 +13,14 @@ public abstract class Nguoi implements Serializable {
     protected Date ngaySinh;
     protected String diaChi;
 
+    /**
+     * CONSTRUCTOR KHÔNG THAM SỐ (ĐÃ THÊM/SỬA)
+     * Bắt buộc cho Spring Data JPA và @ModelAttribute (tạo đối tượng rỗng).
+     */
+    public Nguoi() {
+        // Cần thiết để lớp con gọi super() khi khởi tạo đối tượng rỗng
+    }
+
     public Nguoi(String hoTen, String gioiTinh, String cccd, String soDienThoai, Date ngaySinh, String diaChi) {
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;

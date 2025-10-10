@@ -2,19 +2,27 @@ package vn.edu.quanlynhatro.service;
 
 import vn.edu.quanlynhatro.util.FileUtil;
 import vn.edu.quanlynhatro.model.SinhVien;
+import org.springframework.stereotype.Service;
+
+// Thay thế javax.annotation.PostConstruct bằng jakarta.annotation.PostConstruct
+import jakarta.annotation.PostConstruct; 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class SinhVienService {
 
     private List<SinhVien> danhSachSinhVien;
     private static final String FILE_NAME = "data/sinhvien.dat";
 
+    // Khởi tạo dữ liệu sau khi Spring tạo Bean
     @SuppressWarnings("unchecked")
-    public SinhVienService() {
+    @PostConstruct
+    private void init() {
+        // Đọc dữ liệu từ file khi Service được tạo
         this.danhSachSinhVien = (List<SinhVien>) FileUtil.docFile(FILE_NAME);
         if (this.danhSachSinhVien == null) {
             this.danhSachSinhVien = new ArrayList<>();
@@ -25,23 +33,21 @@ public class SinhVienService {
         return this.danhSachSinhVien;
     }
 
-    public void themSinhVien(SinhVien sv) {
+    public boolean themSinhVien(SinhVien sv) {
         if (sv == null || sv.getMssv() == null || sv.getMssv().isEmpty()) {
-            System.out.println("Lỗi: MSSV không hợp lệ!");
-            return;
+            return false;
         }
 
         boolean isExist = danhSachSinhVien.stream()
                 .anyMatch(s -> s.getMssv().equalsIgnoreCase(sv.getMssv()));
 
         if (isExist) {
-            System.out.println("Lỗi: Mã số sinh viên " + sv.getMssv() + " đã tồn tại!");
-            return;
+            return false;
         }
 
         danhSachSinhVien.add(sv);
         luuFile();
-        System.out.println("Thêm sinh viên thành công.");
+        return true;
     }
 
     public boolean suaSinhVien(SinhVien svDaSua) {
@@ -49,11 +55,9 @@ public class SinhVienService {
             if (danhSachSinhVien.get(i).getMssv().equalsIgnoreCase(svDaSua.getMssv())) {
                 danhSachSinhVien.set(i, svDaSua);
                 luuFile();
-                System.out.println("Cập nhật thông tin sinh viên thành công.");
                 return true;
             }
         }
-        System.out.println("Lỗi: Không tìm thấy sinh viên có MSSV " + svDaSua.getMssv());
         return false;
     }
 
@@ -61,12 +65,9 @@ public class SinhVienService {
         boolean isRemoved = danhSachSinhVien.removeIf(sv -> sv.getMssv().equalsIgnoreCase(mssv));
         if (isRemoved) {
             luuFile();
-            System.out.println("Xóa sinh viên thành công.");
             return true;
-        } else {
-            System.out.println("Lỗi: Không tìm thấy sinh viên có MSSV " + mssv);
-            return false;
         }
+        return false;
     }
 
     public SinhVien timKiemTheoMssv(String mssv) {
@@ -75,7 +76,7 @@ public class SinhVienService {
                 .findFirst()
                 .orElse(null);
     }
-
+    
     public Optional<SinhVien> timKiemTheoMssvOptional(String mssv) {
         return danhSachSinhVien.stream()
                 .filter(sv -> sv.getMssv().equalsIgnoreCase(mssv))
