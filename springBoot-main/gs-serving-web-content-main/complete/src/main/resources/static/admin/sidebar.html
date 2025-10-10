@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="/sidebar.css">
+
+<div class="sidebar bg-gray-900 text-white min-h-screen flex flex-col justify-between p-4">
+    <div>
+        <h2 class="text-2xl font-bold text-center mb-6 text-blue-400">Phenikaa Admin</h2>
+        <nav class="space-y-2">
+            <a href="/admin/dashboard" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition-all">
+                <i class="fas fa-chart-line w-5"></i> Dashboard
+            </a>
+            <a href="/admin/dashboard/users" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition-all">
+                <i class="fas fa-users w-5"></i> Quản lý tài khoản
+            </a>
+            <a href="/admin/dashboard/sinhvien" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition-all">
+                <i class="fas fa-user-graduate w-5"></i> Quản lý sinh viên
+            </a>
+            <a href="/admin/dashboard/phong" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition-all">
+                <i class="fas fa-door-open w-5"></i> Quản lý phòng
+            </a>
+            <a href="/admin/dashboard/hopdong" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition-all">
+                <i class="fas fa-file-contract w-5"></i> Quản lý hợp đồng
+            </a>
+            <a href="/admin/dashboard/report" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-700 transition-all">
+                <i class="fas fa-chart-bar w-5"></i> Thống kê & Báo cáo
+            </a>
+        </nav>
+    </div>
+
+    <div class="user-profile flex items-center gap-3 mt-6 border-t border-gray-700 pt-4">
+        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+            <i class="fas fa-user text-black"></i>
+        </div>
+        <div class="flex flex-col text-sm">
+            <p class="font-medium">Admin</p>
+            <p class="text-gray-400 text-xs">admin@phenikaa.edu.vn</p>
+        </div>
+        <a href="/logout" class="ml-auto text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
+    </div>
+</div>
+
+<script>
+    // Lấy đường dẫn hiện tại
+    const currentPath = window.location.pathname;
+
+    // Xóa mọi class 'active' cũ (nếu có)
+    document.querySelectorAll('.sidebar nav a').forEach(link => link.classList.remove('active'));
+
+    // Thêm 'active' cho link trùng đường dẫn hiện tại
+    document.querySelectorAll('.sidebar nav a').forEach(link => {
+        if (currentPath === link.getAttribute('href')) {
+            link.classList.add('active');
+        }
+    });
+</script>

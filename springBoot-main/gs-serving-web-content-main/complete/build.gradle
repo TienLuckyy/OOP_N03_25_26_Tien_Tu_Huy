@@ -1,0 +1,35 @@
+plugins {
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.5' // THÊM DÒNG NÀY (hoặc phiên bản mới nhất)
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Web & Templates
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    
+    // Database & JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+runtimeOnly 'mysql:mysql-connector-java:8.0.30' // Hoặc 8.0.30    // Security (Khắc phục lỗi trước đó)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    
+    // Utilities
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test' 
+}
+
+test {
+    useJUnitPlatform()
+}
