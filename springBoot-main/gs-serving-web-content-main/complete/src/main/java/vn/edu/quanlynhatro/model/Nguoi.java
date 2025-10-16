@@ -1,54 +1,28 @@
 package vn.edu.quanlynhatro.model;
 
-import java.io.Serializable;
-import java.util.Date;
+import jakarta.persistence.MappedSuperclass;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import java.time.LocalDate;
 
-public abstract class Nguoi implements Serializable {
-    private static final long serialVersionUID = 1L;
+// Lombok annotations
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder // Cho phép lớp con gọi builder của lớp cha
+// JPA annotation QUAN TRỌNG: Chỉ định đây là lớp cha ánh xạ
+@MappedSuperclass 
+public abstract class Nguoi { 
 
-    protected String hoTen;
-    protected String gioiTinh;
-    protected String cccd;
-    protected String soDienThoai;
-    protected Date ngaySinh;
-    protected String diaChi;
-
-    /**
-     * CONSTRUCTOR KHÔNG THAM SỐ (ĐÃ THÊM/SỬA)
-     * Bắt buộc cho Spring Data JPA và @ModelAttribute (tạo đối tượng rỗng).
-     */
-    public Nguoi() {
-        // Cần thiết để lớp con gọi super() khi khởi tạo đối tượng rỗng
-    }
-
-    public Nguoi(String hoTen, String gioiTinh, String cccd, String soDienThoai, Date ngaySinh, String diaChi) {
-        this.hoTen = hoTen;
-        this.gioiTinh = gioiTinh;
-        this.cccd = cccd;
-        this.soDienThoai = soDienThoai;
-        this.ngaySinh = ngaySinh;
-        this.diaChi = diaChi;
-    }
-
-    // Getter & Setter
-    public String getHoTen() { return hoTen; }
-    public void setHoTen(String hoTen) { this.hoTen = hoTen; }
-
-    public String getGioiTinh() { return gioiTinh; }
-    public void setGioiTinh(String gioiTinh) { this.gioiTinh = gioiTinh; }
-
-    public String getCccd() { return cccd; }
-    public void setCccd(String cccd) { this.cccd = cccd; }
-
-    public String getSoDienThoai() { return soDienThoai; }
-    public void setSoDienThoai(String soDienThoai) { this.soDienThoai = soDienThoai; }
-
-    public Date getNgaySinh() { return ngaySinh; }
-    public void setNgaySinh(Date ngaySinh) { this.ngaySinh = ngaySinh; }
-
-    public String getDiaChi() { return diaChi; }
-    public void setDiaChi(String diaChi) { this.diaChi = diaChi; }
-
-    // Phương thức trừu tượng để các class con override
-    public abstract String getThongTin();
+    private String hoTen;
+    private String gioiTinh;
+    private String cccd;
+    private String soDienThoai;
+    private LocalDate ngaySinh; // Đã đổi từ java.util.Date sang java.time.LocalDate
+    private String diaChi;
+    
+    // Bạn có thể giữ lại hàm abstract này nếu muốn
+    public abstract String getThongTin(); 
 }

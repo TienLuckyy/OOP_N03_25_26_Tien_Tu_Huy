@@ -1,95 +1,55 @@
 package vn.edu.quanlynhatro.service;
 
-import vn.edu.quanlynhatro.util.FileUtil;
 import vn.edu.quanlynhatro.model.SinhVien;
+import vn.edu.quanlynhatro.repository.SinhVienRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// Thay thế javax.annotation.PostConstruct bằng jakarta.annotation.PostConstruct
-import jakarta.annotation.PostConstruct; 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SinhVienService {
 
-    private List<SinhVien> danhSachSinhVien;
-    private static final String FILE_NAME = "data/sinhvien.dat";
+    // Dependency Injection: Sử dụng Repository để thao tác với CSDL
+    @Autowired
+    private SinhVienRepository sinhVienRepository;
 
-    // Khởi tạo dữ liệu sau khi Spring tạo Bean
-    @SuppressWarnings("unchecked")
-    @PostConstruct
-    private void init() {
-        // Đọc dữ liệu từ file khi Service được tạo
-        this.danhSachSinhVien = (List<SinhVien>) FileUtil.docFile(FILE_NAME);
-        if (this.danhSachSinhVien == null) {
-            this.danhSachSinhVien = new ArrayList<>();
-        }
-    }
+    // ---------------------- READ ----------------------
 
+    // Lấy tất cả sinh viên từ CSDL
     public List<SinhVien> getAllSinhVien() {
-        return this.danhSachSinhVien;
+        // JPA: Gọi phương thức findAll() đã có sẵn
+        return sinhVienRepository.findAll(); 
     }
 
-    public boolean themSinhVien(SinhVien sv) {
-        if (sv == null || sv.getMssv() == null || sv.getMssv().isEmpty()) {
-            return false;
-        }
-
-        boolean isExist = danhSachSinhVien.stream()
-                .anyMatch(s -> s.getMssv().equalsIgnoreCase(sv.getMssv()));
-
-        if (isExist) {
-            return false;
-        }
-
-        danhSachSinhVien.add(sv);
-        luuFile();
-        return true;
+    // Tìm kiếm theo ID (Khóa chính)
+    public Optional<SinhVien> timKiemTheoId(Long id) {
+        // JPA: findById() trả về Optional
+        return sinhVienRepository.findById(id); 
     }
 
-    public boolean suaSinhVien(SinhVien svDaSua) {
-        for (int i = 0; i < danhSachSinhVien.size(); i++) {
-            if (danhSachSinhVien.get(i).getMssv().equalsIgnoreCase(svDaSua.getMssv())) {
-                danhSachSinhVien.set(i, svDaSua);
-                luuFile();
-                return true;
-            }
-        }
-        return false;
+    // Tìm kiếm theo MSSV (Cần thêm hàm tùy chỉnh vào Repository)
+    public SinhVien timKiemTheoMssv(String mssv) {
+        // Cần định nghĩa 'findByMssv' trong SinhVienRepository
+        // Ví dụ: return sinhVienRepository.findByMssv(mssv).orElse(null); 
+        return null; // Giữ tạm thời, cần bổ sung logic tìm kiếm
     }
 
-    public boolean xoaSinhVien(String mssv) {
-        boolean isRemoved = danhSachSinhVien.removeIf(sv -> sv.getMssv().equalsIgnoreCase(mssv));
-        if (isRemoved) {
-            luuFile();
+    // ---------------------- CREATE / UPDATE ----------------------
+
+    public SinhVien luuHoacSuaSinhVien(SinhVien sv) {
+        // JPA: Phương thức save() dùng cho cả tạo mới (id=null) và cập nhật (id có sẵn)
+        return sinhVienRepository.save(sv);
+    }
+
+    // ---------------------- DELETE ----------------------
+
+    public boolean xoaSinhVien(Long id) {
+        if (sinhVienRepository.existsById(id)) {
+            sinhVienRepository.deleteById(id); // Xóa theo ID
             return true;
         }
         return false;
-    }
-
-    public SinhVien timKiemTheoMssv(String mssv) {
-        return danhSachSinhVien.stream()
-                .filter(sv -> sv.getMssv().equalsIgnoreCase(mssv))
-                .findFirst()
-                .orElse(null);
-    }
-    
-    public Optional<SinhVien> timKiemTheoMssvOptional(String mssv) {
-        return danhSachSinhVien.stream()
-                .filter(sv -> sv.getMssv().equalsIgnoreCase(mssv))
-                .findFirst();
-    }
-
-    public List<SinhVien> timKiemTheoTen(String ten) {
-        return danhSachSinhVien.stream()
-                .filter(sv -> sv.getHoTen() != null && sv.getHoTen().toLowerCase().contains(ten.toLowerCase()))
-                .collect(Collectors.toList());
-    }
-
-    private void luuFile() {
-        FileUtil.ghiFile(FILE_NAME, this.danhSachSinhVien);
     }
 }

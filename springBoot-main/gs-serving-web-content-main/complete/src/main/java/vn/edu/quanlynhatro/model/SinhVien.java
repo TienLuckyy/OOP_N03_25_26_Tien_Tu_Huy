@@ -1,75 +1,26 @@
-package vn.edu.quanlynhatro.model;
+package vn.edu.quanlynhatro.model; // Đổi package cho phù hợp
 
-import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import vn.edu.quanlynhatro.repository.SinhVienRepository;
 
-public class SinhVien extends Nguoi {
-    private String mssv;
-    private String lop;
-    private String nganhHoc;
-    private String queQuan;
+@Controller
+public class SinhVien {
 
-    public SinhVien(String mssv, String hoTen, String gioiTinh, String cccd, String soDienThoai,
-                    Date ngaySinh, String diaChi, String lop, String nganhHoc, String queQuan) {
-        super(hoTen, gioiTinh, cccd, soDienThoai, ngaySinh, diaChi);
-        this.mssv = mssv;
-        this.lop = lop;
-        this.nganhHoc = nganhHoc;
-        this.queQuan = queQuan;
-    }
-    public SinhVien() {
-        super();
-    }
-    // Getter & Setter
-    public String getMssv() {
-        return mssv;
-    }
+    @Autowired
+    private SinhVienRepository sinhVienRepository;
 
-    public void setMssv(String mssv) {
-        this.mssv = mssv;
+    @GetMapping("/sinh-vien")
+    public String listSinhVien(Model model) {
+        // READ: Lấy tất cả sinh viên từ CSDL
+        model.addAttribute("listSinhVien", sinhVienRepository.findAll());
+        
+        // Trả về tên file Thymeleaf (ví dụ: 'sinhvien_list.html')
+        return "sinhvien_list"; 
     }
-
-    public String getLop() {
-        return lop;
-    }
-
-    public void setLop(String lop) {
-        this.lop = lop;
-    }
-
-    public String getNganhHoc() {
-        return nganhHoc;
-    }
-
-    public void setNganhHoc(String nganhHoc) {
-        this.nganhHoc = nganhHoc;
-    }
-
-    public String getQueQuan() {
-        return queQuan;
-    }
-
-    public void setQueQuan(String queQuan) {
-        this.queQuan = queQuan;
-    }
-
-    @Override
-    public String getThongTin() {
-        return "Sinh viên: " + getHoTen() + " - MSSV: " + mssv;
-    }
-
-    @Override
-    public String toString() {
-        return "SinhVien{" +
-                "mssv='" + mssv + '\'' +
-                ", hoTen='" + getHoTen() + '\'' +
-                ", gioiTinh='" + getGioiTinh() + '\'' +
-                ", cccd='" + getCccd() + '\'' +
-                ", soDienThoai='" + getSoDienThoai() + '\'' +
-                ", ngaySinh=" + getNgaySinh() +
-                ", diaChi='" + getDiaChi() + '\'' +
-                ", lop='" + lop + '\'' +
-                ", nganhHoc='" + nganhHoc + '\'' +
-                ", queQuan='" + queQuan + '\'' +
-                '}';
-    }
+    
+    // TODO: Thêm các method @GetMapping("/sinh-vien/new") để hiển thị form tạo mới
+    // TODO: Thêm các method @PostMapping("/sinh-vien") để lưu sinh viên
 }
