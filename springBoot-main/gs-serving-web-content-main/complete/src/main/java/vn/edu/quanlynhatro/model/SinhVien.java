@@ -1,26 +1,31 @@
-package vn.edu.quanlynhatro.model; // Đổi package cho phù hợp
+package vn.edu.quanlynhatro.model; 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import vn.edu.quanlynhatro.repository.SinhVienRepository;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Controller
-public class SinhVien {
+@Entity
+@Table(name = "sinh_vien")
+@Data
+@NoArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class SinhVien extends Nguoi {
 
-    @Autowired
-    private SinhVienRepository sinhVienRepository;
+    // PHẢI CÓ @Id
+    @Id 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; 
 
-    @GetMapping("/sinh-vien")
-    public String listSinhVien(Model model) {
-        // READ: Lấy tất cả sinh viên từ CSDL
-        model.addAttribute("listSinhVien", sinhVienRepository.findAll());
-        
-        // Trả về tên file Thymeleaf (ví dụ: 'sinhvien_list.html')
-        return "sinhvien_list"; 
-    }
+    private String mssv;
+    private String lop;
+    private String nganhHoc;
+    private String queQuan;
     
-    // TODO: Thêm các method @GetMapping("/sinh-vien/new") để hiển thị form tạo mới
-    // TODO: Thêm các method @PostMapping("/sinh-vien") để lưu sinh viên
+    @Override
+    public String getThongTin() {
+        return "Sinh viên: " + getHoTen() + " - MSSV: " + mssv;
+    }
 }

@@ -45,13 +45,16 @@
         </form>
     </div>
     
-    <div th:if="${message}" class="alert alert-warning text-center" th:text="${message}"></div>
+    <div th:if="${message}" class="alert alert-success text-center" th:text="${message}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger text-center" th:text="${errorMessage}"></div>
+
 
     <div th:if="${not #lists.isEmpty(sinhviens)}">
         <div class="table-responsive">
             <table class="table table-custom table-striped table-hover align-middle text-center">
                 <thead class="table-dark">
                     <tr>
+                        <th>ID</th> 
                         <th>MSSV</th>
                         <th>Họ Tên</th>
                         <th>Lớp</th>
@@ -62,22 +65,22 @@
                 </thead>
                 <tbody>
                     <tr th:each="sv : ${sinhviens}">
-                        <td th:text="${sv.mssv}"></td>
+                        <td th:text="${sv.id}"></td> <td th:text="${sv.mssv}"></td>
                         <td th:text="${sv.hoTen}"></td>
                         <td th:text="${sv.lop}"></td>
                         <td th:text="${sv.nganhHoc}"></td>
                         <td th:text="${sv.soDienThoai}"></td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-custom-view me-2">
+                            <a th:href="@{'/sinhvien/detail/' + ${sv.id}}" class="btn btn-sm btn-custom-view me-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
                                     <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm11.5-6a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h1.5V9.5a.5.5 0 0 1 .5-.5zm0 3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5z"/>
                                 </svg>
                                 Chi Tiết
                             </a>
                             
-                            <a th:href="@{'/sinhvien/edit/' + ${sv.mssv}}" class="btn btn-sm btn-warning me-2">Sửa</a>
+                            <a th:href="@{'/sinhvien/edit/' + ${sv.id}}" class="btn btn-sm btn-warning me-2">Sửa</a>
                             
-                            <a th:href="@{'/sinhvien/delete/' + ${sv.mssv}}" 
+                            <a th:href="@{'/sinhvien/delete/' + ${sv.id}}" 
                                class="btn btn-sm btn-danger"
                                onclick="return confirm('Bạn có chắc muốn xóa sinh viên này?')">Xóa</a>
                         </td>
