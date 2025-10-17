@@ -20,7 +20,7 @@ public interface PhongRepository extends JpaRepository<Phong, String> {
     
     List<Phong> findBySoNguoiHienTai(int soNguoiHienTai);
     
-    List<Phong> findByTienDienNuocGreaterThan(double tienDienNuoc);
+    List<Phong> findByTienNhaGreaterThan(double tienNha);
     
     List<Phong> findByToaAndTrangThai(String toa, boolean trangThai);
     
@@ -29,8 +29,8 @@ public interface PhongRepository extends JpaRepository<Phong, String> {
     int capNhatSoNguoiHienTai(@Param("soPhong") String soPhong, @Param("soNguoiMoi") int soNguoiMoi);
     
     @Modifying
-    @Query("UPDATE Phong p SET p.tienDienNuoc = :tienDienNuoc WHERE p.soPhong = :soPhong")
-    int capNhatTienDienNuoc(@Param("soPhong") String soPhong, @Param("tienDienNuoc") double tienDienNuoc);
+    @Query("UPDATE Phong p SET p.tienNha = :tienNha WHERE p.soPhong = :soPhong")
+    int capNhatTienNha(@Param("soPhong") String soPhong, @Param("tienNha") double tienNha);
     
     @Modifying
     @Query("UPDATE Phong p SET p.trangThai = :trangThai WHERE p.soPhong = :soPhong")

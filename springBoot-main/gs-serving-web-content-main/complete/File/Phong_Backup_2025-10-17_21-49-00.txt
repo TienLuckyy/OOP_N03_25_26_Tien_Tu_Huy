@@ -1,0 +1,13 @@
+=== DANH SÁCH PHÒNG TR? (BACKUP) ===
+
+S? phòng   Tòa        S? ng??i        Tr?ng thái     
+------------------------------------------------------------
+1          2          0               Còn tr?ng      
+101        A3         3               ?ang s? d?ng   
+102        1233       3               ?ang s? d?ng   
+103        A2         0               Còn tr?ng      
+2323       cc         2               ?ang s? d?ng   
+296        a1         3               ?ang s? d?ng   
+
+=== T?ng s? phòng: 6 ===
+Th?i gian backup: 17/10/2025 21:49:00

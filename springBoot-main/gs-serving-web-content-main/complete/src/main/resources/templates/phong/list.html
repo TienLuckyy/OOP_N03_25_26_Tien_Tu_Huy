@@ -45,7 +45,7 @@
                 <th>Số Phòng</th>
                 <th>Tòa</th>
                 <th>Sức Chứa</th>
-                <th>Tiền Điện Nước</th>
+                <th>Tiền Nhà</th>
                 <th>Trạng Thái</th>
                 <th>Hành Động</th>
             </tr>
@@ -56,9 +56,9 @@
                 <td th:text="${phong.toa}">A</td>
                 <td th:text="${phong.soNguoiHienTai} + '/' + ${phong.soNguoiToiDa}">2/4</td>
                 <td>
-                    <span th:if="${phong.tienDienNuoc != null}" 
-                          th:text="${#numbers.formatDecimal(phong.tienDienNuoc, 0, 'COMMA', 0, 'POINT')} + ' đ'">100,000 đ</span>
-                    <span th:unless="${phong.tienDienNuoc != null}">-</span>
+                    <span th:if="${phong.tienNha != null}" 
+                          th:text="${#numbers.formatDecimal(phong.tienNha, 0, 'COMMA', 0, 'POINT')} + ' đ'">100,000 đ</span>
+                    <span th:unless="${phong.tienNha != null}">-</span>
                 </td>
                 <td>
                     <span th:if="${phong.trangThai}" class="status-badge status-occupied">Đang sử dụng</span>

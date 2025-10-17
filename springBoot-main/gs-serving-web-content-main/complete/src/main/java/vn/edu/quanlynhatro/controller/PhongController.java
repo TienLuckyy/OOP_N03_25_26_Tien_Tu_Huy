@@ -44,8 +44,8 @@ public class PhongController {
     }
 
     // Form sửa phòng
-    @GetMapping("/edit")
-    public String hienThiSuaPhongUI(@RequestParam("soPhong") String soPhong, Model model) {
+    @GetMapping("/edit/{soPhong}")
+    public String hienThiSuaPhongUI(@PathVariable("soPhong") String soPhong, Model model) {
         Optional<Phong> phong = phongService.timKiemTheoSoPhong(soPhong);
         if (phong.isPresent()) {
             model.addAttribute("phong", phong.get());

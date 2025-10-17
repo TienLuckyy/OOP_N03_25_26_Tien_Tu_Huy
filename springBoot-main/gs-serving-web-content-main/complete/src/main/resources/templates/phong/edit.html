@@ -27,24 +27,35 @@
                             <input type="text" id="soPhongDisplay" class="form-control" 
                                    th:value="*{soPhong}" disabled>
                         </div>
-                        
+
                         <div class="form-group">
-                            <label for="trangThai">Trạng Thái:</label>
-                            <select id="trangThai" th:field="*{trangThai}" class="form-select">
-                                <option value="false">Còn trống</option>
-                                <option value="true">Đang sử dụng</option>
-                            </select>
+                            <label for="toa">Tòa:</label>
+                            <input type="text" id="toa" th:field="*{toa}" class="form-control" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="tienDienNuoc">Tiền Điện Nước (Mặc định):</label>
-                            <input type="number" id="tienDienNuoc" th:field="*{tienDienNuoc}" 
+                            <label for="soNguoiHienTai">Số Người Hiện Tại:</label>
+                            <input type="number" id="soNguoiHienTai" th:field="*{soNguoiHienTai}" 
+                                   class="form-control" min="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="soNguoiToiDa">Số Người Tối Đa:</label>
+                            <input type="number" id="soNguoiToiDa" th:field="*{soNguoiToiDa}" 
+                                   class="form-control" min="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tienNha">Tiền Nhà:</label>
+                            <input type="number" id="tienNha" th:field="*{tienNha}" 
                                    class="form-control" step="0.01" required>
                         </div>
 
+                        
+
                         <div class="d-flex justify-content-between mt-4">
-                            <button type="submit" class="btn btn-warning">Lưu Thay Đổi</button>
-                            <a th:href="@{/phong/list}" class="btn btn-secondary">Hủy</a>
+                            <button type="submit" class="btn btn-warning">💾 Lưu Thay Đổi</button>
+                            <a th:href="@{/phong/list}" class="btn btn-secondary">⬅️ Hủy</a>
                         </div>
                     </form>
                 </div>

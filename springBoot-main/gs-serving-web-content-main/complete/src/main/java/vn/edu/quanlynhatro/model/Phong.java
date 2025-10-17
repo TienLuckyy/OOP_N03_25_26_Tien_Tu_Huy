@@ -14,8 +14,8 @@ public class Phong implements Serializable {
     @Column(name = "toa", length = 50, nullable = false)
     private String toa;
 
-    @Column(name = "tien_dien_nuoc")
-    private Double tienDienNuoc; // Đổi thành Double
+    @Column(name = "tien_nha")
+    private Double tienNha; // Đổi thành Double
 
     @Column(name = "so_nguoi_hien_tai")
     private Integer soNguoiHienTai; // Đổi thành Integer
@@ -29,10 +29,10 @@ public class Phong implements Serializable {
     // Constructors
     public Phong() {}
 
-    public Phong(String soPhong, String toa, Double tienDienNuoc, Integer soNguoiHienTai, Integer soNguoiToiDa, Boolean trangThai) {
+    public Phong(String soPhong, String toa, Double tienNha, Integer soNguoiHienTai, Integer soNguoiToiDa, Boolean trangThai) {
         this.soPhong = soPhong;
         this.toa = toa;
-        this.tienDienNuoc = tienDienNuoc;
+        this.tienNha = tienNha;
         this.soNguoiHienTai = soNguoiHienTai;
         this.soNguoiToiDa = soNguoiToiDa;
         this.trangThai = trangThai;
@@ -45,8 +45,8 @@ public class Phong implements Serializable {
     public String getToa() { return toa; }
     public void setToa(String toa) { this.toa = toa; }
     
-    public Double getTienDienNuoc() { return tienDienNuoc; }
-    public void setTienDienNuoc(Double tienDienNuoc) { this.tienDienNuoc = tienDienNuoc; }
+    public Double getTienNha() { return tienNha; }
+    public void setTienNha(Double tienNha) { this.tienNha = tienNha; }
     
     public Integer getSoNguoiHienTai() { return soNguoiHienTai; }
     public void setSoNguoiHienTai(Integer soNguoiHienTai) { this.soNguoiHienTai = soNguoiHienTai; }
@@ -67,7 +67,7 @@ public class Phong implements Serializable {
         return "Phong{" +
                 "soPhong='" + soPhong + '\'' +
                 ", toa='" + toa + '\'' +
-                ", tienDienNuoc=" + tienDienNuoc +
+                ", tienNha=" + tienNha +
                 ", soNguoiHienTai=" + soNguoiHienTai +
                 ", soNguoiToiDa=" + soNguoiToiDa +
                 ", trangThai=" + trangThai +

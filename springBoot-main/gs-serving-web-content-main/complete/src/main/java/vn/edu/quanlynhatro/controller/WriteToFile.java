@@ -54,7 +54,7 @@ public class WriteToFile {
             "Số phòng: %s | Tòa: %s | Tiền điện nước: %.2f | Hiện tại: %d | Tối đa: %d | Trạng thái: %s",
             phong.getSoPhong(),
             phong.getToa(),
-            phong.getTienDienNuoc() != null ? phong.getTienDienNuoc() : 0.0,
+            phong.getTienNha() != null ? phong.getTienNha() : 0.0,
             phong.getSoNguoiHienTai() != null ? phong.getSoNguoiHienTai() : 0,
             phong.getSoNguoiToiDa() != null ? phong.getSoNguoiToiDa() : 0,
             Boolean.TRUE.equals(phong.getTrangThai()) ? "Đang thuê" : "Trống"
