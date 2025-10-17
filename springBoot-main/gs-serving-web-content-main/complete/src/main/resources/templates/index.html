@@ -22,10 +22,31 @@
             font-weight: 600; text-transform: uppercase; 
         }
         .navbar-brand {
-            font-size: 1.75rem !important;
-            font-weight: 700 !important;
+            font-size: 1.5rem !important;
+            font-weight: 800 !important;
             color: #ffffff !important;
-            transition: color 0.3s ease, transform 0.2s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.4s ease, transform 0.3s ease, text-shadow 0.4s ease;
+            position: relative;
+        }
+        .navbar-brand::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, #e1e1e1, #000000);
+            transition: width 0.4s ease;
+        }
+        .navbar-brand:hover {
+            color: #000000 !important;
+            transform: scale(1.08);
+            text-shadow: 0 0 10px rgba(254, 254, 254, 0.7);
+        }
+        .navbar-brand:hover::after {
+            width: 100%;
         }
         .btn-success-custom:hover { 
             background-color: #1eb96f;
@@ -112,12 +133,7 @@ width: 140px; height: 140px; margin: 0 auto 1rem;
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Quản Lý Nhà Trọ</a>
-        <a class="btn btn-sm btn-success-custom ms-auto" th:href="@{/login}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" style="margin-top: -1px; margin-right: 5px;">
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-            </svg>
-            Đăng nhập
+        <a class="navbar-brand" th:href="@{/}">Phenikaa Residences</a>
         </a>
     </div>
 </nav>
@@ -136,7 +152,6 @@ width: 140px; height: 140px; margin: 0 auto 1rem;
                 <div class="carousel-caption text-start carousel-caption-custom">
 <h1 class="display-3 fw-bold">Chào mừng đến với hệ thống Quản lý Nhà Trọ</h1>
                     <p>Hệ thống hỗ trợ quản lý phòng trọ, người thuê và các dịch vụ đi kèm.</p>
-                    <p><a class="btn btn-lg btn-primary" th:href="@{/login}">Bắt đầu ngay</a></p>
                 </div>
             </div>
         </div>
