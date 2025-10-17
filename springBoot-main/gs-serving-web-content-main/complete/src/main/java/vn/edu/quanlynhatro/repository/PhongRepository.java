@@ -1,45 +1,42 @@
 package vn.edu.quanlynhatro.repository;
 
 import vn.edu.quanlynhatro.model.Phong;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
-public class PhongRepository {
+public interface PhongRepository extends JpaRepository<Phong, String> {
     
-    private final List<Phong> danhSachPhong = new ArrayList<>();
-
-    public PhongRepository() {
-        danhSachPhong.add(new Phong("A101", true, 250000));
-        danhSachPhong.add(new Phong("A102", false, 0));
-        danhSachPhong.add(new Phong("B201", false, 0));
-        danhSachPhong.add(new Phong("C305", true, 300000));
-    }
-
-    public List<Phong> findAll() { return danhSachPhong; }
-
-    public Phong save(Phong phong) {
-        if (findById(phong.getSoPhong()).isPresent()) { deleteById(phong.getSoPhong()); }
-        danhSachPhong.add(phong);
-        return phong;
-    }
-
-    public void deleteById(String soPhong) {
-        danhSachPhong.removeIf(p -> p.getSoPhong().equals(soPhong));
-    }
-
-    public Optional<Phong> findById(String soPhong) {
-        return danhSachPhong.stream()
-                .filter(p -> p.getSoPhong().equals(soPhong))
-                .findFirst();
-    }
-
-    public List<Phong> findByTrangThai(boolean trangThai) {
-        return danhSachPhong.stream()
-                .filter(p -> p.isTrangThai() == trangThai)
-                .collect(Collectors.toList());
-    }
+    List<Phong> findByTrangThai(boolean trangThai);
+    
+    List<Phong> findByToa(String toa);
+    
+    @Query("SELECT p FROM Phong p WHERE p.soNguoiHienTai < p.soNguoiToiDa")
+    List<Phong> findPhongConCho();
+    
+    List<Phong> findBySoNguoiHienTai(int soNguoiHienTai);
+    
+    List<Phong> findByTienDienNuocGreaterThan(double tienDienNuoc);
+    
+    List<Phong> findByToaAndTrangThai(String toa, boolean trangThai);
+    
+    @Modifying
+    @Query("UPDATE Phong p SET p.soNguoiHienTai = :soNguoiMoi WHERE p.soPhong = :soPhong")
+    int capNhatSoNguoiHienTai(@Param("soPhong") String soPhong, @Param("soNguoiMoi") int soNguoiMoi);
+    
+    @Modifying
+    @Query("UPDATE Phong p SET p.tienDienNuoc = :tienDienNuoc WHERE p.soPhong = :soPhong")
+    int capNhatTienDienNuoc(@Param("soPhong") String soPhong, @Param("tienDienNuoc") double tienDienNuoc);
+    
+    @Modifying
+    @Query("UPDATE Phong p SET p.trangThai = :trangThai WHERE p.soPhong = :soPhong")
+    int capNhatTrangThai(@Param("soPhong") String soPhong, @Param("trangThai") boolean trangThai);
+    
+    long countByTrangThai(boolean trangThai);
+    
+    long countByToa(String toa);
 }
