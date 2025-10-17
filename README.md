@@ -24,7 +24,7 @@ Mục tiêu là hỗ trợ Ban quản lý theo dõi phòng, sinh viên và nhân
 - **HTML, Tailwind CSS**
 
 ## Sơ đồ Class Diagram
-<img width="419" height="1125" alt="image" src="https://github.com/user-attachments/assets/509b36c9-ba1b-410f-9392-dce1590c966b" />
+<img width="247" height="1014" alt="image" src="https://github.com/user-attachments/assets/6772d3f3-1c30-4787-bf42-0e83e76f0f45" />
 
 
 ## Activity diagram
