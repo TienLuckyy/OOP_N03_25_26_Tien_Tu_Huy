@@ -25,6 +25,7 @@ Mục tiêu là hỗ trợ Ban quản lý theo dõi phòng, sinh viên và nhân
 
 ## Sơ đồ Class Diagram
 <img width="334" height="700" alt="image" src="https://github.com/user-attachments/assets/cbedc905-7e75-4fe1-8cf5-746cb856e6c1" />
+
 ## Activity diagram
 
 ## TÚ-PHÒNG
@@ -43,6 +44,7 @@ Mục tiêu là hỗ trợ Ban quản lý theo dõi phòng, sinh viên và nhân
 
 ## Class Diagram cho Phong
 <img width="321" height="727" alt="image" src="https://github.com/user-attachments/assets/fbda7e2a-837b-4754-98c4-29826a204631" />
+
 ## HUY-SINHVIEN
 
 ### Create: Thêm mới sinh viên với thông tin đầy đủ.
@@ -56,6 +58,7 @@ Mục tiêu là hỗ trợ Ban quản lý theo dõi phòng, sinh viên và nhân
 
 ### Delete : Xóa sinh viên theo MSSV.
 <img width="300" height="400" alt="image" src="https://github.com/user-attachments/assets/18cc43a6-ebe4-4ee3-9b74-475b88b34e73" />
+
 ## TIẾN-BANQUANLY
 
 ### Create:Thêm thành viên vào BQL với thông tin đầy đủ.
