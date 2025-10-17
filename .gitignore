@@ -1,0 +1,11 @@
+# Ignore Maven/Gradle build output and IDE files
+springBoot-main/gs-serving-web-content-main/complete/target/
+
+# Common ignores
+*.class
+*.log
+/.idea/
+*.iml
+node_modules/
+/.vscode/
+/.DS_Store
