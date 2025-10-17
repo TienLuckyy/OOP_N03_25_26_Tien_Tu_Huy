@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @Controller
 @RequestMapping("/phong")
 public class PhongController {
 
     @Autowired
     private PhongService phongService;
+    
 
     // Danh sách tất cả phòng
     @GetMapping("/list")
@@ -109,4 +111,5 @@ public class PhongController {
         model.addAttribute("title", "Danh Sách Phòng Tòa " + toa);
         return "phong/list";
     }
+
 }

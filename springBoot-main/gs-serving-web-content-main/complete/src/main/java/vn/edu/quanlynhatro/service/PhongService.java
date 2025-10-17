@@ -1,5 +1,5 @@
 package vn.edu.quanlynhatro.service;
-
+import vn.edu.quanlynhatro.controller.WriteToFile;
 import vn.edu.quanlynhatro.model.Phong;
 import vn.edu.quanlynhatro.repository.PhongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,12 @@ public class PhongService {
     @Autowired
     private PhongRepository phongRepository;
 
+    @Autowired
+    private WriteToFile writeToFile;
+
     public List<Phong> getAllPhong() {
         return phongRepository.findAll();
+
     }
 
     public Optional<Phong> timKiemTheoSoPhong(String soPhong) {
@@ -37,13 +41,16 @@ public class PhongService {
 
     public void themPhong(Phong phong) {
         phongRepository.save(phong);
+        writeToFile.exportPhongData();
     }
 
     public void suaPhong(Phong phong) {
         phongRepository.save(phong);
+        writeToFile.exportPhongData();
     }
 
     public void xoaPhong(String soPhong) {
         phongRepository.deleteById(soPhong);
+        writeToFile.exportPhongData();
     }
 }

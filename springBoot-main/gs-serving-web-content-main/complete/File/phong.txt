@@ -1,0 +1,9 @@
+﻿===== DANH SÁCH PHÒNG =====
+Số phòng: 1 | Tòa: 2 | Tiền điện nước: 2.00 | Hiện tại: 4 | Tối đa: 5 | Trạng thái: Đang thuê
+Số phòng: 101 | Tòa: A3 | Tiền điện nước: 100000.00 | Hiện tại: 3 | Tối đa: 4 | Trạng thái: Đang thuê
+Số phòng: 102 | Tòa: 1233 | Tiền điện nước: 200000.00 | Hiện tại: 3 | Tối đa: 2 | Trạng thái: Đang thuê
+Số phòng: 103 | Tòa: A2 | Tiền điện nước: 2000.00 | Hiện tại: 0 | Tối đa: 4 | Trạng thái: Trống
+Số phòng: 2323 | Tòa: cc | Tiền điện nước: 2324242.00 | Hiện tại: 2 | Tối đa: 222 | Trạng thái: Đang thuê
+Số phòng: tu2+ | Tòa: A2 | Tiền điện nước: 4.00 | Hiện tại: 0 | Tối đa: 3 | Trạng thái: Trống
+===========================
+Cập nhật lần cuối: 17/10/2025 22:09:28
