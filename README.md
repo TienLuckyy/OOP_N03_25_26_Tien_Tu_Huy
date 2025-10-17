@@ -4,7 +4,6 @@
 - TÚ – Quản lý Phòng (Phong)
 - HUY HUY – Quản lý Sinh viên (SinhVien)
 - TIẾN – Quản lý Ban Quản Lý (BanQuanLy)
-  # Đối tượng Sinh Viên
 
 ## Sơ đồ Class Diagram
 <img width="334" height="700" alt="image" src="https://github.com/user-attachments/assets/cbedc905-7e75-4fe1-8cf5-746cb856e6c1" />
