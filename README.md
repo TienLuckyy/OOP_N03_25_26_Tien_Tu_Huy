@@ -4,7 +4,7 @@
 - TÚ – Quản lý Phòng (Phong)
 - HUY HUY – Quản lý Sinh viên (SinhVien)
 - TIẾN – Quản lý Ban Quản Lý (BanQuanLy)
-- 
+  
 ### 🧱 Mô tả đối tượng
 - **Phong:** Quản lý thông tin phòng trọ (số phòng, tòa, số người, trạng thái, tiền nhà, v.v.)
 - **SinhVien:** Quản lý thông tin sinh viên thuê trọ (mssv, tên, lớp, ngành học,quê quán,sđt,lop,v.v.)
@@ -24,7 +24,8 @@ Mục tiêu là hỗ trợ Ban quản lý theo dõi phòng, sinh viên và nhân
 - **HTML, Tailwind CSS**
 
 ## Sơ đồ Class Diagram
-<img width="334" height="700" alt="image" src="https://github.com/user-attachments/assets/cbedc905-7e75-4fe1-8cf5-746cb856e6c1" />
+<img width="419" height="1125" alt="image" src="https://github.com/user-attachments/assets/509b36c9-ba1b-410f-9392-dce1590c966b" />
+
 
 ## Activity diagram
 
