@@ -6,7 +6,7 @@
 - TIẾN – Quản lý Ban Quản Lý (BanQuanLy)
 - 
 ### 🧱 Mô tả đối tượng
-- **Phong:** Quản lý thông tin phòng trọ (số phòng, tòa, số người, trạng thái, tiền điện nước, v.v.)
+- **Phong:** Quản lý thông tin phòng trọ (số phòng, tòa, số người, trạng thái, tiền nhà, v.v.)
 - **SinhVien:** Quản lý thông tin sinh viên thuê trọ (mssv, tên, lớp, ngành học,quê quán,sđt,lop,v.v.)
 - **BanQuanLy:** Quản lý thông tin nhân viên ban quản lý khu trọ (cccd, tên, sô điện thoại, giới tính,ngày sinh, v.v. )
 
