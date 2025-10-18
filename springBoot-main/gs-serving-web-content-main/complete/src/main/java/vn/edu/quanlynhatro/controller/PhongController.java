@@ -1,7 +1,9 @@
 package vn.edu.quanlynhatro.controller;
 
 import vn.edu.quanlynhatro.model.Phong;
+import vn.edu.quanlynhatro.model.SinhVien;
 import vn.edu.quanlynhatro.service.PhongService;
+import vn.edu.quanlynhatro.repository.SinhVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,9 @@ public class PhongController {
 
     @Autowired
     private PhongService phongService;
+
+    @Autowired
+    private SinhVienRepository sinhVienRepository; // THÊM DÒNG NÀY
 
     // 🏠 Danh sách tất cả phòng
     @GetMapping("/list")
@@ -123,5 +128,41 @@ public class PhongController {
         model.addAttribute("phongs", danhSach);
         model.addAttribute("title", "Danh Sách Phòng Tòa " + toa);
         return "phong/list";
+    }
+
+    // 👥 Chi tiết phòng
+    @GetMapping("/detail/{soPhong}/{toa}")
+    public String xemChiTietPhong(@PathVariable("soPhong") String soPhong,
+                                  @PathVariable("toa") String toa,
+                                  Model model) {
+        Phong phong = phongService.layPhongTheoSoPhongVaToa(soPhong, toa);
+        if (phong == null) {
+            return "redirect:/phong/list?notfound=true";
+        }
+        
+        // Lấy danh sách sinh viên trong phòng
+        model.addAttribute("phong", phong);
+        model.addAttribute("sinhViens", phong.getSinhViens());
+        
+        // QUAN TRỌNG: Lấy danh sách sinh viên CHƯA CÓ PHÒNG
+        List<SinhVien> sinhVienChuaCoPhong = sinhVienRepository.findByPhongIsNull();
+        model.addAttribute("allSinhViens", sinhVienChuaCoPhong);
+        
+        model.addAttribute("title", "Chi tiết phòng " + soPhong + " - Tòa " + toa);
+        return "phong/detail";
+    }
+
+    // 📝 Gán sinh viên vào phòng
+    @PostMapping("/assignStudent")
+    public String ganSinhVien(@RequestParam Long sinhVienId,
+                              @RequestParam String soPhong,
+                              @RequestParam String toa) {
+        boolean result = phongService.ganSinhVienVaoPhong(sinhVienId, soPhong, toa);
+        
+        if (result) {
+            return "redirect:/phong/detail/" + soPhong + "/" + toa + "?assigned=true";
+        } else {
+            return "redirect:/phong/detail/" + soPhong + "/" + toa + "?error=assign_failed";
+        }
     }
 }

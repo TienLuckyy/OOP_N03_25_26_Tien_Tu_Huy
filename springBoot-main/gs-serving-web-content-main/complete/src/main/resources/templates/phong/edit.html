@@ -40,12 +40,14 @@
                             <input type="text" id="toa" th:field="*{toa}" class="form-control" readonly>
                         </div>
 
-                        <!-- Các trường có thể sửa -->
                         <div class="form-group">
                             <label for="soNguoiHienTai">Số Người Hiện Tại:</label>
                             <input type="number" id="soNguoiHienTai" th:field="*{soNguoiHienTai}" 
-                                   class="form-control" min="0" required>
+                                   class="form-control" readonly>
                         </div>
+
+                        <!-- Các trường có thể sửa -->
+
 
                         <div class="form-group">
                             <label for="soNguoiToiDa">Số Người Tối Đa:</label>

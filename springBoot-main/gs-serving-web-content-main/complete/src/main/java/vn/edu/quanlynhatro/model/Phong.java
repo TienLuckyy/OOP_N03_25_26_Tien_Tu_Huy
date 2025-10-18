@@ -2,9 +2,10 @@ package vn.edu.quanlynhatro.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@IdClass(PhongId.class) // ✅ Khai báo khóa chính phức hợp
+@IdClass(PhongId.class) // Khóa chính phức hợp
 @Table(name = "phong")
 public class Phong implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -28,6 +29,10 @@ public class Phong implements Serializable {
 
     @Column(name = "trang_thai")
     private Boolean trangThai;
+
+    // 🔗 Quan hệ 1 phòng – N sinh viên
+    @OneToMany(mappedBy = "phong", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SinhVien> sinhViens;
 
     public Phong() {}
 
@@ -62,6 +67,14 @@ public class Phong implements Serializable {
 
     public boolean isTrangThai() {
         return Boolean.TRUE.equals(trangThai);
+    }
+
+    public List<SinhVien> getSinhViens() {
+        return sinhViens;
+    }
+
+    public void setSinhViens(List<SinhVien> sinhViens) {
+        this.sinhViens = sinhViens;
     }
 
     @Override

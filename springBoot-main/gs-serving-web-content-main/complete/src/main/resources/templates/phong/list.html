@@ -96,7 +96,9 @@
                     <a th:href="@{'/phong/delete/' + ${phong.soPhong} + '/' + ${phong.toa}}"
                        onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này?');"
                        class="btn btn-danger btn-sm">Xóa</a>
-                    <a th:href="@{'/phong/detail/' + ${phong.soPhong} + '/' + ${phong.toa}}" class="btn btn-detail btn-sm">Xem chi tiết</a>
+                    <a th:href="@{'/phong/detail/' + ${phong.soPhong} + '/' + ${phong.toa}}" 
+   class="btn btn-detail btn-sm">Xem chi tiết</a>
+
                 </td>
             </tr>
         </tbody>
