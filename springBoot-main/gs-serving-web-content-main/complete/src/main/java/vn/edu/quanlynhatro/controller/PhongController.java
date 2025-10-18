@@ -9,16 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
 @Controller
 @RequestMapping("/phong")
 public class PhongController {
 
     @Autowired
     private PhongService phongService;
-    
 
-    // Danh sách tất cả phòng
+    // 🏠 Danh sách tất cả phòng
     @GetMapping("/list")
     public String hienThiTatCaPhong(Model model) {
         List<Phong> danhSach = phongService.getAllPhong();
@@ -27,7 +25,7 @@ public class PhongController {
         return "phong/list";
     }
 
-    // Form thêm phòng
+    // ➕ Hiển thị form thêm
     @GetMapping("/add")
     public String hienThiThemPhongUI(Model model) {
         model.addAttribute("phong", new Phong());
@@ -35,57 +33,72 @@ public class PhongController {
         return "phong/add";
     }
 
-    // Lưu phòng mới
+    // 💾 Lưu phòng mới (có kiểm tra trùng)
     @PostMapping("/save")
-    public String xuLyThemPhong(@ModelAttribute("phong") Phong phong) {
+    public String xuLyThemPhong(@ModelAttribute("phong") Phong phong, Model model) {
         phong.setTrangThai(phong.getSoNguoiHienTai() > 0);
-        phongService.themPhong(phong);
-        return "redirect:/phong/list";
+
+        boolean themThanhCong = phongService.themPhong(phong);
+
+        if (!themThanhCong) {
+            model.addAttribute("errorMessage",
+                    "❌ Phòng " + phong.getSoPhong() + " tại tòa " + phong.getToa() + " đã tồn tại!");
+            model.addAttribute("phong", phong);
+            model.addAttribute("title", "Thêm Phòng Mới");
+            return "phong/add"; // ở lại form thêm
+        }
+
+        return "redirect:/phong/list?success=true";
     }
 
-    // Form sửa phòng
-    @GetMapping("/edit/{soPhong}")
-    public String hienThiSuaPhongUI(@PathVariable("soPhong") String soPhong, Model model) {
-        Optional<Phong> phong = phongService.timKiemTheoSoPhong(soPhong);
+    // ✏️ Form sửa phòng
+    @GetMapping("/edit/{soPhong}/{toa}")
+    public String hienThiSuaPhongUI(@PathVariable("soPhong") String soPhong,
+                                    @PathVariable("toa") String toa,
+                                    Model model) {
+        Optional<Phong> phong = phongService.timKiemTheoSoPhongVaToa(soPhong, toa);
         if (phong.isPresent()) {
             model.addAttribute("phong", phong.get());
             model.addAttribute("title", "Chỉnh Sửa Phòng");
             return "phong/edit";
+        } else {
+            return "redirect:/phong/list?notfound=true";
         }
-        model.addAttribute("message", "Không tìm thấy phòng: " + soPhong);
-        return "redirect:/phong/list";
     }
 
-    // Cập nhật phòng
+    // 🔁 Cập nhật phòng
     @PostMapping("/update")
     public String xuLySuaPhong(@ModelAttribute("phong") Phong phong) {
         phong.setTrangThai(phong.getSoNguoiHienTai() > 0);
         phongService.suaPhong(phong);
-        return "redirect:/phong/list";
+        return "redirect:/phong/list?updated=true";
     }
 
-    // Xóa phòng
-    @GetMapping("/delete/{soPhong}")
-    public String xoaPhong(@PathVariable("soPhong") String soPhong) {
-        phongService.xoaPhong(soPhong);
-        return "redirect:/phong/list";
+    // ❌ Xóa phòng
+    @GetMapping("/delete/{soPhong}/{toa}")
+    public String xoaPhong(@PathVariable("soPhong") String soPhong,
+                           @PathVariable("toa") String toa) {
+        phongService.xoaPhong(soPhong, toa);
+        return "redirect:/phong/list?deleted=true";
     }
 
-    // Tìm kiếm phòng theo số phòng
+    // 🔍 Tìm kiếm phòng theo (soPhong, toa)
     @GetMapping("/search")
-    public String hienThiTimKiemPhongUI(@RequestParam("soPhong") String soPhong, Model model) {
-        Optional<Phong> phong = phongService.timKiemTheoSoPhong(soPhong);
+    public String hienThiTimKiemPhongUI(@RequestParam("soPhong") String soPhong,
+                                        @RequestParam("toa") String toa,
+                                        Model model) {
+        Optional<Phong> phong = phongService.timKiemTheoSoPhongVaToa(soPhong, toa);
         if (phong.isPresent()) {
             model.addAttribute("phongs", List.of(phong.get()));
-            model.addAttribute("title", "Kết quả tìm kiếm: " + soPhong);
+            model.addAttribute("title", "Kết quả tìm kiếm: " + soPhong + " - " + toa);
         } else {
             model.addAttribute("phongs", List.of());
-            model.addAttribute("message", "Không tìm thấy phòng số " + soPhong);
+            model.addAttribute("message", "Không tìm thấy phòng " + soPhong + " tại tòa " + toa);
         }
         return "phong/list";
     }
 
-    // Phòng còn trống
+    // 🟩 Phòng còn trống
     @GetMapping("/available")
     public String hienThiPhongTrong(Model model) {
         List<Phong> danhSach = phongService.timKiemPhongTrong();
@@ -94,7 +107,7 @@ public class PhongController {
         return "phong/list";
     }
 
-    // Phòng đang sử dụng
+    // 🟥 Phòng đang sử dụng
     @GetMapping("/occupied")
     public String hienThiPhongDangSuDung(Model model) {
         List<Phong> danhSach = phongService.getPhongTheoTrangThai(true);
@@ -103,7 +116,7 @@ public class PhongController {
         return "phong/list";
     }
 
-    // Tìm phòng theo tòa
+    // 🏢 Phòng theo tòa
     @GetMapping("/toa")
     public String hienThiPhongTheoToa(@RequestParam("toa") String toa, Model model) {
         List<Phong> danhSach = phongService.getPhongTheoToa(toa);
@@ -111,5 +124,4 @@ public class PhongController {
         model.addAttribute("title", "Danh Sách Phòng Tòa " + toa);
         return "phong/list";
     }
-
 }

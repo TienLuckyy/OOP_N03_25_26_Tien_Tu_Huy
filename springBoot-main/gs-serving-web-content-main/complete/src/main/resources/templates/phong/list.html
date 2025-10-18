@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,22 +15,47 @@
         .btn-warning:hover { background-color: #e68900; }
         .btn-danger { background-color: #f44336; color: white; }
         .btn-danger:hover { background-color: #da190b; }
+        .btn-home { background-color: #0d6efd; color: white; }
+        .btn-home:hover { background-color: #0b5ed7; }
+        .btn-detail { background-color: #17a2b8; color: white; }
+        .btn-detail:hover { background-color: #138496; }
         .status-badge { padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: bold; }
         .status-available { background-color: #d4edda; color: #155724; }
         .status-occupied { background-color: #f8d7da; color: #721c24; }
-        .alert { padding: 12px 20px; margin-bottom: 20px; border-radius: 4px; background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .alert { padding: 12px 20px; margin-bottom: 20px; border-radius: 4px; }
         .empty-message { text-align: center; padding: 40px; color: #666; }
         table th, table td { text-align: center; padding: 12px; }
         table th { background-color: #4CAF50; color: white; }
         table tr:hover { background-color: #f5f5f5; }
+        .top-actions { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
+        .search-bar input { padding: 6px 12px; border-radius: 4px; border: 1px solid #ced4da; min-width: 200px; }
     </style>
 </head>
 <body>
 <div class="container">
+
+    <!-- Thông báo -->
+    <div th:if="${param.success}" class="alert alert-success text-center">
+        ✅ Thêm phòng mới thành công!
+    </div>
+    <div th:if="${param.updated}" class="alert alert-info text-center">
+        ✏️ Cập nhật phòng thành công!
+    </div>
+    <div th:if="${param.deleted}" class="alert alert-info text-center">
+        🗑️ Xóa phòng thành công!
+    </div>
+    <div th:if="${param.notfound}" class="alert alert-warning">
+        ⚠️ Không tìm thấy phòng!
+    </div>
+
     <!-- Header -->
     <h1 th:text="${title}">Danh Sách Phòng</h1>
-    <div class="mb-3">
+
+    <!-- Top actions: Home, Add, Search -->
+    <div class="top-actions">
+        <a href="/" class="btn btn-home">🏠 Trang Chủ</a>
         <a href="/phong/add" class="btn btn-primary">+ Thêm Phòng Mới</a>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm theo số phòng hoặc tòa...">
     </div>
 
     <!-- Alert Message -->
@@ -39,9 +64,10 @@
     </div>
 
     <!-- Table danh sách phòng -->
-    <table class="table table-bordered table-hover" th:if="${phongs != null and !phongs.isEmpty()}">
+    <table class="table table-bordered table-hover" id="roomTable" th:if="${phongs != null and !phongs.isEmpty()}">
         <thead>
             <tr>
+                <th>STT</th>
                 <th>Số Phòng</th>
                 <th>Tòa</th>
                 <th>Sức Chứa</th>
@@ -51,7 +77,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="phong : ${phongs}">
+            <tr th:each="phong, iterStat : ${phongs}">
+                <td th:text="${iterStat.index + 1}">1</td>
                 <td th:text="${phong.soPhong}">101</td>
                 <td th:text="${phong.toa}">A</td>
                 <td th:text="${phong.soNguoiHienTai} + '/' + ${phong.soNguoiToiDa}">2/4</td>
@@ -65,10 +92,11 @@
                     <span th:unless="${phong.trangThai}" class="status-badge status-available">Còn trống</span>
                 </td>
                 <td>
-                    <a th:href="@{'/phong/edit/' + ${phong.soPhong}}" class="btn btn-warning">Sửa</a>
-                    <a th:href="@{'/phong/delete/' + ${phong.soPhong}}"
+                    <a th:href="@{'/phong/edit/' + ${phong.soPhong} + '/' + ${phong.toa}}" class="btn btn-warning btn-sm">Sửa</a>
+                    <a th:href="@{'/phong/delete/' + ${phong.soPhong} + '/' + ${phong.toa}}"
                        onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này?');"
-                       class="btn btn-danger">Xóa</a>
+                       class="btn btn-danger btn-sm">Xóa</a>
+                    <a th:href="@{'/phong/detail/' + ${phong.soPhong} + '/' + ${phong.toa}}" class="btn btn-detail btn-sm">Xem chi tiết</a>
                 </td>
             </tr>
         </tbody>
@@ -80,6 +108,37 @@
         <a href="/phong/add" class="btn btn-primary">Thêm Phòng Đầu Tiên</a>
     </div>
 </div>
+
+<!-- Tự động ẩn thông báo sau 3 giây -->
+<script>
+setTimeout(() => {
+  document.querySelectorAll('.alert-success, .alert-info').forEach(el => el.remove());
+}, 3000);
+
+// Live search + cập nhật STT
+const searchInput = document.getElementById('searchInput');
+const table = document.getElementById('roomTable');
+if(searchInput && table) {
+    searchInput.addEventListener('input', function() {
+        const filter = searchInput.value.toLowerCase();
+        const rows = table.getElementsByTagName('tr');
+        let count = 0;
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let match = false;
+            for (let j = 1; j <= 2; j++) { // cột số phòng + tòa
+                if (cells[j].innerText.toLowerCase().includes(filter)) {
+                    match = true;
+                    break;
+                }
+            }
+            rows[i].style.display = match ? '' : 'none';
+            if(match) count++;
+            if(match) cells[0].innerText = count; // cập nhật STT
+        }
+    });
+}
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -1,6 +1,8 @@
 package vn.edu.quanlynhatro.service;
+
 import vn.edu.quanlynhatro.controller.WriteToFile;
 import vn.edu.quanlynhatro.model.Phong;
+import vn.edu.quanlynhatro.model.PhongId;
 import vn.edu.quanlynhatro.repository.PhongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +22,14 @@ public class PhongService {
 
     public List<Phong> getAllPhong() {
         return phongRepository.findAll();
-
     }
 
-    public Optional<Phong> timKiemTheoSoPhong(String soPhong) {
-        return phongRepository.findById(soPhong);
+    // ✅ Tìm phòng theo (soPhong, toa)
+    public Optional<Phong> timKiemTheoSoPhongVaToa(String soPhong, String toa) {
+        return phongRepository.findById(new PhongId(soPhong, toa));
     }
 
+    // ✅ Tìm phòng còn trống
     public List<Phong> timKiemPhongTrong() {
         return phongRepository.findPhongConCho();
     }
@@ -39,9 +42,19 @@ public class PhongService {
         return phongRepository.findByToa(toa);
     }
 
-    public void themPhong(Phong phong) {
+    // ✅ Kiểm tra trùng phòng (soPhong + toa)
+    public boolean kiemTraTrungPhong(String soPhong, String toa) {
+        return phongRepository.existsBySoPhongAndToa(soPhong, toa);
+    }
+
+    // ✅ Thêm phòng (không ném exception)
+    public boolean themPhong(Phong phong) {
+        if (kiemTraTrungPhong(phong.getSoPhong(), phong.getToa())) {
+            return false; // báo là trùng
+        }
         phongRepository.save(phong);
         writeToFile.exportPhongData();
+        return true;
     }
 
     public void suaPhong(Phong phong) {
@@ -49,8 +62,8 @@ public class PhongService {
         writeToFile.exportPhongData();
     }
 
-    public void xoaPhong(String soPhong) {
-        phongRepository.deleteById(soPhong);
+    public void xoaPhong(String soPhong, String toa) {
+        phongRepository.deleteById(new PhongId(soPhong, toa));
         writeToFile.exportPhongData();
     }
 }

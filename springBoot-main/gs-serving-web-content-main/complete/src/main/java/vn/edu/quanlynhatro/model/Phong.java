@@ -2,7 +2,9 @@ package vn.edu.quanlynhatro.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+
 @Entity
+@IdClass(PhongId.class) // ✅ Khai báo khóa chính phức hợp
 @Table(name = "phong")
 public class Phong implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -11,25 +13,26 @@ public class Phong implements Serializable {
     @Column(name = "so_phong", length = 10)
     private String soPhong;
 
+    @Id
     @Column(name = "toa", length = 50, nullable = false)
     private String toa;
 
     @Column(name = "tien_nha")
-    private Double tienNha; // Đổi thành Double
+    private Double tienNha;
 
     @Column(name = "so_nguoi_hien_tai")
-    private Integer soNguoiHienTai; // Đổi thành Integer
+    private Integer soNguoiHienTai;
 
     @Column(name = "so_nguoi_toi_da")
-    private Integer soNguoiToiDa; // Đổi thành Integer
+    private Integer soNguoiToiDa;
 
     @Column(name = "trang_thai")
-    private Boolean trangThai; // Đổi thành Boolean
+    private Boolean trangThai;
 
-    // Constructors
     public Phong() {}
 
-    public Phong(String soPhong, String toa, Double tienNha, Integer soNguoiHienTai, Integer soNguoiToiDa, Boolean trangThai) {
+    public Phong(String soPhong, String toa, Double tienNha,
+                 Integer soNguoiHienTai, Integer soNguoiToiDa, Boolean trangThai) {
         this.soPhong = soPhong;
         this.toa = toa;
         this.tienNha = tienNha;
@@ -41,23 +44,22 @@ public class Phong implements Serializable {
     // Getters & Setters
     public String getSoPhong() { return soPhong; }
     public void setSoPhong(String soPhong) { this.soPhong = soPhong; }
-    
+
     public String getToa() { return toa; }
     public void setToa(String toa) { this.toa = toa; }
-    
+
     public Double getTienNha() { return tienNha; }
     public void setTienNha(Double tienNha) { this.tienNha = tienNha; }
-    
+
     public Integer getSoNguoiHienTai() { return soNguoiHienTai; }
     public void setSoNguoiHienTai(Integer soNguoiHienTai) { this.soNguoiHienTai = soNguoiHienTai; }
-    
+
     public Integer getSoNguoiToiDa() { return soNguoiToiDa; }
     public void setSoNguoiToiDa(Integer soNguoiToiDa) { this.soNguoiToiDa = soNguoiToiDa; }
-    
+
     public Boolean getTrangThai() { return trangThai; }
     public void setTrangThai(Boolean trangThai) { this.trangThai = trangThai; }
 
-    // Thêm method convenience để tương thích với code cũ
     public boolean isTrangThai() {
         return Boolean.TRUE.equals(trangThai);
     }

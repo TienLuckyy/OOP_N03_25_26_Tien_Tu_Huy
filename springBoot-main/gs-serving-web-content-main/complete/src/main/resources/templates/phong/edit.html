@@ -6,6 +6,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .form-group { margin-bottom: 1rem; }
+        /* Các input không sửa nhưng vẫn giống input bình thường */
+        .form-control[readonly],
+        .form-control[disabled] {
+            background-color: #e9ecef; /* giữ màu giống input readonly mặc định */
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -19,20 +25,22 @@
                 </div>
                 <div class="card-body">
                     <form th:action="@{/phong/update}" th:object="${phong}" method="post">
-                        
+
+                        <!-- Khóa chính: soPhong -->
                         <input type="hidden" th:field="*{soPhong}" />
 
                         <div class="form-group">
                             <label for="soPhongDisplay">Số Phòng (Không thể sửa):</label>
-                            <input type="text" id="soPhongDisplay" class="form-control" 
-                                   th:value="*{soPhong}" disabled>
+                            <input type="text" id="soPhongDisplay" class="form-control" th:value="*{soPhong}" disabled>
                         </div>
 
+                        <!-- Khóa chính: toa -->
                         <div class="form-group">
-                            <label for="toa">Tòa:</label>
-                            <input type="text" id="toa" th:field="*{toa}" class="form-control" required>
+                            <label for="toa">Tòa (Không thể sửa):</label>
+                            <input type="text" id="toa" th:field="*{toa}" class="form-control" readonly>
                         </div>
 
+                        <!-- Các trường có thể sửa -->
                         <div class="form-group">
                             <label for="soNguoiHienTai">Số Người Hiện Tại:</label>
                             <input type="number" id="soNguoiHienTai" th:field="*{soNguoiHienTai}" 
@@ -50,8 +58,6 @@
                             <input type="number" id="tienNha" th:field="*{tienNha}" 
                                    class="form-control" step="0.01" required>
                         </div>
-
-                        
 
                         <div class="d-flex justify-content-between mt-4">
                             <button type="submit" class="btn btn-warning">💾 Lưu Thay Đổi</button>
