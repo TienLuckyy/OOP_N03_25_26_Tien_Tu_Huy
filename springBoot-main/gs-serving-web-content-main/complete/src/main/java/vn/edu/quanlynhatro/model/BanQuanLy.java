@@ -1,14 +1,27 @@
-// package vn.edu.quanlynhatro.model;
+package vn.edu.quanlynhatro.model;
 
-// import java.util.Date;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-// public class BanQuanLy extends Nguoi {
-//     public BanQuanLy(String hoTen, String gioiTinh, String cccd, String soDienThoai, Date ngaySinh, String diaChi) {
-//         super(hoTen, gioiTinh, cccd, soDienThoai, ngaySinh, diaChi);
-//     }
+@Entity
+@Table(name = "ban_quan_ly")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@EqualsAndHashCode(callSuper = true)
+public class BanQuanLy extends Nguoi {
 
-//     @Override
-//     public String getThongTin() {
-//         return "Ban Quan Ly: " + hoTen + " - CCCD: " + cccd;
-//     }
-// }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String chucVu;
+    private String toaPhuTrach;
+
+    @Override
+    public String getThongTin() {
+        return "Ban quản lý: " + getHoTen() + " - " + chucVu + " (Tòa " + toaPhuTrach + ")";
+    }
+}

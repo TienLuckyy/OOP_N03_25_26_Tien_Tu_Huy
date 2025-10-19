@@ -133,7 +133,7 @@ width: 140px; height: 140px; margin: 0 auto 1rem;
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Phenikaa Residences</a>
+        <a class="navbar-brand" th:href="@{/}">Quản Lý Nhà Trọ Phenikaa</a>
         </a>
     </div>
 </nav>
@@ -183,16 +183,16 @@ width: 140px; height: 140px; margin: 0 auto 1rem;
                 <lottie-player src="/Student.json" background="transparent" speed="1" loop autoplay></lottie-player>
             </div>
             <h2>Sinh Viên</h2>
-            <p>Xem hợp đồng thuê, theo dõi hóa đơn và yêu cầu bảo trì trực tuyến.</p>
+            <p>Thêm sửa xóa thông tin sinh viên</p>
             <p><a class="btn btn-secondary-custom" th:href="@{/sinhvien/list}">View details &raquo;</a></p>
         </div>
         <div class="col-lg-4 feature-box">
             <div class="rounded-circle">
-                <lottie-player src="/Sign up.json" background="transparent" speed="1" loop autoplay></lottie-player>
+                <lottie-player src="/Manager.json" background="transparent" speed="1" loop autoplay></lottie-player>
             </div>
-            <h2>Quản Trị Viên</h2>
-            <p>Phân quyền, quản lý hệ thống, báo cáo tài chính tổng quan và tình trạng chung.</p>
-            <p><a class="btn btn-secondary-custom" th:href="@{/login}">View details &raquo;</a></p>
+            <h2>Ban Quản Lý</h2>
+            <p>Thêm sửa xóa thông tin cá nhân,tình trạng làm việc,chức cụ hiện tại</p>
+            <p><a class="btn btn-secondary-custom" th:href="@{/banquanly/list}">View details &raquo;</a></p>
         </div>
         <div class="col-lg-4 feature-box">
             <div class="rounded-circle">
@@ -227,7 +227,7 @@ width: 140px; height: 140px; margin: 0 auto 1rem;
             </div>
         </div>
         <div class="footer-bottom">
-            © 2025 Quản Lý Nhà Trọ. Tiến - Tú - Huy.
+            © 2025 Quản Lý Nhà Trọ Cho Sinh Viên Phenikaa. Tiến - Tú - Huy.
         </div>
     </div>
 </footer>

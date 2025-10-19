@@ -1,5 +1,5 @@
 ﻿===== DANH SÁCH PHÒNG =====
-Số phòng: 003 | Tòa: C | Tiền điện nước: 150000.00 | Hiện tại: 2 | Tối đa: 2 | Trạng thái: Đang thuê
+Số phòng: 003 | Tòa: C | Tiền điện nước: 0.00 | Hiện tại: 2 | Tối đa: 8 | Trạng thái: Đang thuê
 Số phòng: 004 | Tòa: A | Tiền điện nước: 150000.00 | Hiện tại: 0 | Tối đa: 5 | Trạng thái: Trống
 Số phòng: 004 | Tòa: A1 | Tiền điện nước: 150000.00 | Hiện tại: 0 | Tối đa: 5 | Trạng thái: Trống
 Số phòng: 004 | Tòa: A2 | Tiền điện nước: 150000.00 | Hiện tại: 3 | Tối đa: 5 | Trạng thái: Đang thuê
@@ -14,6 +14,5 @@ Số phòng: 204 | Tòa: A | Tiền điện nước: 1500000.00 | Hiện tại: 
 Số phòng: 205 | Tòa: A | Tiền điện nước: 1500000.00 | Hiện tại: 0 | Tối đa: 4 | Trạng thái: Trống
 Số phòng: 206 | Tòa: A | Tiền điện nước: 1500000.00 | Hiện tại: 0 | Tối đa: 4 | Trạng thái: Trống
 Số phòng: 207 | Tòa: A | Tiền điện nước: 1500000.00 | Hiện tại: 0 | Tối đa: 4 | Trạng thái: Trống
-Số phòng: 23 | Tòa: A2 | Tiền điện nước: 4000000.00 | Hiện tại: 0 | Tối đa: 3 | Trạng thái: Trống
 ===========================
-Cập nhật lần cuối: 18/10/2025 18:24:31
+Cập nhật lần cuối: 18/10/2025 21:27:06
