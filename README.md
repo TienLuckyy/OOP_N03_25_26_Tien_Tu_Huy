@@ -1,83 +1,55 @@
-# ỨNG DỤNG QUẢN LÝ NHÀ TRỌ CHO SINH VIÊN PHENIKAA
+# 🏠 ỨNG DỤNG QUẢN LÝ NHÀ TRỌ SINH VIÊN PHENIKAA
 
-## 👥 Thành viên nhóm
-- TÚ – Quản lý Phòng (Phong)
-- HUY HUY – Quản lý Sinh viên (SinhVien)
-- TIẾN – Quản lý Ban Quản Lý (BanQuanLy)
-  
-### 🧱 Mô tả đối tượng
-- **Phong:** Quản lý thông tin phòng trọ (số phòng, tòa, số người, trạng thái, tiền nhà, v.v.)
-- **SinhVien:** Quản lý thông tin sinh viên thuê trọ (mssv, tên, lớp, ngành học,quê quán,sđt,lop,v.v.)
-- **BanQuanLy:** Quản lý thông tin nhân viên ban quản lý khu trọ (cccd, tên, sô điện thoại, giới tính,ngày sinh, v.v. )
-
-Mục tiêu là hỗ trợ Ban quản lý theo dõi phòng, sinh viên và nhân sự quản lý.
-Ứng dụng cung cấp các chức năng chính:
-- Quản lý phòng trọ (thêm, sửa, xóa, tìm kiếm, xuất file)
-- Quản lý sinh viên (thêm, sửa, xóa, tìm kiếm, xuất file)
-- Quản lý ban quản lý (thêm, sửa, xóa, tìm kiếm, xuất file)
-
-## 🛠️ Công nghệ sử dụng
-- **Spring Boot 3**
-- **Thymeleaf**
-- **MySQL (Aiven Cloud)**
-- **JPA / Hibernate**
-- **HTML, Tailwind CSS**
-
-## Sơ đồ Class Diagram
-<img width="247" height="1014" alt="image" src="https://github.com/user-attachments/assets/6772d3f3-1c30-4787-bf42-0e83e76f0f45" />
-
-
-## Activity diagram
-
-## TÚ-PHÒNG
-
-### Create 
-<img width="380" height="577" alt="image" src="https://github.com/user-attachments/assets/e442a7d4-09a0-4223-80bb-5113bd496c7e" />
-
-### Read 
-<img width="267" height="405" alt="image" src="https://github.com/user-attachments/assets/4d92d237-2c3f-4bc4-b05e-1dd40e97e23a" />
-
-### Update 
-<img width="267" height="567" alt="image" src="https://github.com/user-attachments/assets/be907bdf-31c5-4661-8bd2-ea0b7c6da177" />
-
-### Delete 
-<img width="337" height="469" alt="image" src="https://github.com/user-attachments/assets/c727e2d5-797c-4a1b-9a2c-3386e9d0d5cd" />
-
-## Class Diagram cho Phong
-<img width="321" height="727" alt="image" src="https://github.com/user-attachments/assets/fbda7e2a-837b-4754-98c4-29826a204631" />
-
-## HUY-SINHVIEN
-
-### Create: Thêm mới sinh viên với thông tin đầy đủ.
-<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/5d06140d-2c05-4538-9668-96e4684dc5a0" />
-
-### Read : Lấy danh sách tất cả sinh viên hoặc tìm kiếm theo MSSV.
-<img width="300" height="400" alt="image" src="https://github.com/user-attachments/assets/55429d0b-5a3e-486b-92c8-bda9806a2a14" />
-
-### Update: Chỉnh sửa thông tin sinh viên (chỉ cập nhật các trường có dữ liệu mới).
-<img width="300" height="500" alt="image" src="https://github.com/user-attachments/assets/ef801fbe-f503-44b2-8713-bcab906a223c" />
-
-### Delete : Xóa sinh viên theo MSSV.
-<img width="300" height="400" alt="image" src="https://github.com/user-attachments/assets/18cc43a6-ebe4-4ee3-9b74-475b88b34e73" />
-
-## TIẾN-BANQUANLY
-
-### Create:Thêm thành viên vào BQL với thông tin đầy đủ.
-<img width="433" height="385" alt="addBQL" src="https://github.com/user-attachments/assets/2e83c70e-70c0-44d2-9bba-18401971311b" />
-
-### Read:Hiển thị toàn bộ danh sách BQL và tìm kiếm theo MSSV.
-<img width="472" height="277" alt="readBQL" src="https://github.com/user-attachments/assets/6995f967-96bc-404f-b0db-461ea42a9cb0" />
-
-### Update : Chỉnh sửa thông tin thành viên BQL (chỉ cập nhật các trường có dữ liệu mới).
-<img width="520" height="493" alt="updateBQL" src="https://github.com/user-attachments/assets/d2ab402a-0ea5-404e-b825-229dbc2e2f2b" />
-
-### Delete: Xóa thành viên BQL theo CCCD.
-<img width="485" height="385" alt="dltBQL" src="https://github.com/user-attachments/assets/b7c727e1-9fb6-493f-afc6-edff9b98bc81" />
+### 👨‍💻 Nhóm: N03_25_26_Tiến_Tú_Huy  
+> Dự án môn **Lập trình hướng đối tượng – Đại học Phenikaa**
 
 ---
-## 📎 Liên kết nộp bài
-- **Repo GitHub nhóm:** https://github.com/TienLuckyy/OOP_N03_25_26_Tien_Tu_Huy
 
-  
+## 📋 Giới thiệu
+**Ứng dụng Quản lý Nhà trọ Sinh viên Phenikaa** là hệ thống web được phát triển bằng **Spring Boot**, giúp **ban quản lý theo dõi và quản lý thông tin phòng trọ, sinh viên thuê trọ và nhân sự quản lý từng tòa nhà**.
 
+---
 
+## 🎯 Tính năng chính
+
+### 🏠 Quản lý Phòng (Tú phụ trách)
+- Thêm, sửa, xóa, tìm kiếm phòng  
+- Quản lý số người hiện tại / tối đa trong phòng  
+- Gán sinh viên vào phòng  
+- Theo dõi trạng thái phòng (trống / đã thuê)  
+
+### 👨‍🎓 Quản lý Sinh viên (Huy phụ trách)
+- CRUD thông tin sinh viên  
+- Tìm kiếm sinh viên theo MSSV  
+- Quản lý thông tin cá nhân, lớp, ngành, quê quán  
+
+### 👨‍💼 Quản lý Ban quản lý (Tiến phụ trách)
+- CRUD nhân sự ban quản lý  
+- Phân công quản lý theo tòa nhà  
+- Quản lý thông tin liên hệ  
+
+---
+
+## 🛠 Công nghệ sử dụng
+| Thành phần | Công nghệ |
+|-------------|------------|
+| **Ngôn ngữ** | Java 17 |
+| **Framework Backend** | Spring Boot 3 |
+| **Frontend** | Thymeleaf, HTML5, CSS3 (Bootstrap 5) |
+| **Database** | MySQL (Aiven Cloud) |
+| **ORM** | JPA / Hibernate |
+| **Build Tool** | Maven |
+| **IDE** | IntelliJ IDEA |
+
+---
+
+## 🗄 Kiến trúc cơ sở dữ liệu
+### Các entity chính:
+#### 🏠 Phong
+```java
+String soPhong;
+String toa;
+double tienNha;
+int soNguoiHienTai;
+int soNguoiToiDa;
+boolean trangThai;
