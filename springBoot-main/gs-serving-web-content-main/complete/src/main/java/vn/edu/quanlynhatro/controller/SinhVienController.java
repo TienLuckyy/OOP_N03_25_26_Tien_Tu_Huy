@@ -36,45 +36,56 @@ public class SinhVienController {
     }
 
     // ------------------- LƯU SINH VIÊN (CREATE/UPDATE LOGIC) -------------------
+// ------------------- LƯU SINH VIÊN (CREATE/UPDATE LOGIC) -------------------
 @PostMapping("/save")
 public String xuLyLuuSinhVien(@ModelAttribute("sinhvien") SinhVien sinhVien,
                               RedirectAttributes ra) {
 
-    boolean isEdit = sinhVien.getId() != null; // true nếu đang sửa
-
-    // Kiểm tra MSSV trùng
-    Optional<SinhVien> svMssv = sinhVienService.findByMssv(sinhVien.getMssv());
-    if (svMssv.isPresent() && (!isEdit || !svMssv.get().getId().equals(sinhVien.getId()))) {
-        ra.addFlashAttribute("error", "MSSV '" + sinhVien.getMssv() + "' đã tồn tại!");
-        ra.addFlashAttribute("sinhvien", sinhVien); // giữ dữ liệu
-        return isEdit ? "redirect:/sinhvien/edit/" + sinhVien.getId() : "redirect:/sinhvien/add";
-    }
-
-    // Kiểm tra CCCD trùng
-    Optional<SinhVien> svCccd = sinhVienService.findByCccd(sinhVien.getCccd());
-    if (svCccd.isPresent() && (!isEdit || !svCccd.get().getId().equals(sinhVien.getId()))) {
-        ra.addFlashAttribute("error", "CCCD '" + sinhVien.getCccd() + "' đã tồn tại!");
-        ra.addFlashAttribute("sinhvien", sinhVien);
-        return isEdit ? "redirect:/sinhvien/edit/" + sinhVien.getId() : "redirect:/sinhvien/add";
-    }
-
-    // Kiểm tra SĐT trùng
-    if (sinhVien.getSoDienThoai() != null && !sinhVien.getSoDienThoai().isEmpty()) {
-        Optional<SinhVien> svSdt = sinhVienService.findBySoDienThoai(sinhVien.getSoDienThoai());
-        if (svSdt.isPresent() && (!isEdit || !svSdt.get().getId().equals(sinhVien.getId()))) {
-            ra.addFlashAttribute("error", "Số điện thoại '" + sinhVien.getSoDienThoai() + "' đã tồn tại!");
-            ra.addFlashAttribute("sinhvien", sinhVien);
-            return isEdit ? "redirect:/sinhvien/edit/" + sinhVien.getId() : "redirect:/sinhvien/add";
+    // 🔥 QUAN TRỌNG: Giữ lại thông tin phòng khi update
+    if (sinhVien.getId() != null) {
+        // Nếu là update, lấy thông tin phòng hiện tại từ database
+        Optional<SinhVien> existingSinhVien = sinhVienService.findById(sinhVien.getId());
+        if (existingSinhVien.isPresent()) {
+            SinhVien existing = existingSinhVien.get();
+            // Giữ lại thông tin phòng nếu không thay đổi
+            if (sinhVien.getPhong() == null && existing.getPhong() != null) {
+                sinhVien.setPhong(existing.getPhong());
+            }
         }
     }
 
-    // Lưu sinh viên nếu không trùng
+    // Kiểm tra MSSV trùng (chỉ với sinh viên mới)
+    if (sinhVien.getId() == null) {
+        Optional<SinhVien> svMssv = sinhVienService.findByMssv(sinhVien.getMssv());
+        if (svMssv.isPresent()) {
+            ra.addFlashAttribute("error", "MSSV '" + sinhVien.getMssv() + "' đã tồn tại!");
+            return "redirect:/sinhvien/add";
+        }
+    }
+
+    // Kiểm tra CCCD trùng (chỉ với sinh viên mới)
+    if (sinhVien.getId() == null) {
+        Optional<SinhVien> svCccd = sinhVienService.findByCccd(sinhVien.getCccd());
+        if (svCccd.isPresent()) {
+            ra.addFlashAttribute("error", "CCCD '" + sinhVien.getCccd() + "' đã tồn tại!");
+            return "redirect:/sinhvien/add";
+        }
+    }
+
+    // Kiểm tra SĐT trùng (chỉ với sinh viên mới)
+    if (sinhVien.getId() == null && sinhVien.getSoDienThoai() != null && !sinhVien.getSoDienThoai().isEmpty()) {
+        Optional<SinhVien> svSdt = sinhVienService.findBySoDienThoai(sinhVien.getSoDienThoai());
+        if (svSdt.isPresent()) {
+            ra.addFlashAttribute("error", "Số điện thoại '" + sinhVien.getSoDienThoai() + "' đã tồn tại!");
+            return "redirect:/sinhvien/add";
+        }
+    }
+
+    // Lưu sinh viên
     sinhVienService.save(sinhVien);
-    ra.addFlashAttribute("success", isEdit ? "Cập nhật sinh viên thành công!" : "Thêm sinh viên thành công!");
+    ra.addFlashAttribute("success", "Lưu sinh viên thành công!");
     return "redirect:/sinhvien/list";
 }
-
-
 
     // ------------------- FORM SỬA SINH VIÊN (UPDATE UI - Dùng ID) -------------------
         @GetMapping("/edit/{id}")
@@ -88,6 +99,19 @@ public String xuLyLuuSinhVien(@ModelAttribute("sinhvien") SinhVien sinhVien,
             ra.addFlashAttribute("error", "Không tìm thấy sinh viên có ID: " + id);
             return "redirect:/sinhvien/list";
         }
+
+@GetMapping("/detail/{id}")
+public String detailSinhVien(@PathVariable Long id, Model model) {
+    SinhVien sv = sinhVienService.findById(id).orElse(null);
+    if (sv == null) {
+        model.addAttribute("error", "Sinh viên không tồn tại");
+        return "redirect:/sinhvien/list";
+    }
+    model.addAttribute("sinhvien", sv);
+    model.addAttribute("title", "Chi Tiết Sinh Viên");
+    return "sinhvien/detail";
+}
+
 
 
     // ------------------- XÓA SINH VIÊN (DELETE - Dùng ID) -------------------

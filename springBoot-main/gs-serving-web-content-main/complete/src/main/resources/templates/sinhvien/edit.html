@@ -123,16 +123,7 @@
             </div>
         </div>
 
-        <div class="form-section">
-            <h5>🏠 Thông Tin Phòng Trọ</h5>
-            <div th:if="${sinhvien.phong != null}" class="alert alert-info">
-                <strong>Phòng:</strong> <span th:text="${sinhvien.phong.soPhong}"></span> -
-                <strong>Tòa:</strong> <span th:text="${sinhvien.phong.toa}"></span>
-            </div>
-            <div th:unless="${sinhvien.phong != null}" class="alert alert-warning">
-                Sinh viên chưa có phòng
-            </div>
-        </div>
+        
 
         <div class="action-buttons">
             <button type="submit" class="btn btn-primary">💾 Lưu Thay Đổi</button>

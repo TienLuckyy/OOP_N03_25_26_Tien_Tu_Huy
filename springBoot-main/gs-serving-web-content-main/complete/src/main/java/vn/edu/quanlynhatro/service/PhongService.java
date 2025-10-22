@@ -8,7 +8,7 @@ import vn.edu.quanlynhatro.repository.SinhVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import vn.edu.quanlynhatro.controller.WriteToFile;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,178 +22,106 @@ public class PhongService {
     @Autowired
     private SinhVienRepository sinhVienRepository;
 
+    @Autowired
+    private WriteToFile writeToFile; // 🔔 Tự động xuất file
+
     // === CRUD CƠ BẢN ===
-    
-    // 📖 READ - Lấy tất cả phòng
+
     public List<Phong> getAllPhong() {
         return phongRepository.findAll();
     }
 
-    // 📖 READ - Tìm phòng theo số phòng và tòa
     public Optional<Phong> getPhongById(String soPhong, String toa) {
         return phongRepository.findBySoPhongAndToa(soPhong, toa);
     }
 
-    // ➕ CREATE - Thêm phòng mới (SỬA LỖI NULL)
     public boolean createPhong(Phong phong) {
         if (phongRepository.existsBySoPhongAndToa(phong.getSoPhong(), phong.getToa())) {
-            return false; // Phòng đã tồn tại
+            return false;
         }
-        
-        // Xử lý giá trị null - set mặc định nếu null
-        if (phong.getSoNguoiHienTai() == null) {
-            phong.setSoNguoiHienTai(0);
-        }
-        if (phong.getSoNguoiToiDa() == null) {
-            phong.setSoNguoiToiDa(4); // giá trị mặc định
-        }
-        if (phong.getTienNha() == null) {
-            phong.setTienNha(0.0);
-        }
-        
+
+        if (phong.getSoNguoiToiDa() == null) phong.setSoNguoiToiDa(4);
+        if (phong.getTienNha() == null) phong.setTienNha(0.0);
         phong.setTrangThai(phong.getSoNguoiHienTai() > 0);
+
         phongRepository.save(phong);
+        writeToFile.exportPhongData(); // 🔔 Tự động lưu
         return true;
     }
 
-    // ✏️ UPDATE - Cập nhật phòng (SỬA LỖI NULL)
     public boolean updatePhong(Phong phong) {
-        if (!phongRepository.existsById(new PhongId(phong.getSoPhong(), phong.getToa()))) {
-            return false; // Phòng không tồn tại
-        }
-        
-        // Xử lý giá trị null
-        if (phong.getSoNguoiHienTai() == null) {
-            phong.setSoNguoiHienTai(0);
-        }
-        if (phong.getSoNguoiToiDa() == null) {
-            phong.setSoNguoiToiDa(4);
-        }
-        if (phong.getTienNha() == null) {
-            phong.setTienNha(0.0);
-        }
-        
+        Optional<Phong> phongDbOpt = phongRepository.findById(new PhongId(phong.getSoPhong(), phong.getToa()));
+        if (phongDbOpt.isEmpty()) return false;
+
+        Phong phongDb = phongDbOpt.get();
+        if (phong.getSoNguoiToiDa() != null) phongDb.setSoNguoiToiDa(phong.getSoNguoiToiDa());
+        if (phong.getTienNha() != null) phongDb.setTienNha(phong.getTienNha());
+
+        phongRepository.save(phongDb);
+        writeToFile.exportPhongData(); // 🔔 Tự động lưu
+        return true;
+    }
+
+    public boolean deletePhong(String soPhong, String toa) {
+        Optional<Phong> phongOpt = phongRepository.findBySoPhongAndToa(soPhong, toa);
+        if (phongOpt.isEmpty() || phongOpt.get().getSoNguoiHienTai() > 0) return false;
+
+        phongRepository.deleteById(new PhongId(soPhong, toa));
+        writeToFile.exportPhongData(); // 🔔 Tự động lưu
+        return true;
+    }
+
+    // === Gán/Xóa sinh viên ===
+    public boolean assignStudent(Long sinhVienId, String soPhong, String toa) {
+        Optional<Phong> phongOpt = phongRepository.findBySoPhongAndToa(soPhong, toa);
+        Optional<SinhVien> svOpt = sinhVienRepository.findById(sinhVienId);
+        if (phongOpt.isEmpty() || svOpt.isEmpty()) return false;
+
+        Phong phong = phongOpt.get();
+        SinhVien sv = svOpt.get();
+
+        int soNguoiToiDa = phong.getSoNguoiToiDa() != null ? phong.getSoNguoiToiDa() : 4;
+        if (phong.getSoNguoiHienTai() >= soNguoiToiDa || sv.getPhong() != null) return false;
+
+        sv.setPhong(phong);
+        sinhVienRepository.save(sv);
+
+        phong.setTrangThai(true);
+        phongRepository.save(phong);
+
+        writeToFile.exportPhongData(); // 🔔 Tự động lưu
+        return true;
+    }
+
+    public boolean removeStudent(Long sinhVienId, String soPhong, String toa) {
+        Optional<SinhVien> svOpt = sinhVienRepository.findById(sinhVienId);
+        Optional<Phong> phongOpt = phongRepository.findBySoPhongAndToa(soPhong, toa);
+        if (svOpt.isEmpty() || phongOpt.isEmpty()) return false;
+
+        SinhVien sv = svOpt.get();
+        Phong phong = phongOpt.get();
+        if (sv.getPhong() == null || !sv.getPhong().equals(phong)) return false;
+
+        sv.setPhong(null);
+        sinhVienRepository.save(sv);
+
         phong.setTrangThai(phong.getSoNguoiHienTai() > 0);
         phongRepository.save(phong);
+
+        writeToFile.exportPhongData(); // 🔔 Tự động lưu
         return true;
     }
 
-    // ❌ DELETE - Xóa phòng
-    public boolean deletePhong(String soPhong, String toa) {
-        Optional<Phong> phong = phongRepository.findBySoPhongAndToa(soPhong, toa);
-        if (phong.isEmpty() || !phong.get().getSinhViens().isEmpty()) {
-            return false; // Không tồn tại hoặc đang có sinh viên
-        }
-        phongRepository.deleteById(new PhongId(soPhong, toa));
-        return true;
-    }
-
-    // === BUSINESS METHODS ===
-
-    // 🟩 Lấy phòng còn trống
+    // === Các phương thức khác ===
     public List<Phong> getEmptyRooms() {
         return phongRepository.findPhongConCho();
     }
 
-    // 🟥 Lấy phòng theo trạng thái
     public List<Phong> getPhongTheoTrangThai(boolean trangThai) {
         return phongRepository.findByTrangThai(trangThai);
     }
 
-    // 🏢 Lấy phòng theo tòa
     public List<Phong> getPhongTheoToa(String toa) {
         return phongRepository.findByToa(toa);
-    }
-
-    // 👥 Gán sinh viên vào phòng (SỬA LỖI NULL)
-    public boolean assignStudent(Long sinhVienId, String soPhong, String toa) {
-        Optional<Phong> phongOpt = phongRepository.findBySoPhongAndToa(soPhong, toa);
-        Optional<SinhVien> sinhVienOpt = sinhVienRepository.findById(sinhVienId);
-        
-        if (phongOpt.isEmpty() || sinhVienOpt.isEmpty()) {
-            return false;
-        }
-
-        Phong phong = phongOpt.get();
-        SinhVien sv = sinhVienOpt.get();
-
-        // Kiểm tra điều kiện (xử lý null)
-        int soNguoiHienTai = phong.getSoNguoiHienTai() != null ? phong.getSoNguoiHienTai() : 0;
-        int soNguoiToiDa = phong.getSoNguoiToiDa() != null ? phong.getSoNguoiToiDa() : 4;
-        
-        if (soNguoiHienTai >= soNguoiToiDa || sv.getPhong() != null) {
-            return false;
-        }
-
-        // Thực hiện gán
-        sv.setPhong(phong);
-        sinhVienRepository.save(sv);
-
-        // Cập nhật số người
-        phong.setSoNguoiHienTai(soNguoiHienTai + 1);
-        phong.setTrangThai(true);
-        phongRepository.save(phong);
-
-        return true;
-    }
-
-    // 🗑️ Xóa sinh viên khỏi phòng (SỬA LỖI NULL)
-    public boolean removeStudent(Long sinhVienId, String soPhong, String toa) {
-        Optional<SinhVien> sinhVienOpt = sinhVienRepository.findById(sinhVienId);
-        Optional<Phong> phongOpt = phongRepository.findBySoPhongAndToa(soPhong, toa);
-        
-        if (sinhVienOpt.isEmpty() || phongOpt.isEmpty()) {
-            return false;
-        }
-
-        SinhVien sv = sinhVienOpt.get();
-        Phong phong = phongOpt.get();
-
-        // Kiểm tra sinh viên có trong phòng này không
-        if (sv.getPhong() == null || !sv.getPhong().equals(phong)) {
-            return false;
-        }
-
-        // Xóa khỏi phòng
-        sv.setPhong(null);
-        sinhVienRepository.save(sv);
-
-        // Cập nhật số người (xử lý null)
-        int soNguoiHienTai = phong.getSoNguoiHienTai() != null ? phong.getSoNguoiHienTai() : 0;
-        phong.setSoNguoiHienTai(Math.max(0, soNguoiHienTai - 1));
-        phong.setTrangThai(phong.getSoNguoiHienTai() > 0);
-        phongRepository.save(phong);
-
-        return true;
-    }
-
-    // === COMPATIBILITY METHODS ===
-    
-    public Optional<Phong> timKiemTheoSoPhongVaToa(String soPhong, String toa) {
-        return getPhongById(soPhong, toa);
-    }
-    
-    public Phong layPhongTheoSoPhongVaToa(String soPhong, String toa) {
-        return getPhongById(soPhong, toa).orElse(null);
-    }
-    
-    public List<Phong> timKiemPhongTrong() {
-        return getEmptyRooms();
-    }
-    
-    public boolean themPhong(Phong phong) {
-        return createPhong(phong);
-    }
-    
-    public void suaPhong(Phong phong) {
-        updatePhong(phong);
-    }
-    
-    public void xoaPhong(String soPhong, String toa) {
-        deletePhong(soPhong, toa);
-    }
-    
-    public boolean ganSinhVienVaoPhong(Long sinhVienId, String soPhong, String toa) {
-        return assignStudent(sinhVienId, soPhong, toa);
     }
 }

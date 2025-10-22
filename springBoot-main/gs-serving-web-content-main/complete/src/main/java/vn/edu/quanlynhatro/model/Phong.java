@@ -2,7 +2,9 @@ package vn.edu.quanlynhatro.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+// SỬA 1: Dùng Set thay vì List để quản lý quan hệ, tốt hơn cho JPA
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @IdClass(PhongId.class) // Khóa chính phức hợp
@@ -21,8 +23,9 @@ public class Phong implements Serializable {
     @Column(name = "tien_nha")
     private Double tienNha;
 
-    @Column(name = "so_nguoi_hien_tai")
-    private Integer soNguoiHienTai;
+    // SỬA 2: Xóa trường này. Chúng ta sẽ không lưu nó trong database nữa.
+    // @Column(name = "so_nguoi_hien_tai")
+    // private Integer soNguoiHienTai; 
 
     @Column(name = "so_nguoi_toi_da")
     private Integer soNguoiToiDa;
@@ -30,18 +33,19 @@ public class Phong implements Serializable {
     @Column(name = "trang_thai")
     private Boolean trangThai;
 
-    // 🔗 Quan hệ 1 phòng – N sinh viên
+    // SỬA 3: Dùng Set và khởi tạo nó
     @OneToMany(mappedBy = "phong", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<SinhVien> sinhViens;
+    private Set<SinhVien> sinhViens = new HashSet<>();
 
     public Phong() {}
 
+    // SỬA 4: Xóa 'soNguoiHienTai' khỏi constructor
     public Phong(String soPhong, String toa, Double tienNha,
-                 Integer soNguoiHienTai, Integer soNguoiToiDa, Boolean trangThai) {
+                 /* Integer soNguoiHienTai, */ Integer soNguoiToiDa, Boolean trangThai) {
         this.soPhong = soPhong;
         this.toa = toa;
         this.tienNha = tienNha;
-        this.soNguoiHienTai = soNguoiHienTai;
+        // this.soNguoiHienTai = soNguoiHienTai; // Xóa dòng này
         this.soNguoiToiDa = soNguoiToiDa;
         this.trangThai = trangThai;
     }
@@ -56,8 +60,23 @@ public class Phong implements Serializable {
     public Double getTienNha() { return tienNha; }
     public void setTienNha(Double tienNha) { this.tienNha = tienNha; }
 
-    public Integer getSoNguoiHienTai() { return soNguoiHienTai; }
-    public void setSoNguoiHienTai(Integer soNguoiHienTai) { this.soNguoiHienTai = soNguoiHienTai; }
+    
+    // SỬA 5: THÊM PHƯƠNG THỨC NÀY
+    /**
+     * Phương thức này sẽ tự động đếm số sinh viên trong danh sách.
+     * Nó không được lưu vào database (vì không có @Column).
+     * Thymeleaf sẽ tự động gọi 'getSoNguoiHienTai()' khi bạn dùng ${phong.soNguoiHienTai}.
+     */
+    public Integer getSoNguoiHienTai() { 
+        if (this.sinhViens == null) {
+            return 0;
+        }
+        return this.sinhViens.size(); // Luôn trả về số lượng chính xác
+    }
+    
+    // SỬA 6: Xóa Setter cho soNguoiHienTai
+    // public void setSoNguoiHienTai(Integer soNguoiHienTai) { ... }
+
 
     public Integer getSoNguoiToiDa() { return soNguoiToiDa; }
     public void setSoNguoiToiDa(Integer soNguoiToiDa) { this.soNguoiToiDa = soNguoiToiDa; }
@@ -69,11 +88,12 @@ public class Phong implements Serializable {
         return Boolean.TRUE.equals(trangThai);
     }
 
-    public List<SinhVien> getSinhViens() {
+    // SỬA 7: Cập nhật getter/setter cho Set
+    public Set<SinhVien> getSinhViens() {
         return sinhViens;
     }
 
-    public void setSinhViens(List<SinhVien> sinhViens) {
+    public void setSinhViens(Set<SinhVien> sinhViens) {
         this.sinhViens = sinhViens;
     }
 
@@ -83,7 +103,8 @@ public class Phong implements Serializable {
                 "soPhong='" + soPhong + '\'' +
                 ", toa='" + toa + '\'' +
                 ", tienNha=" + tienNha +
-                ", soNguoiHienTai=" + soNguoiHienTai +
+                // SỬA 8: Xóa 'soNguoiHienTai' khỏi toString
+                // ", soNguoiHienTai=" + soNguoiHienTai + 
                 ", soNguoiToiDa=" + soNguoiToiDa +
                 ", trangThai=" + trangThai +
                 '}';
