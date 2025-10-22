@@ -1,79 +1,137 @@
 package vn.edu.quanlynhatro.controller;
 
+import vn.edu.quanlynhatro.model.BanQuanLy;
+import vn.edu.quanlynhatro.model.Phong;
+import vn.edu.quanlynhatro.model.SinhVien;
+import vn.edu.quanlynhatro.service.BanQuanLyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import vn.edu.quanlynhatro.model.BanQuanLy;
-import vn.edu.quanlynhatro.service.BanQuanLyService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/banquanly")
 public class BanQuanLyController {
-
+    
     @Autowired
     private BanQuanLyService banQuanLyService;
-
-    // 🟢 Danh sách
+    
+    // 📄 Danh sách ban quản lý - http://localhost:8081/banquanly/list
     @GetMapping("/list")
-    public String listBanQuanLy(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
-        List<BanQuanLy> list;
-        if (keyword != null && !keyword.trim().isEmpty()) {
-            list = banQuanLyService.searchByHoTen(keyword);
-            model.addAttribute("keyword", keyword);
+    public String listBanQuanLy(Model model, 
+                               @RequestParam(required = false) String search,
+                               @RequestParam(required = false) String toa) {
+        List<BanQuanLy> banQuanLys;
+        
+        if (search != null && !search.isEmpty()) {
+            banQuanLys = banQuanLyService.searchBanQuanLy(search);
+        } else if (toa != null && !toa.isEmpty()) {
+            banQuanLys = banQuanLyService.getNhanVienTheoToa(toa);
         } else {
-            list = banQuanLyService.getAll();
+            banQuanLys = banQuanLyService.getAllBanQuanLy();
         }
-        model.addAttribute("list", list);
-        model.addAttribute("title", "Danh Sách Ban Quản Lý");
+        
+        model.addAttribute("banQuanLys", banQuanLys);
+        model.addAttribute("search", search);
+        model.addAttribute("toa", toa);
+        model.addAttribute("thongKe", banQuanLyService.getThongKeTongQuanText());
+        
         return "banquanly/list";
     }
-
-    // 🟢 Form thêm mới
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        model.addAttribute("banQuanLy", new BanQuanLy());
-        model.addAttribute("title", "Thêm Ban Quản Lý");
-        return "banquanly/add";
-    }
-
-    // 🟢 Lưu thêm mới
-    @PostMapping("/add")
-    public String addBanQuanLy(@ModelAttribute("banQuanLy") BanQuanLy bql) {
-        banQuanLyService.save(bql);
-        return "redirect:/banquanly/list?success=true";
-    }
-
-    // 🟢 Xem chi tiết
+    
+    // 👀 Xem chi tiết ban quản lý - http://localhost:8081/banquanly/detail/{id}
     @GetMapping("/detail/{id}")
-    public String detailBanQuanLy(@PathVariable("id") Long id, Model model) {
-        BanQuanLy bql = banQuanLyService.getById(id);
-        model.addAttribute("banQuanLy", bql);
-        model.addAttribute("title", "Chi Tiết Ban Quản Lý");
+    public String chiTietBanQuanLy(@PathVariable Long id, Model model) {
+        BanQuanLy banQuanLy = banQuanLyService.getBanQuanLyById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy ban quản lý"));
+        
+        // Lấy thống kê
+        Map<String, Object> thongKe = banQuanLyService.getThongKeNhanVien(id);
+        List<Phong> phongQuanLy = banQuanLyService.getPhongQuanLyByNhanVien(id);
+        List<SinhVien> sinhVienQuanLy = banQuanLyService.getSinhVienQuanLyByNhanVien(id);
+        
+        model.addAttribute("banQuanLy", banQuanLy);
+        model.addAttribute("thongKe", thongKe);
+        model.addAttribute("phongQuanLy", phongQuanLy);
+        model.addAttribute("sinhVienQuanLy", sinhVienQuanLy);
+        
+
+        model.addAttribute("totalPhong", phongQuanLy.size());
+        model.addAttribute("totalSinhVien", sinhVienQuanLy.size());
         return "banquanly/detail";
     }
+    
+    // ➕ Form thêm ban quản lý - http://localhost:8081/banquanly/add
+    @GetMapping("/add")
+    public String showThemBanQuanLyForm(Model model) {
+        model.addAttribute("banQuanLy", new BanQuanLy());
+        model.addAttribute("danhSachToa", List.of("Tòa A", "Tòa B", "Tòa C", "Tất cả"));
+        return "banquanly/add";
+    }
+    
+    // 💾 Lưu ban quản lý mới - http://localhost:8081/banquanly/add
+    @PostMapping("/add")
+    public String themBanQuanLy(@ModelAttribute("banQuanLy") BanQuanLy banQuanLy,
+                                Model model,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            banQuanLyService.createBanQuanLy(banQuanLy);
+            redirectAttributes.addFlashAttribute("success",
+                    "Thêm ban quản lý " + banQuanLy.getHoTen() + " thành công!");
+            return "redirect:/banquanly/list"; // ✅ chỉ redirect khi thêm thành công
+        } catch (RuntimeException e) {
+            // ❌ Khi bị trùng, giữ nguyên form và báo lỗi
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("danhSachToa", List.of("Tòa A", "Tòa B", "Tòa C", "Tất cả"));
+            return "banquanly/add";
+        }
+    }
 
-    // 🟢 Sửa
+    
+    // ✏️ Form sửa ban quản lý - http://localhost:8081/banquanly/edit/{id}
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Long id, Model model) {
-        BanQuanLy bql = banQuanLyService.getById(id);
-        model.addAttribute("banQuanLy", bql);
-        model.addAttribute("title", "Sửa Thông Tin Ban Quản Lý");
+    public String showSuaBanQuanLyForm(@PathVariable Long id, Model model) {
+        BanQuanLy banQuanLy = banQuanLyService.getBanQuanLyById(id)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy ban quản lý"));
+        
+        model.addAttribute("banQuanLy", banQuanLy);
+        model.addAttribute("danhSachToa", List.of("Tòa A", "Tòa B", "Tòa C", "Tất cả"));
         return "banquanly/edit";
     }
-
-    @PostMapping("/update")
-    public String updateBanQuanLy(@ModelAttribute("banQuanLy") BanQuanLy bql) {
-        banQuanLyService.save(bql);
-        return "redirect:/banquanly/list?updated=true";
+    
+    // 💾 Cập nhật ban quản lý - http://localhost:8081/banquanly/edit/{id}
+    @PostMapping("/edit/{id}")
+    public String suaBanQuanLy(@PathVariable Long id, 
+                              @ModelAttribute BanQuanLy banQuanLy, 
+                              RedirectAttributes redirectAttributes) {
+        try {
+            BanQuanLy updated = banQuanLyService.updateBanQuanLy(id, banQuanLy);
+            redirectAttributes.addFlashAttribute("success", 
+                "Cập nhật ban quản lý " + updated.getHoTen() + " thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi: " + e.getMessage());
+        }
+        return "redirect:/banquanly/list";
     }
-
-    // 🟢 Xóa
-    @GetMapping("/delete/{id}")
-    public String deleteBanQuanLy(@PathVariable("id") Long id) {
-        banQuanLyService.deleteById(id);
-        return "redirect:/banquanly/list?deleted=true";
+    
+    // 🗑️ Xóa ban quản lý - http://localhost:8081/banquanly/delete/{id}
+    @PostMapping("/delete/{id}")
+    public String xoaBanQuanLy(@PathVariable Long id, 
+                              RedirectAttributes redirectAttributes) {
+        try {
+            BanQuanLy banQuanLy = banQuanLyService.getBanQuanLyById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy ban quản lý"));
+            
+            banQuanLyService.deleteBanQuanLy(id);
+            redirectAttributes.addFlashAttribute("success", 
+                "Xóa ban quản lý " + banQuanLy.getHoTen() + " thành công!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi: " + e.getMessage());
+        }
+        return "redirect:/banquanly/list";
     }
 }

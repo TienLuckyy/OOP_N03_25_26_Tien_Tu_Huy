@@ -2,102 +2,166 @@
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${title} ?: 'Danh Sách Sinh Viên'"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Danh Sách Sinh Viên</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { 
-            background-color: #212529; /* Dark Background */
-            color: #f8f9fa; /* Light Text */
-        }
-        .container {
-            max-width: 1200px;
-        }
-        .table-custom {
-            --bs-table-bg: #343a40; /* Darker Table Background */
-            --bs-table-striped-bg: #495057;
-            --bs-table-border-color: #495057;
-        }
-        .text-success-custom { color: #28a745 !important; }
-        .text-warning-custom { color: #ffc107 !important; }
-        .btn-custom-view {
-            background-color: #007bff;
-            border-color: #007bff;
-            color: #fff;
-        }
-        .btn-custom-view:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-            color: #fff;
-        }
+        body { background-color: #f5f5f5; font-family: Arial, sans-serif; padding: 20px; }
+        h1 { margin-bottom: 20px; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+        .btn { border-radius: 4px; font-size: 14px; margin-right: 5px; }
+        .btn-primary { background-color: #4CAF50; color: white; }
+        .btn-primary:hover { background-color: #45a049; }
+        .btn-warning { background-color: #ff9800; color: white; }
+        .btn-warning:hover { background-color: #e68900; }
+        .btn-danger { background-color: #f44336; color: white; }
+        .btn-danger:hover { background-color: #da190b; }
+        .btn-home { background-color: #0d6efd; color: white; }
+        .btn-home:hover { background-color: #0b5ed7; }
+        .btn-detail { background-color: #17a2b8; color: white; }
+        .btn-detail:hover { background-color: #138496; }
+        .status-badge { padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: bold; }
+        .status-assigned { background-color: #d4edda; color: #155724; }
+        .status-unassigned { background-color: #f8d7da; color: #721c24; }
+        .alert { padding: 12px 20px; margin-bottom: 20px; border-radius: 4px; }
+        .empty-message { text-align: center; padding: 40px; color: #666; }
+        table th, table td { text-align: center; padding: 12px; }
+        table th { background-color: #4CAF50; color: white; }
+        table tr:hover { background-color: #f5f5f5; }
+        .top-actions { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
+        .search-bar input, .search-bar select { padding: 6px 12px; border-radius: 4px; border: 1px solid #ced4da; min-width: 200px; }
     </style>
 </head>
-<body class="bg-dark">
-<div class="container mt-4">
-    <h2 class="text-center mb-4 text-warning-custom" th:text="${title} ?: 'Danh Sách Sinh Viên'"></h2>
+<body>
+<div class="container">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <a th:href="@{/sinhvien/add}" class="btn btn-success">+ Thêm Sinh Viên</a>
-        
-        <form th:action="@{/sinhvien/search}" method="get" class="d-flex">
-            <input type="text" name="mssv" class="form-control me-2 bg-dark text-white border-secondary" 
-                   placeholder="Tìm kiếm theo MSSV..." required>
-            <button class="btn btn-primary">Tìm kiếm</button>
-        </form>
-    </div>
-    
-    <div th:if="${message}" class="alert alert-success text-center" th:text="${message}"></div>
-    <div th:if="${errorMessage}" class="alert alert-danger text-center" th:text="${errorMessage}"></div>
+    <!-- Thông báo -->
+    <div th:if="${param.success}" class="alert alert-success text-center">✅ Thêm sinh viên mới thành công!</div>
+    <div th:if="${param.updated}" class="alert alert-info text-center">✏️ Cập nhật sinh viên thành công!</div>
+    <div th:if="${param.deleted}" class="alert alert-info text-center">🗑️ Xóa sinh viên thành công!</div>
 
+    <!-- Header -->
+    <h1 th:text="${title}">Danh Sách Sinh Viên</h1>
 
-    <div th:if="${not #lists.isEmpty(sinhviens)}">
-        <div class="table-responsive">
-            <table class="table table-custom table-striped table-hover align-middle text-center">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th> 
-                        <th>MSSV</th>
-                        <th>Họ Tên</th>
-                        <th>Lớp</th>
-                        <th>Ngành Học</th>
-                        <th>SĐT</th>
-                        <th>Hành Động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="sv : ${sinhviens}">
-                        <td th:text="${sv.id}"></td> <td th:text="${sv.mssv}"></td>
-                        <td th:text="${sv.hoTen}"></td>
-                        <td th:text="${sv.lop}"></td>
-                        <td th:text="${sv.nganhHoc}"></td>
-                        <td th:text="${sv.soDienThoai}"></td>
-                        <td>
-                            <a th:href="@{'/sinhvien/detail/' + ${sv.id}}" class="btn btn-sm btn-custom-view me-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm11.5-6a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h1.5V9.5a.5.5 0 0 1 .5-.5zm0 3a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5z"/>
-                                </svg>
-                                Chi Tiết
-                            </a>
-                            
-                            <a th:href="@{'/sinhvien/edit/' + ${sv.id}}" class="btn btn-sm btn-warning me-2">Sửa</a>
-                            
-                            <a th:href="@{'/sinhvien/delete/' + ${sv.id}}" 
-                               class="btn btn-sm btn-danger"
-                               onclick="return confirm('Bạn có chắc muốn xóa sinh viên này?')">Xóa</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <!-- Thanh công cụ -->
+    <div class="top-actions search-bar">
+        <a href="/" class="btn btn-home">🏠 Trang Chủ</a>
+        <a href="/sinhvien/add" class="btn btn-primary">+ Thêm Sinh Viên</a>
+        <input type="text" id="searchInput" placeholder="Tìm kiếm MSSV,tên,phòng...">
     </div>
-    
-    <div th:unless="${not #lists.isEmpty(sinhviens)}" class="alert alert-info bg-secondary text-white">
-        Không tìm thấy sinh viên nào trong danh sách.
-    </div>
-    
-    <div class="text-center mt-4">
-        <a th:href="@{/}" class="btn btn-secondary">Về trang chủ</a>
+
+    <!-- Bảng danh sách -->
+    <table class="table table-bordered table-hover" id="studentTable" th:if="${sinhviens != null and !sinhviens.isEmpty()}">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>MSSV</th>
+                <th>Họ Tên</th>
+                <th>Giới Tính</th>
+                <th>Ngày Sinh</th>
+                <th>Lớp</th>
+                <th>Ngành</th>
+                <th>Quê Quán</th>
+                <th>Số điện thoại</th>
+                <th>Phòng-Tòa</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="sv, iterStat : ${sinhviens}">
+                <td th:text="${iterStat.index + 1}">1</td>
+                <td th:text="${sv.mssv}">22010052</td>
+                <td th:text="${sv.hoTen}">Nguyễn Văn A</td>
+                <td th:text="${sv.gioiTinh}">Nam</td>
+                <td th:text="${#temporals.format(sv.ngaySinh, 'dd/MM/yyyy')}">01/01/2000</td>
+                <td th:text="${sv.lop}">K01</td>
+                <td th:text="${sv.nganhHoc}">CNTT</td>
+                <td th:text="${sv.queQuan}">Hà Nội</td>
+                <td th:text="${sv.soDienThoai}">0123456789</td>
+                <td>
+                    <span th:if="${sv.phong != null}" th:text="${sv.phong.soPhong + ' - ' + sv.phong.toa}">101 - A</span>
+                    <span th:unless="${sv.phong != null}" class="status-badge status-unassigned">Chưa có phòng</span>
+                </td>
+                <td>
+                    <a th:href="@{'/sinhvien/edit/' + ${sv.id}}" class="btn btn-warning btn-sm">Sửa</a>
+                    <a th:href="@{'/sinhvien/delete/' + ${sv.id}}"
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa sinh viên này?');"
+                       class="btn btn-danger btn-sm">Xóa</a>
+                    <a th:href="@{'/sinhvien/detail/' + ${sv.id}}" class="btn btn-detail btn-sm">Xem Chi Tiết</a>
+                
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Khi không có dữ liệu -->
+    <div th:if="${sinhviens == null or sinhviens.isEmpty()}" class="empty-message">
+        <p>Không có sinh viên nào trong danh sách.</p>
+        <a href="/sinhvien/add" class="btn btn-primary">Thêm Sinh Viên Đầu Tiên</a>
     </div>
 </div>
+
+<!-- Script -->
+<script>
+// Hàm ẩn thông báo sau 3 giây
+setTimeout(() => {
+  document.querySelectorAll('.alert-success, .alert-info').forEach(el => el.remove());
+}, 3000);
+
+// Lấy các phần tử DOM
+const searchInput = document.getElementById('searchInput');
+const table = document.getElementById('studentTable');
+
+// LỖI 1: Xóa các biến tham chiếu đến 'statusFilter' và 'roomFilter' không tồn tại
+// const statusFilter = document.getElementById('statusFilter');
+// const roomFilter = document.getElementById('roomFilter');
+
+if (table) {
+    // Lấy tất cả các hàng <tr> trong <tbody>
+    const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+    function filterTable() {
+        const keyword = searchInput.value.toLowerCase();
+        let count = 0;
+
+        // Lặp qua tất cả các hàng
+        for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            if (!cells.length) continue;
+
+            // Lấy nội dung text từ các cột bạn muốn tìm kiếm
+            const mssv = cells[1].innerText.toLowerCase();
+            const name = cells[2].innerText.toLowerCase();
+            
+            // LỖI 2: Cột "Phòng-Tòa" là cột thứ 10 (index 9), không phải 6
+            const phong = cells[9].innerText.toLowerCase();
+
+            // LỖI 3: Cập nhật lại logic tìm kiếm
+            // Chỉ tìm kiếm dựa trên từ khóa (keyword)
+            const matchText = mssv.includes(keyword) || 
+                              name.includes(keyword) || 
+                              phong.includes(keyword);
+
+            // Xóa tất cả logic liên quan đến 'status' và 'room' không tồn tại
+            const show = matchText;
+
+            rows[i].style.display = show ? '' : 'none';
+            
+            // Đánh lại số thứ tự (STT) cho các hàng được hiển thị
+            if (show) {
+                count++;
+                cells[0].innerText = count;
+            }
+        }
+    }
+
+    // Gán sự kiện 'input' cho thanh tìm kiếm
+    searchInput.addEventListener('input', filterTable);
+    
+    // LỖI 4: Xóa các event listener cho các phần tử không tồn tại
+    // statusFilter.addEventListener('change', filterTable);
+    // roomFilter.addEventListener('input', filterTable);
+}
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

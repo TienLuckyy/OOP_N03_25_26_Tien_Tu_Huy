@@ -10,6 +10,15 @@
 
 <div class="container mt-5">
     <h2 class="text-center mb-4 text-primary">🧑‍💼 Thêm Thành Viên Ban Quản Lý</h2>
+    <!-- Thông báo lỗi -->
+    <div th:if="${error}" class="alert alert-danger text-center">
+        <span th:text="${error}"></span>
+    </div>
+
+    <!-- Thông báo thành công -->
+    <div th:if="${success}" class="alert alert-success text-center">
+        <span th:text="${success}"></span>
+    </div>
 
     <form th:action="@{/banquanly/add}" th:object="${banQuanLy}" method="post" class="card shadow p-4 bg-white rounded">
 
@@ -54,16 +63,12 @@
             <input type="text" th:field="*{diaChi}" class="form-control" placeholder="Nhập địa chỉ" required>
         </div>
 
-        <!-- Chức vụ -->
+        <!-- Mã nhân viên -->
         <div class="mb-3">
-            <label class="form-label">Chức vụ</label>
-            <select th:field="*{chucVu}" class="form-select" required>
-                <option value="">-- Chọn chức vụ --</option>
-                <option value="Trưởng ban">Trưởng ban</option>
-                <option value="Phó ban">Phó ban</option>
-                <option value="Thành viên">Thành viên</option>
-            </select>
+            <label class="form-label">Mã nhân viên</label>
+            <input type="text" th:field="*{maNhanVien}" class="form-control" placeholder="Nhập mã nhân viên" required>
         </div>
+        
 
         <!-- Tòa phụ trách -->
         <div class="mb-3">

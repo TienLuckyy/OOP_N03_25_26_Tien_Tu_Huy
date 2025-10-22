@@ -28,7 +28,7 @@ public interface PhongRepository extends JpaRepository<Phong, PhongId> {
     List<Phong> findBySoNguoiHienTai(int soNguoiHienTai);
 
     // 🔹 Lấy phòng có tiền nhà lớn hơn giá trị
-    List<Phong> findByTienNhaGreaterThan(double tienNha);
+    // List<Phong> findByTienNhaGreaterThan(double tienNha);
 
     // 🔹 Lấy phòng theo tòa và trạng thái
     List<Phong> findByToaAndTrangThai(String toa, boolean trangThai);

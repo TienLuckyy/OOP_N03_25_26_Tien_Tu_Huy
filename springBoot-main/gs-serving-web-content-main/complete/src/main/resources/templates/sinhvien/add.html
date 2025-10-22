@@ -41,8 +41,10 @@
                 <div class="card-body">
                     <div th:if="${message}" class="alert alert-danger" th:text="${message}"></div>
 
-                    <form th:action="@{/sinhvien/list}" th:object="${sinhvien}" method="post">
-                        
+                    <form th:action="@{/sinhvien/save}" th:object="${sinhvien}" method="post">
+                        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="mssv" class="form-label">MSSV</label>
@@ -79,7 +81,7 @@
                                 <input type="text" th:field="*{soDienThoai}" id="soDienThoai" class="form-control">
                             </div>
                         </div>
-                        
+
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="lop" class="form-label">Lớp</label>
@@ -103,15 +105,10 @@
 
                         <div class="d-flex justify-content-between mt-4">
                             <a th:href="@{/sinhvien/list}" class="btn btn-secondary">Quay Lại</a>
-                            <button type="submit" class="btn btn-success">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-save me-1" viewBox="0 0 16 16">
-                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a.5.5 0 0 0 .5.5h12a.5.5 0 0 0 .5-.5v-2.5a.5.5 0 0 1 1 0v2.5a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 0 12.9v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                    <path d="M15.854 8.541a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 8l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                                </svg>
-                                Lưu Sinh Viên
-                            </button>
+                            <button type="submit" class="btn btn-success">Lưu Sinh Viên</button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>

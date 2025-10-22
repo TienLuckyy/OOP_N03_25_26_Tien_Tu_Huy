@@ -28,42 +28,33 @@
         table th { background-color: #4CAF50; color: white; }
         table tr:hover { background-color: #f5f5f5; }
         .top-actions { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
-        .search-bar input { padding: 6px 12px; border-radius: 4px; border: 1px solid #ced4da; min-width: 200px; }
+        .search-bar input, .search-bar select { padding: 6px 12px; border-radius: 4px; border: 1px solid #ced4da; min-width: 200px; }
     </style>
 </head>
 <body>
 <div class="container">
 
     <!-- Thông báo -->
-    <div th:if="${param.success}" class="alert alert-success text-center">
-        ✅ Thêm phòng mới thành công!
-    </div>
-    <div th:if="${param.updated}" class="alert alert-info text-center">
-        ✏️ Cập nhật phòng thành công!
-    </div>
-    <div th:if="${param.deleted}" class="alert alert-info text-center">
-        🗑️ Xóa phòng thành công!
-    </div>
-    <div th:if="${param.notfound}" class="alert alert-warning">
-        ⚠️ Không tìm thấy phòng!
-    </div>
+    <div th:if="${param.success}" class="alert alert-success text-center">✅ Thêm phòng mới thành công!</div>
+    <div th:if="${param.updated}" class="alert alert-info text-center">✏️ Cập nhật phòng thành công!</div>
+    <div th:if="${param.deleted}" class="alert alert-info text-center">🗑️ Xóa phòng thành công!</div>
 
     <!-- Header -->
     <h1 th:text="${title}">Danh Sách Phòng</h1>
 
-    <!-- Top actions: Home, Add, Search -->
-    <div class="top-actions">
+    <!-- Thanh công cụ -->
+    <div class="top-actions search-bar">
         <a href="/" class="btn btn-home">🏠 Trang Chủ</a>
         <a href="/phong/add" class="btn btn-primary">+ Thêm Phòng Mới</a>
         <input type="text" id="searchInput" placeholder="Tìm kiếm theo số phòng hoặc tòa...">
+        <select id="statusFilter">
+            <option value="">-- Lọc theo trạng thái --</option>
+            <option value="trong">Còn trống</option>
+            <option value="sudung">Đang sử dụng</option>
+        </select>
     </div>
 
-    <!-- Alert Message -->
-    <div th:if="${message}" class="alert">
-        <span th:text="${message}"></span>
-    </div>
-
-    <!-- Table danh sách phòng -->
+    <!-- Bảng danh sách -->
     <table class="table table-bordered table-hover" id="roomTable" th:if="${phongs != null and !phongs.isEmpty()}">
         <thead>
             <tr>
@@ -96,49 +87,61 @@
                     <a th:href="@{'/phong/delete/' + ${phong.soPhong} + '/' + ${phong.toa}}"
                        onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này?');"
                        class="btn btn-danger btn-sm">Xóa</a>
-                    <a th:href="@{'/phong/detail/' + ${phong.soPhong} + '/' + ${phong.toa}}" 
-   class="btn btn-detail btn-sm">Xem chi tiết</a>
-
+                    <a th:href="@{'/phong/detail/' + ${phong.soPhong} + '/' + ${phong.toa}}" class="btn btn-detail btn-sm">Xem</a>
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <!-- Message khi không có phòng -->
+    <!-- Khi không có dữ liệu -->
     <div th:if="${phongs == null or phongs.isEmpty()}" class="empty-message">
         <p>Không có phòng nào trong danh sách.</p>
         <a href="/phong/add" class="btn btn-primary">Thêm Phòng Đầu Tiên</a>
     </div>
 </div>
 
-<!-- Tự động ẩn thông báo sau 3 giây -->
+<!-- Script -->
 <script>
 setTimeout(() => {
   document.querySelectorAll('.alert-success, .alert-info').forEach(el => el.remove());
 }, 3000);
 
-// Live search + cập nhật STT
 const searchInput = document.getElementById('searchInput');
+const statusFilter = document.getElementById('statusFilter');
 const table = document.getElementById('roomTable');
-if(searchInput && table) {
-    searchInput.addEventListener('input', function() {
-        const filter = searchInput.value.toLowerCase();
-        const rows = table.getElementsByTagName('tr');
+
+if (table) {
+    const rows = table.getElementsByTagName('tr');
+
+    function filterTable() {
+        const keyword = searchInput.value.toLowerCase();
+        const status = statusFilter.value;
         let count = 0;
+
         for (let i = 1; i < rows.length; i++) {
             const cells = rows[i].getElementsByTagName('td');
-            let match = false;
-            for (let j = 1; j <= 2; j++) { // cột số phòng + tòa
-                if (cells[j].innerText.toLowerCase().includes(filter)) {
-                    match = true;
-                    break;
-                }
+            if (!cells.length) continue;
+
+            const soPhong = cells[1].innerText.toLowerCase();
+            const toa = cells[2].innerText.toLowerCase();
+            const trangThai = cells[5].innerText.toLowerCase();
+
+            let matchText = soPhong.includes(keyword) || toa.includes(keyword);
+            let matchStatus = !status || 
+                (status === 'trong' && trangThai.includes('trống')) ||
+                (status === 'sudung' && trangThai.includes('sử dụng'));
+
+            const show = matchText && matchStatus;
+            rows[i].style.display = show ? '' : 'none';
+            if (show) {
+                count++;
+                cells[0].innerText = count;
             }
-            rows[i].style.display = match ? '' : 'none';
-            if(match) count++;
-            if(match) cells[0].innerText = count; // cập nhật STT
         }
-    });
+    }
+
+    searchInput.addEventListener('input', filterTable);
+    statusFilter.addEventListener('change', filterTable);
 }
 </script>
 

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Chỉnh Sửa Sinh Viên</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.1);}
+        h1 { color: #2c3e50; margin-bottom: 25px; border-bottom: 3px solid #3498db; padding-bottom: 10px; text-align: center;}
+        .form-section { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #3498db;}
+        .form-section h5 { color: #2c3e50; margin-bottom: 15px; font-weight: 600;}
+        .form-label { font-weight: 600; color: #2c3e50; margin-bottom: 8px; }
+        .form-control { border: 2px solid #e9ecef; border-radius: 6px; padding: 10px 15px; transition: all 0.3s ease; }
+        .form-control:focus { border-color: #3498db; box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25); }
+        .btn { border-radius: 6px; padding: 10px 25px; font-weight: 600; transition: all 0.3s ease; margin-right: 10px; }
+        .btn-primary { background: linear-gradient(135deg, #3498db, #2980b9); border: none; }
+        .btn-primary:hover { background: linear-gradient(135deg, #2980b9, #1f6397); transform: translateY(-2px); }
+        .btn-secondary { background: linear-gradient(135deg, #95a5a6, #7f8c8d); border: none; }
+        .btn-secondary:hover { background: linear-gradient(135deg, #7f8c8d, #6c7b7d); transform: translateY(-2px); }
+        .alert { border-radius: 8px; border: none; padding: 15px 20px; margin-bottom: 20px; }
+        .required-field::after { content: " *"; color: #e74c3c; }
+        .action-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 30px; padding-top: 20px; border-top: 2px solid #ecf0f1; }
+        .readonly-field { background-color: #e9ecef !important; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${title}">Chỉnh Sửa Sinh Viên</h1>
+
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Lỗi!</strong> <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>✅ Thành công!</strong> <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <form th:action="@{/sinhvien/save}" th:object="${sinhvien}" method="post" id="editForm">
+        <input type="hidden" th:field="*{id}">
+        
+        <div class="form-section">
+            <h5>📝 Thông Tin Cá Nhân</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label required-field">MSSV</label>
+                    <input type="text" th:field="*{mssv}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label required-field">Họ và tên</label>
+                    <input type="text" th:field="*{hoTen}" class="form-control" required>
+                </div>
+            </div>
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label class="form-label required-field">Ngày sinh</label>
+        <!-- SỬ DỤNG CÁCH NÀY -->
+        <input type="date" 
+               th:name="ngaySinh" 
+               th:value="${sinhvien.ngaySinh != null} ? ${#temporals.format(sinhvien.ngaySinh, 'yyyy-MM-dd')} : ''" 
+               class="form-control" 
+               required>
+        
+        <!-- Debug: Hiển thị ngày sinh dạng text để kiểm tra -->
+        <!-- <div class="mt-1">
+            <small class="text-muted">
+                Ngày sinh trong DB: 
+                <span th:text="${sinhvien.ngaySinh} ? ${#temporals.format(sinhvien.ngaySinh, 'dd/MM/yyyy')} : 'Chưa có'"></span>
+            </small>
+        </div> -->
+    </div>
+    <div class="col-md-6">
+        <label class="form-label required-field">Giới tính</label>
+        <select th:field="*{gioiTinh}" class="form-select" required>
+            <option value="">-- Chọn giới tính --</option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+        </select>
+    </div>
+</div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label required-field">CCCD</label>
+                    <input type="text" th:field="*{cccd}" class="form-control" maxlength="12" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="text" th:field="*{soDienThoai}" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label required-field">Địa chỉ liên hệ</label>
+                    <input type="text" th:field="*{diaChi}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label required-field">Quê quán</label>
+                    <input type="text" th:field="*{queQuan}" class="form-control" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h5>🎓 Thông Tin Học Vụ</h5>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label required-field">Lớp</label>
+                    <input type="text" th:field="*{lop}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label required-field">Ngành học</label>
+                    <input type="text" th:field="*{nganhHoc}" class="form-control" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h5>🏠 Thông Tin Phòng Trọ</h5>
+            <div th:if="${sinhvien.phong != null}" class="alert alert-info">
+                <strong>Phòng:</strong> <span th:text="${sinhvien.phong.soPhong}"></span> -
+                <strong>Tòa:</strong> <span th:text="${sinhvien.phong.toa}"></span>
+            </div>
+            <div th:unless="${sinhvien.phong != null}" class="alert alert-warning">
+                Sinh viên chưa có phòng
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button type="submit" class="btn btn-primary">💾 Lưu Thay Đổi</button>
+            <a th:href="@{/sinhvien/list}" class="btn btn-secondary">↩️ Quay Lại</a>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

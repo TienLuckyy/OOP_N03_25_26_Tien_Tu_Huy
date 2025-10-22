@@ -1,10 +1,11 @@
 package vn.edu.quanlynhatro.service;
 
-import vn.edu.quanlynhatro.model.SinhVien;
-import vn.edu.quanlynhatro.repository.SinhVienRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import vn.edu.quanlynhatro.model.Phong;
+import vn.edu.quanlynhatro.model.SinhVien;
+import vn.edu.quanlynhatro.repository.SinhVienRepository;
+import vn.edu.quanlynhatro.repository.PhongRepository;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,30 +14,68 @@ public class SinhVienService {
 
     @Autowired
     private SinhVienRepository sinhVienRepository;
-
-    public List<SinhVien> getAllSinhVien() {
-        return sinhVienRepository.findAll(); 
+    @Autowired
+    private PhongRepository phongRepository;
+    public List<SinhVien> getAll() {
+        return sinhVienRepository.findAll();
     }
 
-    public Optional<SinhVien> timKiemTheoId(Long id) {
-        return sinhVienRepository.findById(id); 
+    public Optional<SinhVien> findById(Long id) {
+        return sinhVienRepository.findById(id);
     }
 
-    public SinhVien luuHoacSuaSinhVien(SinhVien sv) {
+    public SinhVien save(SinhVien sv) {
         return sinhVienRepository.save(sv);
     }
-    
-    public boolean xoaSinhVien(Long id) {
-        if (sinhVienRepository.existsById(id)) {
-            sinhVienRepository.deleteById(id); 
-            return true;
-        }
-        return false;
+
+
+    public Optional<SinhVien> findByMssv(String mssv) {
+        return sinhVienRepository.findByMssv(mssv);
     }
-    
-    // Dùng cho chức năng tìm kiếm
-    public SinhVien timKiemTheoMssv(String mssv) {
-        // Tìm theo MSSV và trả về SinhVien, nếu không tìm thấy trả về null
-        return sinhVienRepository.findByMssv(mssv).orElse(null); 
+    public Optional<SinhVien> findByCccd(String cccd) {
+        return sinhVienRepository.findByCccd(cccd);
+    }
+
+
+    public Optional<SinhVien> findBySoDienThoai(String soDienThoai) {
+    return sinhVienRepository.findBySoDienThoai(soDienThoai);
+}
+
+
+
+    public List<SinhVien> searchByName(String hoTen) {
+        return sinhVienRepository.findByHoTenContainingIgnoreCase(hoTen);
+    }
+
+    public List<SinhVien> findByPhong(Phong phong) {
+        return sinhVienRepository.findByPhong(phong);
+    }
+
+    public List<SinhVien> findByPhongIsNull() {
+        return sinhVienRepository.findByPhongIsNull();
+    }
+
+    public List<SinhVien> findByPhongIn(List<Phong> phongs) {
+        return sinhVienRepository.findByPhongIn(phongs);
+    }
+    public void delete(Long id) {
+    Optional<SinhVien> svOptional = sinhVienRepository.findById(id);
+    if (svOptional.isPresent()) {
+        SinhVien sv = svOptional.get();
+
+        // Xóa liên kết với phòng
+        if (sv.getPhong() != null) {
+            Phong phong = sv.getPhong();
+            phong.getSinhViens().remove(sv); // Xóa sinh viên khỏi danh sách phòng
+            // Nếu cần, lưu lại phòng để cập nhật DB
+            phongRepository.save(phong);
+        }
+
+        sinhVienRepository.delete(sv);
     }
 }
+
+
+}
+
+

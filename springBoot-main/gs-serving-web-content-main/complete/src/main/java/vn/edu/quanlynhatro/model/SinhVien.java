@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
 @Entity
 @Table(name = "sinh_vien")
 @Data
@@ -14,16 +13,12 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class SinhVien extends Nguoi {
 
-    @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
-
     private String mssv;
     private String lop;
     private String nganhHoc;
     private String queQuan;
 
-    // 🔗 Quan hệ N sinh viên – 1 phòng
+    // Quan hệ N sinh viên – 1 phòng
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
         @JoinColumn(name = "so_phong", referencedColumnName = "so_phong"),
@@ -31,8 +26,10 @@ public class SinhVien extends Nguoi {
     })
     private Phong phong;
 
+
     @Override
     public String getThongTin() {
         return "Sinh viên: " + getHoTen() + " - MSSV: " + mssv;
     }
+    
 }

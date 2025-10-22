@@ -16,12 +16,12 @@ import java.util.Optional;
 public class SinhVienController {
 
     @Autowired
-    private SinhVienService sinhVienService; // Đảm bảo sử dụng SinhVienService đã chuyển đổi sang JPA
+    private SinhVienService sinhVienService;
 
     // ------------------- DANH SÁCH SINH VIÊN (READ ALL) -------------------
     @GetMapping({"/list", "/"})
     public String hienThiTatCaSinhVien(Model model) {
-        List<SinhVien> danhSach = sinhVienService.getAllSinhVien();
+        List<SinhVien> danhSach = sinhVienService.getAll();
         model.addAttribute("sinhviens", danhSach);
         model.addAttribute("title", "Danh Sách Sinh Viên");
         return "sinhvien/list";
@@ -30,65 +30,98 @@ public class SinhVienController {
     // ------------------- FORM THÊM SINH VIÊN (CREATE UI) -------------------
     @GetMapping("/add")
     public String hienThiThemSVUI(Model model) {
-        model.addAttribute("sinhvien", new SinhVien()); 
+        model.addAttribute("sinhvien", new SinhVien());
         model.addAttribute("title", "Thêm Sinh Viên");
         return "sinhvien/add";
     }
 
     // ------------------- LƯU SINH VIÊN (CREATE/UPDATE LOGIC) -------------------
-    @PostMapping("/save")
-    public String xuLyLuuSinhVien(@ModelAttribute("sinhvien") SinhVien sinhVien, RedirectAttributes ra) {
-        // JPA save() xử lý cả thêm mới (id=null) và cập nhật (id tồn tại)
-        sinhVienService.luuHoacSuaSinhVien(sinhVien); 
-        ra.addFlashAttribute("message", "Lưu sinh viên thành công!");
-        return "redirect:/sinhvien/list";
+@PostMapping("/save")
+public String xuLyLuuSinhVien(@ModelAttribute("sinhvien") SinhVien sinhVien,
+                              RedirectAttributes ra) {
+
+    boolean isEdit = sinhVien.getId() != null; // true nếu đang sửa
+
+    // Kiểm tra MSSV trùng
+    Optional<SinhVien> svMssv = sinhVienService.findByMssv(sinhVien.getMssv());
+    if (svMssv.isPresent() && (!isEdit || !svMssv.get().getId().equals(sinhVien.getId()))) {
+        ra.addFlashAttribute("error", "MSSV '" + sinhVien.getMssv() + "' đã tồn tại!");
+        ra.addFlashAttribute("sinhvien", sinhVien); // giữ dữ liệu
+        return isEdit ? "redirect:/sinhvien/edit/" + sinhVien.getId() : "redirect:/sinhvien/add";
     }
+
+    // Kiểm tra CCCD trùng
+    Optional<SinhVien> svCccd = sinhVienService.findByCccd(sinhVien.getCccd());
+    if (svCccd.isPresent() && (!isEdit || !svCccd.get().getId().equals(sinhVien.getId()))) {
+        ra.addFlashAttribute("error", "CCCD '" + sinhVien.getCccd() + "' đã tồn tại!");
+        ra.addFlashAttribute("sinhvien", sinhVien);
+        return isEdit ? "redirect:/sinhvien/edit/" + sinhVien.getId() : "redirect:/sinhvien/add";
+    }
+
+    // Kiểm tra SĐT trùng
+    if (sinhVien.getSoDienThoai() != null && !sinhVien.getSoDienThoai().isEmpty()) {
+        Optional<SinhVien> svSdt = sinhVienService.findBySoDienThoai(sinhVien.getSoDienThoai());
+        if (svSdt.isPresent() && (!isEdit || !svSdt.get().getId().equals(sinhVien.getId()))) {
+            ra.addFlashAttribute("error", "Số điện thoại '" + sinhVien.getSoDienThoai() + "' đã tồn tại!");
+            ra.addFlashAttribute("sinhvien", sinhVien);
+            return isEdit ? "redirect:/sinhvien/edit/" + sinhVien.getId() : "redirect:/sinhvien/add";
+        }
+    }
+
+    // Lưu sinh viên nếu không trùng
+    sinhVienService.save(sinhVien);
+    ra.addFlashAttribute("success", isEdit ? "Cập nhật sinh viên thành công!" : "Thêm sinh viên thành công!");
+    return "redirect:/sinhvien/list";
+}
+
+
 
     // ------------------- FORM SỬA SINH VIÊN (UPDATE UI - Dùng ID) -------------------
-    @GetMapping("/edit/{id}")
-    public String hienThiSuaSVUI(@PathVariable("id") Long id, Model model, RedirectAttributes ra) {
-        // Tìm kiếm theo ID khóa chính
-        Optional<SinhVien> svOptional = sinhVienService.timKiemTheoId(id); 
-        
-        if (svOptional.isPresent()) {
-            model.addAttribute("sinhvien", svOptional.get());
-            model.addAttribute("title", "Chỉnh Sửa Sinh Viên");
-            return "sinhvien/edit";
+        @GetMapping("/edit/{id}")
+        public String hienThiSuaSVUI(@PathVariable("id") Long id, Model model, RedirectAttributes ra) {
+            Optional<SinhVien> svOptional = sinhVienService.findById(id);
+            if (svOptional.isPresent()) {
+                model.addAttribute("sinhvien", svOptional.get());
+                model.addAttribute("title", "Chỉnh Sửa Sinh Viên");
+                return "sinhvien/edit"; // đúng template
+            }
+            ra.addFlashAttribute("error", "Không tìm thấy sinh viên có ID: " + id);
+            return "redirect:/sinhvien/list";
         }
-        
-        ra.addFlashAttribute("errorMessage", "Không tìm thấy sinh viên có ID: " + id);
-        return "redirect:/sinhvien/list";
-    }
+
 
     // ------------------- XÓA SINH VIÊN (DELETE - Dùng ID) -------------------
-    @GetMapping("/delete/{id}")
-    public String xoaSinhVien(@PathVariable("id") Long id, RedirectAttributes ra) {
-        if (sinhVienService.xoaSinhVien(id)) {
-            ra.addFlashAttribute("message", "Xóa sinh viên thành công!");
-        } else {
-            ra.addFlashAttribute("errorMessage", "Không tìm thấy sinh viên để xóa.");
-        }
-        return "redirect:/sinhvien/list";
+@GetMapping("/delete/{id}")
+public String xoaSinhVien(@PathVariable("id") Long id,
+                          RedirectAttributes ra) {
+    if (sinhVienService.findById(id).isPresent()) {
+        sinhVienService.delete(id);
+        ra.addFlashAttribute("success", "Xóa sinh viên thành công!");
+    } else {
+        ra.addFlashAttribute("error", "Không tìm thấy sinh viên để xóa.");
     }
+    return "redirect:/sinhvien/list";
+}
 
-    // ------------------- TÌM KIẾM SINH VIÊN THEO MSSV (CUSTOM READ) -------------------
+
+    // ------------------- TÌM KIẾM SINH VIÊN THEO MSSV -------------------
     @GetMapping("/search")
-    public String timKiemSinhVienTheoMssv(@RequestParam(value = "mssv", required = false) String mssv, Model model) {
-        
+    public String timKiemSinhVienTheoMssv(@RequestParam(value = "mssv", required = false) String mssv,
+                                          Model model) {
         if (mssv == null || mssv.trim().isEmpty()) {
-            // Nếu không nhập MSSV, hiển thị tất cả
-             return "redirect:/sinhvien/list"; 
+            return "redirect:/sinhvien/list";
         }
 
-        SinhVien sv = sinhVienService.timKiemTheoMssv(mssv); // Cần phương thức findByMssv trong Service
-        
-        if (sv != null) {
-            model.addAttribute("sinhviens", List.of(sv));
+    Optional<SinhVien> svOptional = sinhVienService.findByMssv(mssv);
+
+        if (svOptional.isPresent()) {
+            model.addAttribute("sinhviens", List.of(svOptional.get()));
             model.addAttribute("title", "Kết quả tìm kiếm");
         } else {
             model.addAttribute("sinhviens", List.of());
-            model.addAttribute("errorMessage", "Không tìm thấy sinh viên có MSSV: " + mssv);
+            model.addAttribute("error", "Không tìm thấy sinh viên có MSSV: " + mssv);
         }
+
         return "sinhvien/list";
     }
 }
