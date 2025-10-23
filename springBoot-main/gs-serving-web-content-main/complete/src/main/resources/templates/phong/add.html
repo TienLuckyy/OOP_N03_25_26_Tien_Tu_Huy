@@ -40,7 +40,12 @@
                             <!-- Tòa -->
                             <div class="mb-3">
                                 <label for="toa" class="form-label">Tòa *</label>
-                                <input type="text" class="form-control" id="toa" th:field="*{toa}" placeholder="VD: A, B, C" required>
+                                <select th:field="*{toa}" class="form-select" required>
+                                    <option value="">-- Chọn tòa --</option>
+                                    <option value="A">Tòa A</option>
+                                    <option value="B">Tòa B</option>
+                                    <option value="C">Tòa C</option>
+                                </select>
                             </div>
 
                             <!-- Tiền nhà -->

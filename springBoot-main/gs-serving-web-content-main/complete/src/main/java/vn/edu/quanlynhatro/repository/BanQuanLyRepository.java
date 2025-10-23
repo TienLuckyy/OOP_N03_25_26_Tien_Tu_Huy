@@ -15,8 +15,8 @@ public interface BanQuanLyRepository extends JpaRepository<BanQuanLy, Long> {
     // ✅ Tìm theo mã nhân viên
     Optional<BanQuanLy> findByMaNhanVien(String maNhanVien);
     
-    // ✅ Tìm theo tòa phụ trách
-    List<BanQuanLy> findByToaPhuTrach(String toaPhuTrach);
+    // // ✅ Tìm theo tòa phụ trách
+    // List<BanQuanLy> findByToaPhuTrach(String toaPhuTrach);
     
     // ✅ Tìm theo tên (tìm kiếm gần đúng)
     List<BanQuanLy> findByHoTenContainingIgnoreCase(String hoTen);
@@ -39,14 +39,14 @@ public interface BanQuanLyRepository extends JpaRepository<BanQuanLy, Long> {
     
 
     
-    // ✅ Tìm nhân viên theo số điện thoại
+        // // ✅ Tìm nhân viên theo số điện thoại
     Optional<BanQuanLy> findBySoDienThoai(String soDienThoai);
-    
-
+        
+    // ✅ Kiểm tra tồn tại SĐT (trừ id hiện tại khi update)
     boolean existsBySoDienThoaiAndIdNot(String soDienThoai, Long id);
 
     // ✅ Tìm nhân viên theo CCCD
-    Optional<BanQuanLy> findByCccd(String cccd);
+        Optional<BanQuanLy> findByCccd(String cccd);
 
     
 }

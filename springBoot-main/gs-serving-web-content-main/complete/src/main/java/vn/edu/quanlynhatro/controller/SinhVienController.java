@@ -35,7 +35,6 @@ public class SinhVienController {
         return "sinhvien/add";
     }
 
-    // ------------------- LƯU SINH VIÊN (CREATE/UPDATE LOGIC) -------------------
 // ------------------- LƯU SINH VIÊN (CREATE/UPDATE LOGIC) -------------------
 @PostMapping("/save")
 public String xuLyLuuSinhVien(@ModelAttribute("sinhvien") SinhVien sinhVien,

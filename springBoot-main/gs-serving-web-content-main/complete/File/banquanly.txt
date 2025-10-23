@@ -1,11 +1,15 @@
 ﻿===== DANH SÁCH BAN QUẢN LÝ =====
 
-ID: 1 | Họ tên: Dương Ngọc Tú | CCCD: 0123456789 | Ngày Sinh: 2025-10-10 | Mã NV: NV001 | Giới tính: Nam | Địa chỉ: Khu A/Thị Trấn Lâm/Ý Yên/Nam ĐỊnh | SĐT: 0123456789 | Tòa phụ trách: A
+ID: 1 | Họ tên: Dương Ngọc Tú | CCCD: 12342321430 | Ngày Sinh: 2025-10-10 | Mã NV: NV001 | Giới tính: Nam | Địa chỉ: Nam ĐỊnh | SĐT: 0123400009 | Tòa phụ trách: A
 ID: 3 | Họ tên: Dương Ngọc MỘt | CCCD: 000000000022 | Ngày Sinh: 2025-10-01 | Mã NV: NV003 | Giới tính: Nam | Địa chỉ: Ninh bình | SĐT: 2222222222 | Tòa phụ trách: B
 ID: 4 | Họ tên: Dương Ngọc MỘt | CCCD: 000000000021 | Ngày Sinh: 0001-01-01 | Mã NV: NV004 | Giới tính: Nam | Địa chỉ: Thái Nguyên | SĐT: 2222222221 | Tòa phụ trách: A
 ID: 6 | Họ tên: Dương Thị Bê | CCCD: bbbbbbbbbbbb | Ngày Sinh: 2000-01-22 | Mã NV: NV007 | Giới tính: Nữ | Địa chỉ: Hà Nội | SĐT: 0756735636 | Tòa phụ trách: A
 ID: 8 | Họ tên: Phạm Vắn Thi | CCCD: 123333222414 | Ngày Sinh: 2000-01-22 | Mã NV: NV100 | Giới tính: Nam | Địa chỉ: Hà Nội | SĐT: 1212121212 | Tòa phụ trách: B
 ID: 9 | Họ tên: Phạm thị Mấu | CCCD: 777777777777 | Ngày Sinh: 2000-01-22 | Mã NV: NV109 | Giới tính: Nữ | Địa chỉ: Hà Tĩnh | SĐT: 5555555555 | Tòa phụ trách: A
+ID: 10 | Họ tên: Lục Nam Tiến | CCCD: 001122334455 | Ngày Sinh: 2004-06-29 | Mã NV: 22010223 | Giới tính: Nam | Địa chỉ: hn | SĐT: 0988327432 | Tòa phụ trách: A
+ID: 11 | Họ tên: 123  | CCCD: 1 | Ngày Sinh: 1111-11-11 | Mã NV: 1 | Giới tính: Khác | Địa chỉ: 1 | SĐT: 1 | Tòa phụ trách: A
+ID: 12 | Họ tên: Lục Nam Tín | CCCD: 001122334451 | Ngày Sinh: 2002-02-09 | Mã NV: 22010221 | Giới tính: Nam | Địa chỉ: hcm | SĐT: 0988327438 | Tòa phụ trách: B
+ID: 13 | Họ tên: Phạm thị Mấu | CCCD: 111111122222 | Ngày Sinh: 2025-10-09 | Mã NV: NV999 | Giới tính: Nam | Địa chỉ: 1232123 | SĐT: 0 | Tòa phụ trách: A
 
 ===========================
-Cập nhật lần cuối: 23/10/2025 00:28:47
+Cập nhật lần cuối: 23/10/2025 14:21:12
