@@ -1,0 +1,15 @@
+﻿===== DANH SÁCH PHÒNG =====
+
+Số phòng: 1 | Tòa: A | Tiền nhà: 0.00 | Hiện tại: 1 | Tối đa: 1 | Trạng thái: Đang thuê
+Số phòng: 101 | Tòa: A | Tiền nhà: 2000000.00 | Hiện tại: 0 | Tối đa: 2 | Trạng thái: Đang thuê
+Số phòng: 101 | Tòa: B | Tiền nhà: 3000000.00 | Hiện tại: 1 | Tối đa: 5 | Trạng thái: Đang thuê
+Số phòng: 2 | Tòa: B | Tiền nhà: 150000.00 | Hiện tại: 0 | Tối đa: 4 | Trạng thái: Trống
+Số phòng: 201 | Tòa: B | Tiền nhà: 3000000.00 | Hiện tại: 0 | Tối đa: 5 | Trạng thái: Đang thuê
+Số phòng: 202 | Tòa: A | Tiền nhà: 1500000.00 | Hiện tại: 0 | Tối đa: 4 | Trạng thái: Đang thuê
+Số phòng: 203 | Tòa: A | Tiền nhà: 1500000.00 | Hiện tại: 0 | Tối đa: 4 | Trạng thái: Trống
+Số phòng: 204 | Tòa: A | Tiền nhà: 1500000.00 | Hiện tại: 0 | Tối đa: 4 | Trạng thái: Trống
+Số phòng: 304 | Tòa: B | Tiền nhà: 2000000.00 | Hiện tại: 2 | Tối đa: 2 | Trạng thái: Đang thuê
+Số phòng: 999 | Tòa: A | Tiền nhà: 12000.00 | Hiện tại: 0 | Tối đa: 1 | Trạng thái: Trống
+
+===========================
+Cập nhật lần cuối: 24/10/2025 09:18:58
