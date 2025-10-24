@@ -6,8 +6,7 @@ MSSV: SV100 | Họ tên: lục nam | Giới tính: Nam | Ngày Sinh: 2025-10-16 
 MSSV: SV101 | Họ tên: lục nam tiếng | Giới tính: Nam | Ngày Sinh: 2025-10-16 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 888888888888 | SĐT: 1111111110 | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: Chưa có phòng
 MSSV: SV102 | Họ tên: Dương Văn Bá | Giới tính: Nam | Ngày Sinh: 2002-10-15 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 333333333333 | SĐT: 2222222228 | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: Chưa có phòng
 MSSV: 1 | Họ tên: 1 | Giới tính: Nữ | Ngày Sinh: 0111-11-11 | Lớp: 1 | Ngành: 1 | CCCD: 11 | SĐT: 1 | Quê quán: 1 | Địa chỉ: 1 | Phòng: Chưa có phòng
-MSSV: i | Họ tên: 2 | Giới tính: Nam | Ngày Sinh: 2025-10-03 | Lớp: 2 | Ngành: 2 | CCCD: 2 | SĐT:  | Quê quán: 2 | Địa chỉ: 2 | Phòng: Chưa có phòng
-MSSV: 12345432 | Họ tên: Dương Văn Bá | Giới tính: Nam | Ngày Sinh: 2002-10-15 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 1234323 | SĐT:  | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: Chưa có phòng
+MSSV: l | Họ tên: q | Giới tính: Nam | Ngày Sinh: 3234-12-31 | Lớp: 2 | Ngành: 2 | CCCD: 1 | SĐT: q1 | Quê quán: 2 | Địa chỉ: 2 | Phòng: Chưa có phòng
 
 ===========================
-Cập nhật lần cuối: 23/10/2025 14:28:55
+Cập nhật lần cuối: 23/10/2025 16:33:31

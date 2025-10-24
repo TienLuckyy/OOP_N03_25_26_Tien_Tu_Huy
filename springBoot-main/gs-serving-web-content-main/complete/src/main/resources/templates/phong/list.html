@@ -38,6 +38,8 @@
     <div th:if="${param.success}" class="alert alert-success text-center">✅ Thêm phòng mới thành công!</div>
     <div th:if="${param.updated}" class="alert alert-info text-center">✏️ Cập nhật phòng thành công!</div>
     <div th:if="${param.deleted}" class="alert alert-info text-center">🗑️ Xóa phòng thành công!</div>
+    <div th:if="${errorMessage}" class="alert alert-danger text-center" th:text="${errorMessage}"></div>
+
 
     <!-- Header -->
     <h1 th:text="${title}">Danh Sách Phòng</h1>
