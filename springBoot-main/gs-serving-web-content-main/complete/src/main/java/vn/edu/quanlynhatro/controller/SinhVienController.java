@@ -143,7 +143,7 @@ public class SinhVienController {
             model.addAttribute("sinhviens", List.of());
             model.addAttribute("error", "Không tìm thấy sinh viên có MSSV: " + mssv);
         }
-
+ 
         return "sinhvien/list";
     }
 }
