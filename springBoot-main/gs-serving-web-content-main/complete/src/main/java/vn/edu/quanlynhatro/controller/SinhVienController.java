@@ -2,6 +2,8 @@ package vn.edu.quanlynhatro.controller;
 
 import vn.edu.quanlynhatro.model.SinhVien;
 import vn.edu.quanlynhatro.service.SinhVienService;
+import vn.edu.quanlynhatro.exception.ResourceNotFoundException; 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,7 @@ public class SinhVienController {
     @Autowired
     private SinhVienService sinhVienService;
 
-    // ------------------- DANH SÁCH SINH VIÊN (READ ALL) -------------------
+    // ------------------- DANH SÁCH SINH VIÊN -------------------
     @GetMapping({"/list", "/"})
     public String hienThiTatCaSinhVien(Model model) {
         List<SinhVien> danhSach = sinhVienService.getAll();
@@ -27,7 +29,7 @@ public class SinhVienController {
         return "sinhvien/list";
     }
 
-    // ------------------- FORM THÊM SINH VIÊN (CREATE UI) -------------------
+    // ------------------- FORM THÊM SINH VIÊN -------------------
     @GetMapping("/add")
     public String hienThiThemSVUI(Model model) {
         model.addAttribute("sinhvien", new SinhVien());
@@ -35,107 +37,104 @@ public class SinhVienController {
         return "sinhvien/add";
     }
 
-// ------------------- LƯU SINH VIÊN (CREATE/UPDATE LOGIC) -------------------
-@PostMapping("/save")
-public String xuLyLuuSinhVien(@ModelAttribute("sinhvien") SinhVien sinhVien,
-                              RedirectAttributes ra) {
+    // ------------------- LƯU SINH VIÊN -------------------
+    @PostMapping("/save")
+    public String xuLyLuuSinhVien(@ModelAttribute("sinhvien") SinhVien sinhVien,
+                                 RedirectAttributes ra) {
 
-    // 🔥 QUAN TRỌNG: Giữ lại thông tin phòng khi update
-    if (sinhVien.getId() != null) {
-        // Nếu là update, lấy thông tin phòng hiện tại từ database
-        Optional<SinhVien> existingSinhVien = sinhVienService.findById(sinhVien.getId());
-        if (existingSinhVien.isPresent()) {
-            SinhVien existing = existingSinhVien.get();
-            // Giữ lại thông tin phòng nếu không thay đổi
-            if (sinhVien.getPhong() == null && existing.getPhong() != null) {
-                sinhVien.setPhong(existing.getPhong());
+        if (sinhVien.getId() != null) {
+            Optional<SinhVien> existingSinhVien = sinhVienService.findById(sinhVien.getId());
+            if (existingSinhVien.isPresent()) {
+                SinhVien existing = existingSinhVien.get();
+                if (sinhVien.getPhong() == null && existing.getPhong() != null) {
+                    sinhVien.setPhong(existing.getPhong());
+                }
             }
         }
-    }
 
-    // Kiểm tra MSSV trùng (chỉ với sinh viên mới)
-    if (sinhVien.getId() == null) {
-        Optional<SinhVien> svMssv = sinhVienService.findByMssv(sinhVien.getMssv());
-        if (svMssv.isPresent()) {
-            ra.addFlashAttribute("error", "MSSV '" + sinhVien.getMssv() + "' đã tồn tại!");
-            return "redirect:/sinhvien/add";
-        }
-    }
-
-    // Kiểm tra CCCD trùng (chỉ với sinh viên mới)
-    if (sinhVien.getId() == null) {
-        Optional<SinhVien> svCccd = sinhVienService.findByCccd(sinhVien.getCccd());
-        if (svCccd.isPresent()) {
-            ra.addFlashAttribute("error", "CCCD '" + sinhVien.getCccd() + "' đã tồn tại!");
-            return "redirect:/sinhvien/add";
-        }
-    }
-
-    // Kiểm tra SĐT trùng (chỉ với sinh viên mới)
-    if (sinhVien.getId() == null && sinhVien.getSoDienThoai() != null && !sinhVien.getSoDienThoai().isEmpty()) {
-        Optional<SinhVien> svSdt = sinhVienService.findBySoDienThoai(sinhVien.getSoDienThoai());
-        if (svSdt.isPresent()) {
-            ra.addFlashAttribute("error", "Số điện thoại '" + sinhVien.getSoDienThoai() + "' đã tồn tại!");
-            return "redirect:/sinhvien/add";
-        }
-    }
-
-    // Lưu sinh viên
-    sinhVienService.save(sinhVien);
-    ra.addFlashAttribute("success", "Lưu sinh viên thành công!");
-    return "redirect:/sinhvien/list";
-}
-
-    // ------------------- FORM SỬA SINH VIÊN (UPDATE UI - Dùng ID) -------------------
-        @GetMapping("/edit/{id}")
-        public String hienThiSuaSVUI(@PathVariable("id") Long id, Model model, RedirectAttributes ra) {
-            Optional<SinhVien> svOptional = sinhVienService.findById(id);
-            if (svOptional.isPresent()) {
-                model.addAttribute("sinhvien", svOptional.get());
-                model.addAttribute("title", "Chỉnh Sửa Sinh Viên");
-                return "sinhvien/edit"; // đúng template
+        // Kiểm tra MSSV trùng 
+        if (sinhVien.getId() == null) {
+            Optional<SinhVien> svMssv = sinhVienService.findByMssv(sinhVien.getMssv());
+            if (svMssv.isPresent()) {
+                ra.addFlashAttribute("error", "MSSV '" + sinhVien.getMssv() + "' đã tồn tại!");
+                return "redirect:/sinhvien/add";
             }
-            ra.addFlashAttribute("error", "Không tìm thấy sinh viên có ID: " + id);
-            return "redirect:/sinhvien/list";
         }
 
-@GetMapping("/detail/{id}")
-public String detailSinhVien(@PathVariable Long id, Model model) {
-    SinhVien sv = sinhVienService.findById(id).orElse(null);
-    if (sv == null) {
-        model.addAttribute("error", "Sinh viên không tồn tại");
+        // Kiểm tra CCCD trùng 
+        if (sinhVien.getId() == null) {
+            Optional<SinhVien> svCccd = sinhVienService.findByCccd(sinhVien.getCccd());
+            if (svCccd.isPresent()) {
+                ra.addFlashAttribute("error", "CCCD '" + sinhVien.getCccd() + "' đã tồn tại!");
+                return "redirect:/sinhvien/add";
+            }
+        }
+
+        // Kiểm tra SĐT trùng 
+        if (sinhVien.getId() == null && sinhVien.getSoDienThoai() != null && !sinhVien.getSoDienThoai().isEmpty()) {
+            Optional<SinhVien> svSdt = sinhVienService.findBySoDienThoai(sinhVien.getSoDienThoai());
+            if (svSdt.isPresent()) {
+                ra.addFlashAttribute("error", "Số điện thoại '" + sinhVien.getSoDienThoai() + "' đã tồn tại!");
+                return "redirect:/sinhvien/add";
+            }
+        }
+
+        sinhVienService.save(sinhVien);
+        ra.addFlashAttribute("success", "Lưu sinh viên thành công!");
         return "redirect:/sinhvien/list";
     }
-    model.addAttribute("sinhvien", sv);
-    model.addAttribute("title", "Chi Tiết Sinh Viên");
-    return "sinhvien/detail";
-}
 
-
-
-    // ------------------- XÓA SINH VIÊN (DELETE - Dùng ID) -------------------
-@GetMapping("/delete/{id}")
-public String xoaSinhVien(@PathVariable("id") Long id,
-                          RedirectAttributes ra) {
-    if (sinhVienService.findById(id).isPresent()) {
-        sinhVienService.delete(id);
-        ra.addFlashAttribute("success", "Xóa sinh viên thành công!");
-    } else {
-        ra.addFlashAttribute("error", "Không tìm thấy sinh viên để xóa.");
+    // ------------------- FORM SỬA SINH VIÊN -------------------
+    @GetMapping("/edit/{id}")
+    public String hienThiSuaSVUI(@PathVariable("id") Long id, Model model, RedirectAttributes ra) {
+        Optional<SinhVien> svOptional = sinhVienService.findById(id);
+        if (svOptional.isPresent()) {
+            model.addAttribute("sinhvien", svOptional.get());
+            model.addAttribute("title", "Chỉnh Sửa Sinh Viên");
+            return "sinhvien/edit";
+        }
+        ra.addFlashAttribute("error", "Không tìm thấy sinh viên có ID: " + id);
+        return "redirect:/sinhvien/list";
     }
-    return "redirect:/sinhvien/list";
-}
 
+    @GetMapping("/detail/{id}")
+    public String detailSinhVien(@PathVariable Long id, Model model, RedirectAttributes ra) {
+        Optional<SinhVien> svOptional = sinhVienService.findById(id);
+        if (svOptional.isEmpty()) {
+            ra.addFlashAttribute("error", "Sinh viên không tồn tại.");
+            return "redirect:/sinhvien/list";
+        }
+        model.addAttribute("sinhvien", svOptional.get());
+        model.addAttribute("title", "Chi Tiết Sinh Viên");
+        return "sinhvien/detail";
+    }
+
+    // ------------------- XÓA SINH VIÊN -------------------
+    @GetMapping("/delete/{id}")
+    public String xoaSinhVien(@PathVariable("id") Long id,
+                              RedirectAttributes ra) {
+        try {
+            sinhVienService.delete(id);
+            ra.addFlashAttribute("success", "Xóa sinh viên ID " + id + " thành công!");
+        } catch (ResourceNotFoundException e) {
+            // Bắt ngoại lệ nếu Service ném ra khi không tìm thấy ID để xóa
+            ra.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            // Bắt các lỗi khác (ví dụ: lỗi ràng buộc khóa ngoại, lỗi DB)
+            ra.addFlashAttribute("error", "Đã xảy ra lỗi không xác định khi xóa sinh viên: " + e.getMessage());
+        }
+        return "redirect:/sinhvien/list";
+    }
 
     // ------------------- TÌM KIẾM SINH VIÊN THEO MSSV -------------------
     @GetMapping("/search")
     public String timKiemSinhVienTheoMssv(@RequestParam(value = "mssv", required = false) String mssv,
-                                          Model model) {
+                                         Model model) {
         if (mssv == null || mssv.trim().isEmpty()) {
             return "redirect:/sinhvien/list";
         }
 
-    Optional<SinhVien> svOptional = sinhVienService.findByMssv(mssv);
+        Optional<SinhVien> svOptional = sinhVienService.findByMssv(mssv);
 
         if (svOptional.isPresent()) {
             model.addAttribute("sinhviens", List.of(svOptional.get()));
