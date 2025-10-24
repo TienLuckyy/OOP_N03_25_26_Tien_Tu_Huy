@@ -12,7 +12,7 @@ public interface SinhVienRepository extends JpaRepository<SinhVien, Long> {
 
     Optional<SinhVien> findByMssv(String mssv);
 
-    Optional<SinhVien> findByCccd(String cccd);  // 🔹 Thêm method này
+    Optional<SinhVien> findByCccd(String cccd); 
 
     Optional<SinhVien> findBySoDienThoai(String soDienThoai);
 
