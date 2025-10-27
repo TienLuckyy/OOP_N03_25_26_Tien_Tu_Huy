@@ -10,6 +10,8 @@ ID: 10 | Họ tên: Lục Nam Tiến | CCCD: 001122334455 | Ngày Sinh: 2004-06-
 ID: 11 | Họ tên: 123  | CCCD: 1 | Ngày Sinh: 1111-11-11 | Mã NV: 1 | Giới tính: Khác | Địa chỉ: 1 | SĐT: 1 | Tòa phụ trách: A
 ID: 12 | Họ tên: Lục Nam Tín | CCCD: 001122334451 | Ngày Sinh: 2002-02-09 | Mã NV: 22010221 | Giới tính: Nam | Địa chỉ: hcm | SĐT: 0988327438 | Tòa phụ trách: B
 ID: 13 | Họ tên: Phạm thị Mấu | CCCD: 111111122222 | Ngày Sinh: 2025-10-09 | Mã NV: NV999 | Giới tính: Nam | Địa chỉ: 1232123 | SĐT: 0 | Tòa phụ trách: A
+ID: 15 | Họ tên: Phạm thị XÊ 1 | CCCD: 123422412423 | Ngày Sinh: 2000-06-06 | Mã NV: NV333 | Giới tính: Nữ | Địa chỉ: 1232123 | SĐT: 0123456765 | Tòa phụ trách: C
+ID: 16 | Họ tên: Phạm thị Ba | CCCD: 303030303030 | Ngày Sinh: 2000-06-06 | Mã NV: NV222 | Giới tính: Nữ | Địa chỉ: 1232123 | SĐT: 1111121212 | Tòa phụ trách: A
 
 ===========================
-Cập nhật lần cuối: 23/10/2025 14:21:12
+Cập nhật lần cuối: 27/10/2025 07:49:07

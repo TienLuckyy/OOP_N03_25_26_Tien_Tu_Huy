@@ -1,7 +1,7 @@
 package vn.edu.quanlynhatro.exception;
 
 /**
- * Ngoại lệ này được ném ra khi không tìm thấy tài nguyên (ví dụ: Phòng hoặc Sinh viên không tồn tại)
+ * Dùng khi không tìm thấy dữ liệu mà người dùng yêu cầu.(ví dụ: Phòng hoặc Sinh viên không tồn tại)
  */
 public class ResourceNotFoundException extends RuntimeException {
 

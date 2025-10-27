@@ -16,8 +16,7 @@ public abstract class Nguoi {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // 🎯 THÊM TRƯỜNG ID VÀO LỚP CHA
-
+    private Long id;  
     @Column(name = "ho_ten", nullable = false)
     private String hoTen;
     

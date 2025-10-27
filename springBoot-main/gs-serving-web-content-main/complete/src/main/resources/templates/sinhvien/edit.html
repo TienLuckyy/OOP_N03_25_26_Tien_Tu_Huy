@@ -61,20 +61,11 @@
 <div class="row mb-3">
     <div class="col-md-6">
         <label class="form-label required-field">Ngày sinh</label>
-        <!-- SỬ DỤNG CÁCH NÀY -->
         <input type="date" 
                th:name="ngaySinh" 
                th:value="${sinhvien.ngaySinh != null} ? ${#temporals.format(sinhvien.ngaySinh, 'yyyy-MM-dd')} : ''" 
                class="form-control" 
                required>
-        
-        <!-- Debug: Hiển thị ngày sinh dạng text để kiểm tra -->
-        <!-- <div class="mt-1">
-            <small class="text-muted">
-                Ngày sinh trong DB: 
-                <span th:text="${sinhvien.ngaySinh} ? ${#temporals.format(sinhvien.ngaySinh, 'dd/MM/yyyy')} : 'Chưa có'"></span>
-            </small>
-        </div> -->
     </div>
     <div class="col-md-6">
         <label class="form-label required-field">Giới tính</label>
