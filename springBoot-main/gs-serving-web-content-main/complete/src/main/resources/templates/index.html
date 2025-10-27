@@ -147,21 +147,72 @@ width: 140px; height: 140px; margin: 0 auto 1rem;
     </div>
 
     <div class="carousel-inner">
-        <div class="carousel-item active carousel-item-custom">
-            <div class="container">
-                <div class="carousel-caption text-start carousel-caption-custom">
-<h1 class="display-3 fw-bold">Chào mừng đến với hệ thống Quản lý Nhà Trọ</h1>
+        <div class="carousel-item active" 
+             style="background-image: url(/images/mainpka.jpg);
+                    background-size: cover;
+                    background-position: center;
+                    min-height: 450px; 
+                    color: white;">
+            
+            <div style="background-color: rgba(0, 0, 0, 0.4); 
+                        position: absolute; 
+                        top: 0; 
+                        left: 0; 
+                        width: 100%; 
+                        height: 100%;"></div>
+            
+            <div class="container" style="position: relative; z-index: 10; height: 100%;">
+                <div class="carousel-caption text-start carousel-caption-custom" style="position: static; transform: none; bottom: auto; top: auto; text-align: left !important;">
+                    
+                    <h1 class="display-3 fw-bold">Chào mừng đến với hệ thống Quản lý Nhà Trọ</h1>
                     <p>Hệ thống hỗ trợ quản lý phòng trọ, người thuê và các dịch vụ đi kèm.</p>
                 </div>
             </div>
+            
+            <img th:src="@{/images/pka.jpg}" alt="Minh họa Quản lý" style="display: none;">
         </div>
-        <div class="carousel-item carousel-item-custom">
-            <h1 class="display-3 fw-bold text-center pt-5">Quản lý dễ dàng, hiệu quả</h1>
-            <p class="text-center">Tất cả trong một nền tảng duy nhất.</p>
+        <div class="carousel-item carousel-item-custom"
+             style="background-image: url(/images/pnk_4.jpg);
+                    background-size: cover;
+                    background-position: center;
+                    min-height: 450px; 
+                    color: white;">
+            
+            <div style="background-color: rgba(0, 0, 0, 0.4); 
+                        position: absolute; 
+                        top: 0; 
+                        left: 0; 
+                        width: 100%; 
+                        height: 100%;"></div>
+
+            <div style="position: relative; z-index: 10; padding-top: 5rem;">
+                <h1 class="display-3 fw-bold text-center pt-5">Quản lý dễ dàng, hiệu quả</h1>
+                <p class="text-center">Tất cả trong một nền tảng duy nhất.</p>
+            </div>
         </div>
-        <div class="carousel-item carousel-item-custom">
-            <h1 class="display-3 fw-bold text-center pt-5">Phù hợp cho mọi quy mô</h1>
-            <p class="text-center">Từ nhà trọ nhỏ đến khu ký túc xá lớn.</p>
+        <div class="carousel-item carousel-item-custom" 
+     style="background-image: url(/images/rectangle-99.png);
+            background-size: cover;
+            background-position: center;
+            min-height: 450px;
+            color: white;">
+    
+    <div style="background-color: rgba(0, 0, 0, 0.4); 
+                position: absolute; 
+                top: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 100%;"></div>
+
+    <div style="position: relative; z-index: 10;">
+        <h1 class="display-3 fw-bold text-center pt-5">Phù hợp cho mọi quy mô</h1>
+        <p class="text-center">Từ nhà trọ nhỏ đến khu ký túc xá lớn.</p>
+    </div>
+
+    <img th:src="@{/images/pka.jpg}" 
+         alt="Minh họa Quản lý" 
+         style="display: none;">
+            </div>
         </div>
     </div>
 

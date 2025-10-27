@@ -90,3 +90,26 @@ body {
     background: #0d1117;
     color: #e6edf3;
 }
+/* Carousel Customization (For pka.jpg display) */
+
+/* Thiết lập chiều cao tối thiểu cho Carousel Item để chứa ảnh */
+.carousel-item-custom {
+    /* Đảm bảo chiều cao tối thiểu đủ chỗ cho ảnh 400px */
+    min-height: 50vh; 
+    /* Dùng Flexbox để căn giữa nội dung theo chiều dọc/ngang */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Căn giữa nội dung slide */
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px; 
+}
+
+/* Đảm bảo ảnh (pka.jpg) hiển thị đúng và không bị che */
+.carousel-item-custom .d-flex img {
+    /* Mở rộng quy mô ảnh một cách linh hoạt, không bị overflow */
+    width: auto;
+    height: auto;
+    max-height: 350px; /* Chiều cao tối đa khi ảnh lớn */
+    margin-top: 20px;
+}
