@@ -39,6 +39,18 @@
     <div th:if="${param.updated}" class="alert alert-info text-center">✏️ Cập nhật phòng thành công!</div>
     <div th:if="${param.deleted}" class="alert alert-info text-center">🗑️ Xóa phòng thành công!</div>
     <div th:if="${errorMessage}" class="alert alert-danger text-center" th:text="${errorMessage}"></div>
+    
+    <!-- Script tự ẩn thông báo sau 3 giây -->
+<script>
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.style.transition = 'opacity 0.5s';
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 500);
+        });
+    }, 3000); // 3000 = 3 giây
+</script>
 
 
     <!-- Header -->

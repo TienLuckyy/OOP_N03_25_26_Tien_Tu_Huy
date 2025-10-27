@@ -24,6 +24,17 @@
     <!-- Thông báo -->
     <div th:if="${success}" id="alert-success" class="alert alert-success text-center fade-out" th:text="${success}"></div>
     <div th:if="${error}" id="alert-error" class="alert alert-danger text-center fade-out" th:text="${error}"></div>
+    <!-- Script tự ẩn thông báo sau 3 giây -->
+<script>
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.style.transition = 'opacity 0.5s';
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 500);
+        });
+    }, 3000); // 3000 = 3 giây
+</script>
 
     <!-- Thanh tìm kiếm -->
     <form th:action="@{/banquanly/list}" method="get" class="d-flex mb-3 justify-content-between">

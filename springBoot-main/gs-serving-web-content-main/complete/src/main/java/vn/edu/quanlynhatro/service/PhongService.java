@@ -53,7 +53,10 @@ public class PhongService {
 
         if (phong.getSoNguoiToiDa() == null) phong.setSoNguoiToiDa(4);
         if (phong.getTienNha() == null) phong.setTienNha(0.0);
-        phong.setTrangThai(phong.getSoNguoiHienTai() > 0);
+
+        // Cập nhật trạng thái dựa trên số sinh viên thực tế
+        int soNguoiHienTai = (phong.getSinhViens() != null) ? phong.getSinhViens().size() : 0;
+        phong.setTrangThai(soNguoiHienTai > 0);
 
         phongRepository.save(phong);
         writeToFile.exportPhongData();
@@ -76,6 +79,10 @@ public class PhongService {
         if (phong.getTienNha() != null)
             phongDb.setTienNha(phong.getTienNha());
 
+        // Cập nhật trạng thái dựa trên số sinh viên hiện tại
+        int soNguoiHienTai = (phongDb.getSinhViens() != null) ? phongDb.getSinhViens().size() : 0;
+        phongDb.setTrangThai(soNguoiHienTai > 0);
+
         phongRepository.save(phongDb);
         writeToFile.exportPhongData();
         return true;
@@ -94,7 +101,6 @@ public class PhongService {
 
         Phong phong = phongOpt.get();
 
-        // ❌ Nếu phòng vẫn còn sinh viên
         if (phong.getSinhViens() != null && !phong.getSinhViens().isEmpty()) {
             throw new ResourceInUseException("Phòng " + soPhong + " - " + toa + " vẫn còn sinh viên, không thể xóa.");
         }
@@ -121,19 +127,46 @@ public class PhongService {
         SinhVien sv = svOpt.get();
 
         int soNguoiToiDa = (phong.getSoNguoiToiDa() != null) ? phong.getSoNguoiToiDa() : 4;
-        if (phong.getSoNguoiHienTai() >= soNguoiToiDa) {
+        int soNguoiHienTai = (phong.getSinhViens() != null) ? phong.getSinhViens().size() : 0;
+
+        if (soNguoiHienTai >= soNguoiToiDa) {
             throw new ResourceInUseException("Phòng " + soPhong + " - " + toa + " đã đầy chỗ.");
         }
 
         sv.setPhong(phong);
         sinhVienRepository.save(sv);
 
-        phong.setTrangThai(true);
+        phong.setTrangThai(true); // phòng chắc chắn không trống
         phongRepository.save(phong);
 
         writeToFile.exportPhongData();
         return true;
     }
+// public Phong assignStudentToPhong(String maKhu, String maPhong, Long sinhVienId) {
+//     PhongId id = new PhongId(maKhu, maPhong);
+//     Phong phong = phongRepository.findById(id)
+//             .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy phòng"));
+
+//     SinhVien sv = sinhVienRepository.findById(sinhVienId)
+//             .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sinh viên"));
+
+//     // ✅ Kiểm tra phòng đầy
+//     if (phong.getSoNguoiHienTai() >= phong.getSoNguoiToiDa()) {
+//         throw new ResourceInUseException("Phòng đã đầy");
+//     }
+
+//     // ✅ Gán sinh viên vào phòng
+//     sv.setPhong(phong);
+//     phong.getSinhViens().add(sv);
+
+//     // ✅ Lưu thay đổi
+//     sinhVienRepository.save(sv);
+//     phongRepository.save(phong);
+
+//     return phong;
+// }
+
+
 
     // =============================
     // 🔹 XÓA SINH VIÊN KHỎI PHÒNG
@@ -159,7 +192,9 @@ public class PhongService {
         sv.setPhong(null);
         sinhVienRepository.save(sv);
 
-        phong.setTrangThai(phong.getSoNguoiHienTai() > 0);
+        // Cập nhật trạng thái phòng dựa trên số sinh viên hiện tại
+        int soNguoiHienTai = (phong.getSinhViens() != null) ? phong.getSinhViens().size() : 0;
+        phong.setTrangThai(soNguoiHienTai > 0);
         phongRepository.save(phong);
 
         writeToFile.exportPhongData();

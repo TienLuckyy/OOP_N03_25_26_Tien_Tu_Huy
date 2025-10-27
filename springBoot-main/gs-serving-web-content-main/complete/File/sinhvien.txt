@@ -1,12 +1,9 @@
 ﻿===== DANH SÁCH SINH VIÊN =====
 
-MSSV: SV000 | Họ tên: Pjam ạ | Giới tính: Nam | Ngày Sinh: 2025-10-10 | Lớp: DL4 | Ngành: Du Lịch | CCCD: 12342321430 | SĐT: 0123400009 | Quê quán: Hưng Yên | Địa chỉ: Hà Nội | Phòng: 101 - A
-MSSV: SV006 | Họ tên: Vũ Thị ANh | Giới tính: Nam | Ngày Sinh: 2025-10-16 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 19912004 | SĐT: 12354236 | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: 202 - A
-MSSV: SV100 | Họ tên: lục nam | Giới tính: Nam | Ngày Sinh: 2025-10-16 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 123456789876543 | SĐT: 12345676543456 | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: Chưa có phòng
-MSSV: SV101 | Họ tên: lục nam tiếng | Giới tính: Nam | Ngày Sinh: 2025-10-16 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 888888888888 | SĐT: 1111111110 | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: Chưa có phòng
-MSSV: SV102 | Họ tên: Dương Văn Bá | Giới tính: Nam | Ngày Sinh: 2002-10-15 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 333333333333 | SĐT: 2222222228 | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: Chưa có phòng
-MSSV: 1 | Họ tên: 1 | Giới tính: Nữ | Ngày Sinh: 0111-11-11 | Lớp: 1 | Ngành: 1 | CCCD: 11 | SĐT: 1 | Quê quán: 1 | Địa chỉ: 1 | Phòng: Chưa có phòng
-MSSV: l | Họ tên: q | Giới tính: Nam | Ngày Sinh: 3234-12-31 | Lớp: 2 | Ngành: 2 | CCCD: 1 | SĐT: q1 | Quê quán: 2 | Địa chỉ: 2 | Phòng: Chưa có phòng
+MSSV: SV100 | Họ tên: lục nam | Giới tính: Nam | Ngày Sinh: 2025-10-16 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 123456789876543 | SĐT: 12345676543456 | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: 101 - B
+MSSV: SV101 | Họ tên: lục nam tiếng | Giới tính: Nam | Ngày Sinh: 2025-10-16 | Lớp: QTKD01 | Ngành: Quản trị kinh doanh | CCCD: 888888888888 | SĐT: 1111111110 | Quê quán: Ninh Bình | Địa chỉ: Ninh Bình | Phòng: 304 - B
+MSSV: 1 | Họ tên: 1 | Giới tính: Nữ | Ngày Sinh: 0111-11-11 | Lớp: 1 | Ngành: 1 | CCCD: 11 | SĐT: 1 | Quê quán: 1 | Địa chỉ: 1 | Phòng: 304 - B
+MSSV: l | Họ tên: q | Giới tính: Nam | Ngày Sinh: 3234-12-31 | Lớp: 2 | Ngành: 2 | CCCD: 1 | SĐT: q1 | Quê quán: 2 | Địa chỉ: 2 | Phòng: 1 - A
 
 ===========================
-Cập nhật lần cuối: 23/10/2025 16:33:31
+Cập nhật lần cuối: 24/10/2025 16:04:13

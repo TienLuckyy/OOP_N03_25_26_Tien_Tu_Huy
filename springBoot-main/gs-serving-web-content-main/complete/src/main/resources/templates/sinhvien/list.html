@@ -38,7 +38,17 @@
     <div th:if="${param.success}" class="alert alert-success text-center">✅ Thêm sinh viên mới thành công!</div>
     <div th:if="${param.updated}" class="alert alert-info text-center">✏️ Cập nhật sinh viên thành công!</div>
     <div th:if="${param.deleted}" class="alert alert-info text-center">🗑️ Xóa sinh viên thành công!</div>
-
+<!-- Script tự ẩn thông báo sau 3 giây -->
+<script>
+    setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            alert.style.transition = 'opacity 0.5s';
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 500);
+        });
+    }, 3000); // 3000 = 3 giây
+</script>
     <!-- Header -->
     <h1 th:text="${title}">Danh Sách Sinh Viên</h1>
 
