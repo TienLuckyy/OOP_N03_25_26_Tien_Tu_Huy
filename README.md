@@ -88,17 +88,16 @@ mvn spring-boot:run
 
 
 👥 Thành viên nhóm
-| Họ tên             | Vai trò         | Phụ trách           |
-| ------------------ | --------------- | ------------------- |
-| **Dương Ngọc Tú**  | Lập trình chính | Quản lý Phòng       |
-| **Nguyễn Văn Huy** | Thành viên      | Quản lý Sinh viên   |
-| **Phạm Văn Tiến**  | Thành viên      | Quản lý Ban quản lý |
+| Họ tên             |Mã sinh viên |Vai trò         | Phụ trách           |
+| ------------------ |-------------|--------------- | ------------------- |
+| **Dương Ngọc Tú**  |22010052     |Lập trình chính | Quản lý Phòng       |
+| **Nguyễn Văn Huy** |23010714     |Thành viên      | Quản lý Sinh viên   |
+| **Lục Nam Tiến**   |22010223     |Thành viên      | Quản lý Ban quản lý |
 
 #### 📞 Liên hệ
 
 GitHub nhóm: 👉 TienLuckyy/OOP_N03_25_26_Tien_Tu_Huy
-Link Yt demo:
-Link báo cáo: 
+Link video Youtube demo:
 
 Trường Đại học Phenikaa – Khoa CNTT
 
