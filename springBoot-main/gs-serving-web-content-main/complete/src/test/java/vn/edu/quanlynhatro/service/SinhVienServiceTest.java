@@ -48,7 +48,7 @@ class SinhVienServiceTest {
     }
 
 
-    // ✅ 1. Test lấy toàn bộ sinh viên
+    //  1. Test lấy toàn bộ sinh viên
     @Test
     void testGetAll() {
         when(sinhVienRepository.findAll()).thenReturn(List.of(sv));
@@ -60,7 +60,7 @@ class SinhVienServiceTest {
         verify(sinhVienRepository, times(1)).findAll();
     }
 
-    // ✅ 2. Test tìm sinh viên theo ID
+    //  2. Test tìm sinh viên theo ID
     @Test
     void testFindById() {
         when(sinhVienRepository.findById(1L)).thenReturn(Optional.of(sv));
@@ -72,7 +72,7 @@ class SinhVienServiceTest {
         verify(sinhVienRepository, times(1)).findById(1L);
     }
 
-    // ✅ 3. Test lưu sinh viên (và ghi file)
+    //  3. Test lưu sinh viên (và ghi file)
     @Test
     void testSave() {
         when(sinhVienRepository.save(sv)).thenReturn(sv);
@@ -85,7 +85,7 @@ class SinhVienServiceTest {
         verify(writeToFile, times(1)).exportSinhVienData();
     }
 
-    // ✅ 4. Test tìm sinh viên theo MSSV
+    //  4. Test tìm sinh viên theo MSSV
     @Test
     void testFindByMssv() {
         when(sinhVienRepository.findByMssv("SV001")).thenReturn(Optional.of(sv));
@@ -96,7 +96,7 @@ class SinhVienServiceTest {
         assertEquals("Nguyen Van A", result.get().getHoTen());
     }
 
-    // ✅ 5. Test tìm sinh viên theo CCCD
+    //  5. Test tìm sinh viên theo CCCD
     @Test
     void testFindByCccd() {
         when(sinhVienRepository.findByCccd("123456789")).thenReturn(Optional.of(sv));
@@ -107,7 +107,7 @@ class SinhVienServiceTest {
         assertEquals("SV001", result.get().getMssv());
     }
 
-    // ✅ 6. Test tìm sinh viên theo SĐT
+    //  6. Test tìm sinh viên theo SĐT
     @Test
     void testFindBySoDienThoai() {
         when(sinhVienRepository.findBySoDienThoai("0909123456")).thenReturn(Optional.of(sv));
@@ -118,7 +118,7 @@ class SinhVienServiceTest {
         assertEquals("SV001", result.get().getMssv());
     }
 
-    // ✅ 7. Test tìm theo tên gần đúng
+    //  7. Test tìm theo tên gần đúng
     @Test
     void testSearchByName() {
         when(sinhVienRepository.findByHoTenContainingIgnoreCase("nguyen"))
@@ -130,7 +130,7 @@ class SinhVienServiceTest {
         verify(sinhVienRepository, times(1)).findByHoTenContainingIgnoreCase("nguyen");
     }
 
-    // ✅ 8. Test tìm sinh viên chưa có phòng
+    //  8. Test tìm sinh viên chưa có phòng
     @Test
     void testFindByPhongIsNull() {
         when(sinhVienRepository.findByPhongIsNull()).thenReturn(List.of(sv));
@@ -141,7 +141,7 @@ class SinhVienServiceTest {
         assertNull(result.get(0).getPhong());
     }
 
-    // ✅ 9. Test xóa sinh viên có phòng
+    //  9. Test xóa sinh viên có phòng
     @Test
     void testDelete_WithPhong() {
         sv.setPhong(phong);
@@ -158,7 +158,7 @@ class SinhVienServiceTest {
         assertTrue(phong.getSinhViens().isEmpty());
     }
 
-    // ✅ 10. Test xóa sinh viên không có phòng
+    //  10. Test xóa sinh viên không có phòng
     @Test
     void testDelete_NoPhong() {
         when(sinhVienRepository.findById(1L)).thenReturn(Optional.of(sv));
@@ -170,7 +170,7 @@ class SinhVienServiceTest {
         verify(writeToFile, times(1)).exportSinhVienData();
     }
 
-    // ✅ 11. Test xóa sinh viên không tồn tại
+    //  11. Test xóa sinh viên không tồn tại
     @Test
     void testDelete_NotFound() {
         when(sinhVienRepository.findById(99L)).thenReturn(Optional.empty());
