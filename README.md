@@ -46,17 +46,15 @@ int soNguoiHienTai;
 int soNguoiToiDa;
 boolean trangThai;
 #### 👨‍🎓 SinhVien
-Long id;
 String mssv;
-String hoTen;
 String lop;
 String nganhHoc;
 String queQuan;
 ####👨‍💼 BanQuanLy
-Long id;
-String chucVu;
+String maNhanVien;
 String toaPhuTrach;
 #### Nguoi(Lớp cha trừu tượng)
+Long id;
 String hoTen;
 String gioiTinh;
 String cccd;
@@ -102,24 +100,7 @@ Link video Youtube demo:
 Trường Đại học Phenikaa – Khoa CNTT
 
 Dự án phát triển phục vụ học tập môn Lập trình hướng đối tượng
-Tú Bổ sung:
-## Sơ đồ Class Diagram
-<img width="247" height="1014" alt="image" src="https://github.com/user-attachments/assets/6772d3f3-1c30-4787-bf42-0e83e76f0f45" />
 
-### Thêm phòng
-<img width="927" height="855" alt="image" src="https://github.com/user-attachments/assets/1e2a57d8-e238-4533-ab4c-0dcf21a415c8" />
-
-### Sửa
-<img width="635" height="801" alt="image" src="https://github.com/user-attachments/assets/5ac9ee4c-7e46-45cf-919f-818352432f9a" />
-
-### Xóa
-<img width="910" height="563" alt="image" src="https://github.com/user-attachments/assets/0e85d785-5674-47a6-bda3-d83439a56a56" />
-
-### Tìm
-<img width="894" height="733" alt="image" src="https://github.com/user-attachments/assets/26e6bc8e-ea4f-431f-9d4b-287c4abdaaab" /> 
-
-### Gán sinh viên vào Phòng
-<img width="852" height="940" alt="image" src="https://github.com/user-attachments/assets/9f960119-1cfe-421a-b98d-66ce13bcf827" />
 
  
 
