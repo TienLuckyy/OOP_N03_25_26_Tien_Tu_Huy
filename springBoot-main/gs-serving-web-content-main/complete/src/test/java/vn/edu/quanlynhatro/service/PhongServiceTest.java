@@ -13,12 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import org.mockito.MockitoAnnotations;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class PhongServiceTest {
@@ -47,9 +47,6 @@ public class PhongServiceTest {
         phongId1 = new PhongId("P101", "A");
     }
 
-    // =============================
-    // 🔹 TEST GET ALL PHONG
-    // =============================
     @Test
     void testGetAllPhong() {
         when(phongRepository.findAll()).thenReturn(Arrays.asList(phong1, phong2));
@@ -60,9 +57,6 @@ public class PhongServiceTest {
         verify(phongRepository, times(1)).findAll();
     }
 
-    // =============================
-    // 🔹 TEST GET PHONG BY ID
-    // =============================
     @Test
     void testGetPhongById() {
         when(phongRepository.findBySoPhongAndToa("P101", "A")).thenReturn(Optional.of(phong1));
@@ -74,9 +68,6 @@ public class PhongServiceTest {
         verify(phongRepository, times(1)).findBySoPhongAndToa("P101", "A");
     }
 
-    // =============================
-    // 🔹 TEST CREATE PHONG (thành công)
-    // =============================
     @Test
     void testCreatePhong_Success() {
         when(phongRepository.existsBySoPhongAndToa("P101", "A")).thenReturn(false);
@@ -89,9 +80,6 @@ public class PhongServiceTest {
         verify(writeToFile, times(1)).exportPhongData();
     }
 
-    // =============================
-    // 🔹 TEST CREATE PHONG (đã tồn tại)
-    // =============================
     @Test
     void testCreatePhong_AlreadyExists() {
         when(phongRepository.existsBySoPhongAndToa("P101", "A")).thenReturn(true);
@@ -102,9 +90,6 @@ public class PhongServiceTest {
         verify(phongRepository, never()).save(any());
     }
 
-    // =============================
-    // 🔹 TEST UPDATE PHONG (thành công)
-    // =============================
     @Test
     void testUpdatePhong_Success() {
         when(phongRepository.findById(phongId1)).thenReturn(Optional.of(phong1));
@@ -117,9 +102,6 @@ public class PhongServiceTest {
         verify(writeToFile, times(1)).exportPhongData();
     }
 
-    // =============================
-    // 🔹 TEST UPDATE PHONG (không tồn tại)
-    // =============================
     @Test
     void testUpdatePhong_NotFound() {
         when(phongRepository.findById(phongId1)).thenReturn(Optional.empty());
@@ -127,24 +109,16 @@ public class PhongServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> phongService.updatePhong(phong1));
     }
 
-    // =============================
-    // 🔹 TEST DELETE PHONG (thành công)
-    // =============================
     @Test
     void testDeletePhong_Success() {
-        phong1.setSinhViens(new HashSet<>());
-
         when(phongRepository.findById(phongId1)).thenReturn(Optional.of(phong1));
 
-        phongService.deletePhong("P101", "A");
+        assertDoesNotThrow(() -> phongService.deletePhong("P101", "A"));
 
         verify(phongRepository, times(1)).delete(phong1);
         verify(writeToFile, times(1)).exportPhongData();
     }
 
-    // =============================
-    // 🔹 TEST DELETE PHONG (có sinh viên)
-    // =============================
     @Test
     void testDeletePhong_InUse() {
         SinhVien sv = new SinhVien();
@@ -155,11 +129,9 @@ public class PhongServiceTest {
         when(phongRepository.findById(phongId1)).thenReturn(Optional.of(phong1));
 
         assertThrows(ResourceInUseException.class, () -> phongService.deletePhong("P101", "A"));
+        verify(phongRepository, never()).delete(any());
     }
 
-    // =============================
-    // 🔹 TEST ASSIGN STUDENT (thành công)
-    // =============================
     @Test
     void testAssignStudent_Success() {
         SinhVien sv = new SinhVien();
@@ -176,30 +148,36 @@ public class PhongServiceTest {
         verify(writeToFile, times(1)).exportPhongData();
     }
 
-    // =============================
-    // 🔹 TEST ASSIGN STUDENT (phòng đầy)
-    // =============================
-    @Test
-    void testAssignStudent_FullRoom() {
-        SinhVien sv = new SinhVien();
-        sv.setId(1L);
+@Test
+void testAssignStudent_FullRoom() {
+    // 🔹 Tạo phòng có tối đa 2 người
+    Phong phong = new Phong("P101", "A", 1200000.0, 2, true);
 
-        Set<SinhVien> sinhViens = new HashSet<>();
-        sinhViens.add(new SinhVien());
-        sinhViens.add(new SinhVien());
-        sinhViens.add(new SinhVien());
-        sinhViens.add(new SinhVien()); // đầy đủ 4 người
-        phong1.setSinhViens(sinhViens);
+    // 🔹 Tạo đủ 2 sinh viên để làm đầy phòng
+    SinhVien sv1 = new SinhVien();
+    sv1.setId(100L);
+    SinhVien sv2 = new SinhVien();
+    sv2.setId(101L);
 
-        when(phongRepository.findBySoPhongAndToa("P101", "A")).thenReturn(Optional.of(phong1));
-        when(sinhVienRepository.findById(1L)).thenReturn(Optional.of(sv));
+    // 🔹 Gán sinh viên vào phòng
+    phong.getSinhViens().add(sv1);
+    phong.getSinhViens().add(sv2);
 
-        assertThrows(ResourceInUseException.class, () -> phongService.assignStudent(1L, "P101", "A"));
-    }
+    // 🔹 Giả lập repository
+    when(phongRepository.findBySoPhongAndToa("P101", "A")).thenReturn(Optional.of(phong));
+    when(sinhVienRepository.findById(1L)).thenReturn(Optional.of(new SinhVien()));
 
-    // =============================
-    // 🔹 TEST REMOVE STUDENT (thành công)
-    // =============================
+    // ✅ Kiểm tra đúng exception bị ném ra
+    assertThrows(ResourceInUseException.class, () -> {
+        phongService.assignStudent(1L, "P101", "A");
+    });
+
+    // ✅ Đảm bảo không gọi save khi phòng đầy
+    verify(sinhVienRepository, never()).save(any());
+    verify(phongRepository, never()).save(any());
+}
+
+
     @Test
     void testRemoveStudent_Success() {
         SinhVien sv = new SinhVien();
@@ -216,9 +194,6 @@ public class PhongServiceTest {
         verify(writeToFile, times(1)).exportPhongData();
     }
 
-    // =============================
-    // 🔹 TEST REMOVE STUDENT (sai phòng)
-    // =============================
     @Test
     void testRemoveStudent_WrongRoom() {
         SinhVien sv = new SinhVien();
@@ -229,5 +204,21 @@ public class PhongServiceTest {
         when(phongRepository.findBySoPhongAndToa("P101", "A")).thenReturn(Optional.of(phong1));
 
         assertThrows(ResourceInUseException.class, () -> phongService.removeStudent(1L, "P101", "A"));
+    }
+
+    @Test
+    void testRemoveStudent_StudentNotFound() {
+        when(sinhVienRepository.findById(99L)).thenReturn(Optional.empty());
+        when(phongRepository.findBySoPhongAndToa("P101", "A")).thenReturn(Optional.of(phong1));
+
+        assertThrows(ResourceNotFoundException.class, () -> phongService.removeStudent(99L, "P101", "A"));
+    }
+
+    @Test
+    void testAssignStudent_StudentNotFound() {
+        when(phongRepository.findBySoPhongAndToa("P101", "A")).thenReturn(Optional.of(phong1));
+        when(sinhVienRepository.findById(999L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> phongService.assignStudent(999L, "P101", "A"));
     }
 }

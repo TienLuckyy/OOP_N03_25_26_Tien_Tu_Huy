@@ -142,31 +142,6 @@ public class PhongService {
         writeToFile.exportPhongData();
         return true;
     }
-// public Phong assignStudentToPhong(String maKhu, String maPhong, Long sinhVienId) {
-//     PhongId id = new PhongId(maKhu, maPhong);
-//     Phong phong = phongRepository.findById(id)
-//             .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy phòng"));
-
-//     SinhVien sv = sinhVienRepository.findById(sinhVienId)
-//             .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sinh viên"));
-
-//     // ✅ Kiểm tra phòng đầy
-//     if (phong.getSoNguoiHienTai() >= phong.getSoNguoiToiDa()) {
-//         throw new ResourceInUseException("Phòng đã đầy");
-//     }
-
-//     // ✅ Gán sinh viên vào phòng
-//     sv.setPhong(phong);
-//     phong.getSinhViens().add(sv);
-
-//     // ✅ Lưu thay đổi
-//     sinhVienRepository.save(sv);
-//     phongRepository.save(phong);
-
-//     return phong;
-// }
-
-
 
     // =============================
     // 🔹 XÓA SINH VIÊN KHỎI PHÒNG

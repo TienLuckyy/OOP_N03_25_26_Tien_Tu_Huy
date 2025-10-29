@@ -34,7 +34,9 @@ public class Phong implements Serializable {
     private Boolean trangThai;
 
     // SỬA 3: Dùng Set và khởi tạo nó
-    @OneToMany(mappedBy = "phong", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // @OneToMany(mappedBy = "phong", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    // private Set<SinhVien> sinhViens = new HashSet<>();
+    @OneToMany(mappedBy = "phong", cascade = CascadeType.ALL)
     private Set<SinhVien> sinhViens = new HashSet<>();
 
     public Phong() {}
