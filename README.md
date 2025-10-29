@@ -42,10 +42,15 @@
 
 
 #### 🧩 Yêu cầu hệ thống
+
 Java 17+
+
 MySQL 8.0+
+
 Maven 3.6+
+
 #### ⚙️ Cách chạy
+
 // Clone repository
 
 ##### git clone https://github.com/TienLuckyy/OOP_N03_25_26_Tien_Tu_Huy.git
@@ -57,7 +62,9 @@ Maven 3.6+
 // Cấu hình database trong file application.properties
 
 spring.datasource.url=[Điền URL database của bạn, ví dụ: jdbc:mysql://localhost:3306/your_db_name]
+
 spring.datasource.username=[Điền username database của bạn]
+
 spring.datasource.password=[Điền password database của bạn]
 
 ### Chạy ứng dụng
@@ -76,9 +83,11 @@ mvn spring-boot:run
 
 GitHub nhóm: 👉 TienLuckyy/OOP_N03_25_26_Tien_Tu_Huy
 
-Link deploy:  
+Link deploy:  https://v4q23jvr-8081.asse.devtunnels.ms/
 
-Link video Youtube demo: 
+Link video Youtube demo: https://youtu.be/ASrXc8N9rFc
+
+Link Báo Cáo: https://1drv.ms/w/c/6b32388a6420373a/EXBdHpbj8xlDsaoI34djMRABPrEYRSrE35j7Sz5Guzxc6w?e=y4y19j
 
 Trường Đại học Phenikaa – Khoa CNTT
 
