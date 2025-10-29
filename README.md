@@ -1,66 +1,46 @@
 # 🏠 ỨNG DỤNG QUẢN LÝ NHÀ TRỌ SINH VIÊN PHENIKAA
 
-### 👨‍💻 Nhóm: N03_25_26_Tiến_Tú_Huy  
+### 👨‍💻 Nhóm 05: N03_25_26_Tiến_Tú_Huy  
 > Dự án môn **Lập trình hướng đối tượng – Đại học Phenikaa**
 
 ---
 
 ## 📋 Giới thiệu
+
 **Ứng dụng Quản lý Nhà trọ Sinh viên Phenikaa** là hệ thống web được phát triển bằng **Spring Boot**, giúp **ban quản lý theo dõi và quản lý thông tin phòng trọ, sinh viên thuê trọ và nhân sự quản lý từng tòa nhà**.
 
 ---
 
 ## 🎯 Tính năng chính
 
+<img width="395" height="1195" alt="image" src="https://github.com/user-attachments/assets/1bd02caa-eac0-42f2-a05c-f4b3522a3444" />
+
+
 ### 🏠 Quản lý Phòng (Tú phụ trách)
-- Thêm, sửa, xóa, tìm kiếm phòng  
-- Quản lý số người hiện tại / tối đa trong phòng  
-- Gán sinh viên vào phòng  
-- Theo dõi trạng thái phòng (trống / đã thuê)  
 
 ### 👨‍🎓 Quản lý Sinh viên (Huy phụ trách)
-- CRUD thông tin sinh viên  
-- Tìm kiếm sinh viên theo MSSV  
-- Quản lý thông tin cá nhân, lớp, ngành, quê quán  
 
 ### 👨‍💼 Quản lý Ban quản lý (Tiến phụ trách)
-- CRUD nhân sự ban quản lý  
-- Phân công quản lý theo tòa nhà  
-- Quản lý thông tin liên hệ  
+
+
+## 🛠 Công nghệ sử dụng
+
+- **Spring Boot 3**
+- 
+- **Thymeleaf**
+  
+- **MySQL (Aiven Cloud)**
+  
+- **JPA / Hibernate**
+  
+- **HTML, Tailwind CSS**
 
 ---
-## 🛠 Công nghệ sử dụng
-- **Spring Boot 3**
-- **Thymeleaf**
-- **MySQL (Aiven Cloud)**
-- **JPA / Hibernate**
-- **HTML, Tailwind CSS**
----
-## 🗄 Kiến trúc cơ sở dữ liệu
-### Các entity chính:
-#### 🏠 Phong
-String soPhong;
-String toa;
-double tienNha;
-int soNguoiHienTai;
-int soNguoiToiDa;
-boolean trangThai;
-#### 👨‍🎓 SinhVien
-String mssv;
-String lop;
-String nganhHoc;
-String queQuan;
-####👨‍💼 BanQuanLy
-String maNhanVien;
-String toaPhuTrach;
-#### Nguoi(Lớp cha trừu tượng)
-Long id;
-String hoTen;
-String gioiTinh;
-String cccd;
-String soDienThoai;
-LocalDate ngaySinh;
-String diaChi;
+## 🗄 Kiến trúc cơ sở dữ liệu (sơ đồ UML)
+
+<img width="1018" height="531" alt="image" src="https://github.com/user-attachments/assets/c156649f-b5e5-4c88-923b-c0b2114d204d" />
+
+
 #### 🧩 Yêu cầu hệ thống
 Java 17+
 MySQL 8.0+
@@ -76,11 +56,11 @@ Maven 3.6+
 
 // Cấu hình database trong file application.properties
 
-##### spring.datasource.url=jdbc:mysql://mysql-134e11f2-app-phenikaa.j.aivencloud.com:28575/defaultdb?useSSL=true&requireSSL=true&serverTimezone=UTC
-##### spring.datasource.username=avnadmin
-##### spring.datasource.password=AVNS_36Lxj4Cy2KHfvBdsLN6
+spring.datasource.url=[Điền URL database của bạn, ví dụ: jdbc:mysql://localhost:3306/your_db_name]
+spring.datasource.username=[Điền username database của bạn]
+spring.datasource.password=[Điền password database của bạn]
 
-# Chạy ứng dụng
+### Chạy ứng dụng
 
 mvn spring-boot:run
 
@@ -95,7 +75,10 @@ mvn spring-boot:run
 #### 📞 Liên hệ
 
 GitHub nhóm: 👉 TienLuckyy/OOP_N03_25_26_Tien_Tu_Huy
-Link video Youtube demo:
+
+Link deploy:  
+
+Link video Youtube demo: 
 
 Trường Đại học Phenikaa – Khoa CNTT
 
