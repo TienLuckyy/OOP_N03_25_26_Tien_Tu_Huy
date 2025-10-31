@@ -76,7 +76,7 @@ mvn spring-boot:run
 | Họ tên             |Mã sinh viên |Vai trò         | Phụ trách           |
 | ------------------ |-------------|--------------- | ------------------- |
 | **Dương Ngọc Tú**  |22010052     |Lập trình chính | Quản lý Phòng       |
-| **Nguyễn Văn Huy** |23010714     |Thành viên      | Quản lý Sinh viên   |
+| **Vương Huy Huy**  |23010714     |Thành viên      | Quản lý Sinh viên   |
 | **Lục Nam Tiến**   |22010223     |Thành viên      | Quản lý Ban quản lý |
 
 #### 📞 Liên hệ
