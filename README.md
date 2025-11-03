@@ -13,7 +13,8 @@
 
 ## 🎯 Tính năng chính
 
-<img width="395" height="1195" alt="image" src="https://github.com/user-attachments/assets/1bd02caa-eac0-42f2-a05c-f4b3522a3444" />
+<img width="316" height="953" alt="image" src="https://github.com/user-attachments/assets/040f2bc5-510b-44e3-958e-80c81dbaea6a" />
+
 
 
 ### 🏠 Quản lý Phòng (Tú phụ trách)
@@ -26,7 +27,7 @@
 ## 🛠 Công nghệ sử dụng
 
 - **Spring Boot 3**
-- 
+  
 - **Thymeleaf**
   
 - **MySQL (Aiven Cloud)**
@@ -39,6 +40,31 @@
 ## 🗄 Kiến trúc cơ sở dữ liệu (sơ đồ UML)
 
 <img width="1018" height="531" alt="image" src="https://github.com/user-attachments/assets/c156649f-b5e5-4c88-923b-c0b2114d204d" />
+
+## Phòng(Tú )
+
+### Thêm
+<img width="956" height="606" alt="image" src="https://github.com/user-attachments/assets/438fddf5-2b28-40a9-9877-05e84be8c857" />
+
+### Xem
+
+<img width="985" height="458" alt="image" src="https://github.com/user-attachments/assets/7c9fdfdb-d8f6-485a-9e0c-136bd3b3585a" />
+
+### Sửa
+
+<img width="886" height="526" alt="image" src="https://github.com/user-attachments/assets/742d387c-3e49-4be5-b094-079cd10652f4" />
+
+### Xóa
+
+<img width="1024" height="477" alt="image" src="https://github.com/user-attachments/assets/35ac0ffb-3740-499f-abd1-449f5f9dc8e1" />
+
+### GÁN
+
+<img width="957" height="611" alt="image" src="https://github.com/user-attachments/assets/d983ed73-7e89-4f55-bb27-46f361942a69" />
+
+### Xóa SV ra khỏi phòng
+
+<img width="990" height="541" alt="image" src="https://github.com/user-attachments/assets/8c164632-fe22-4c10-969f-33e2882c9f7d" />
 
 
 #### 🧩 Yêu cầu hệ thống
@@ -61,11 +87,11 @@ Maven 3.6+
 
 // Cấu hình database trong file application.properties
 
-spring.datasource.url=[Điền URL database của bạn, ví dụ: jdbc:mysql://localhost:3306/your_db_name]
+#### spring.datasource.url=[Điền URL database của bạn, ví dụ: jdbc:mysql://localhost:3306/your_db_name]
 
-spring.datasource.username=[Điền username database của bạn]
+#### spring.datasource.username=[Điền username database của bạn]
 
-spring.datasource.password=[Điền password database của bạn]
+#### spring.datasource.password=[Điền password database của bạn]
 
 ### Chạy ứng dụng
 
