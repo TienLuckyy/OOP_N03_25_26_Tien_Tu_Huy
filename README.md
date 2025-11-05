@@ -113,7 +113,9 @@ Link deploy:  https://v4q23jvr-8081.asse.devtunnels.ms/
 
 Link video Youtube demo: https://youtu.be/ASrXc8N9rFc
 
-Link Báo Cáo: https://1drv.ms/w/c/6b32388a6420373a/EXBdHpbj8xlDsaoI34djMRABPrEYRSrE35j7Sz5Guzxc6w?e=y4y19j
+Link Báo Cáo : 
+
+_TÚ(QUẢN LÝ PHÒNG): https://1drv.ms/w/c/6b32388a6420373a/ESz4YGn305ZAmwQU5iWbbhcBCgw_xsrXHCiGaARIjgn7Og?e=jOjed6
 
 Trường Đại học Phenikaa – Khoa CNTT
 
